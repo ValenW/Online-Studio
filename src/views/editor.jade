@@ -1,0 +1,16 @@
+extends layout
+
+block content
+	canvas(id="canvas", width="1600", height="700")
+	br
+	button.left.ui.button
+		i.left.arrow.icon
+	button.right.ui.button
+		i.right.arrow.icon
+	button.up.ui.button
+		i.up.arrow.icon
+	button.down.ui.button
+		i.down.arrow.icon
+
+	script(src="https://code.createjs.com/createjs-2015.11.26.min.js")
+	script(src="javascripts/editor.js")
