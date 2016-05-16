@@ -1,8 +1,14 @@
-body {
-  /*padding: 50px;*/
-  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+
+.login-form {
+  width: 90%;
+  max-width: 400px !important;
+  height: 200px;
+  margin: 40px auto;
 }
 
-a {
-  color: #888888;
+.signup-form {
+  width: 90%;
+  max-width: 400px !important;
+  height: 200px;
+  margin: 40px auto;
 }

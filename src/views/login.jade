@@ -1,0 +1,22 @@
+extends layout
+
+block content
+  form(class="ui form login-form" action="/login" method="POST")
+    div(class="field")
+      label Username
+      div(class="ui left icon input")
+        input(type="text" name="username" placeholder="Username")
+        i(class="user icon")
+    div(class="field")
+      label Password
+      div(class="ui left icon input")
+        input(type="password" name="password" placeholder="Password")
+        i(class="lock icon")
+    div(class="ui blue submit button") Login
+
+  if error
+    div(class="ui error message")
+      ul.list
+        li #{error}
+  
+  script(src="javascripts/form.js" defer)
