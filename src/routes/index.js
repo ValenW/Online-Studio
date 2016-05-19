@@ -17,7 +17,7 @@ router.get('/', function(req, res, next) {
   res.render('index', { title: 'Express' });
 });
 
-router.get('/editor', isAuthenticated, function(req, res, next) {
+router.get('/editor', function(req, res, next) {
   res.render('editor');
 });
 
