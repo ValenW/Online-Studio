@@ -20,8 +20,7 @@ module.exports = function (grunt) {
       },
       dev: {
         options: {
-          script: 'bin/bin/www',
-          livereload: true
+          script: 'bin/bin/www'
         }
       }
     },
@@ -36,9 +35,6 @@ module.exports = function (grunt) {
       express: {
         files: ['src/**/*.*'],
         tasks: ['express:dev'],
-        options: {
-          spawn: false
-        }
       }
     }
   });
