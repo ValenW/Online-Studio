@@ -68,7 +68,6 @@ router.post('/signup', function(req, res, next) {
         if (err) {
           console.log('error');
         }
-        req.session.user = user;
         res.redirect('/');
       });
     }
