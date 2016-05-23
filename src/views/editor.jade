@@ -1,16 +1,23 @@
 extends layout
 
 block content
-	canvas(id="canvas", width="1600", height="700")
-	br
-	button.left.ui.button
-		i.left.arrow.icon
-	button.right.ui.button
-		i.right.arrow.icon
-	button.up.ui.button
-		i.up.arrow.icon
-	button.down.ui.button
-		i.down.arrow.icon
+	div.ui.grey.inverted.segment(style="border-radius: 0px; width:100%; height:100%; padding:0")
+		div.ui.icon.buttons
+			button.ui.button(id="play")
+				i.play.icon
+			button.ui.button(id="pause")
+				i.pause.icon
+			button.ui.button(id="stop")
+				i.stop.icon
+		br
+		canvas(id="canvas")
+	div.ui.basic.modal(id="modal")
+		div.ui.inverted.orange.progress(id="loading" data-value="1" data-total="88")
+			div.bar
+				div.progress
+			div.label Loading Sources
 
-	script(src="https://code.createjs.com/createjs-2015.11.26.min.js")
-	script(src="javascripts/editor.js")
+	script(src="libs/createjs/createjs-2015.11.26.min.js")
+	script(src="javascripts/editor/music.js")
+	script(src="javascripts/editor/data.js")
+	script(src="javascripts/editor/canvas.js")
