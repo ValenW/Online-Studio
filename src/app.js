@@ -8,6 +8,7 @@ var expressSession = require('express-session');
 var flash = require('connect-flash');
 
 var routes = require('./routes/index');
+var midiRoute = require('./routes/midiRoute');
 
 // connect to mongodb://localhost/online-studio
 var mongoose = require('mongoose');
@@ -32,6 +33,7 @@ app.use(expressSession({secret: 'mySecretKeyabc123', resave: true, saveUninitial
 app.use(flash());
 
 app.use('/', routes);
+app.use('/midi', midiRoute);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

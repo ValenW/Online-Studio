@@ -1,0 +1,7 @@
+extends layout
+
+block content
+  a(href="#", onclick="MIDIjs.play('/0');") Play
+  a(href="#", onclick="MIDIjs.stop();") Stop
+
+  script(src="http://www.midijs.net/lib/midi.js")
