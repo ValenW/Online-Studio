@@ -10,7 +10,8 @@ router.route('/')
 
 router.route('/:midiId')
 .get(function(req, res, next) {
-	if (err) throw err;
-	console.log(req.params.dishId);
-	res.send(midgen.exec(), 'binary');
+	console.log(req.params.midiId+"is located!");
+	res.end(midgen.exec(), 'binary');
 });
+
+module.exports = router;

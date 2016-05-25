@@ -177,8 +177,7 @@ exports.exec = function () {
 	});
 
 	return midi;
-}
-
+};
 
 /*document.getElementById("midistart").addEventListener("click", function() {
     var midistartB=document.getElementById("midistartB");

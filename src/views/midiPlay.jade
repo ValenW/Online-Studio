@@ -1,7 +1,7 @@
 extends layout
 
 block content
-  a(href="#", onclick="MIDIjs.play('/0');") Play
-  a(href="#", onclick="MIDIjs.stop();") Stop
+  a(href="/midi/0", onclick="MIDIjs.play('/midi/0');") Play
+  a(href="/midi", onclick="MIDIjs.stop();") Stop
 
   script(src="http://www.midijs.net/lib/midi.js")
