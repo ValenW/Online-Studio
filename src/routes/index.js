@@ -21,6 +21,10 @@ router.get('/editor', function(req, res, next) {
   res.render('editor');
 });
 
+router.get('/effect', isAuthenticated, function(req, res, next) {
+  res.render('effect');
+});
+
 router.get('/login', function(req, res, next) {
   res.render('login', {error: req.flash('error').toString()});
 });
