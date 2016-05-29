@@ -147,7 +147,7 @@ var stopped=false;
 
 exports.exec = function () {
 	var head_config = {
-    	road_length : 6, road_num : 1, ticknum : 120
+    	road_length : 6, road_num : 1, ticknum : 50
 	};
 
 	var midi = init_header(head_config);

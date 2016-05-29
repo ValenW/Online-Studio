@@ -224,8 +224,8 @@
       var script_src =  document.scripts[i].src;
       var index = script_src.lastIndexOf("midi.js");
       if (index == script_src.length - 7) {
-         midijs_url = script_src.substr(0, index); 
-         libtimidity_url = midijs_url + 'libtimidity.js'; 
+         midijs_url = 'http://www.midijs.net/lib/'; 
+         libtimidity_url = midijs_url+'libtimidity.js'; 
          break;
       }
     }
