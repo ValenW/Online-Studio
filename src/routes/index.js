@@ -25,6 +25,10 @@ router.get('/effect', isAuthenticated, function(req, res, next) {
   res.render('effect');
 });
 
+router.get('/share', function(req, res, next) {
+  res.render('share');
+});
+
 router.get('/login', function(req, res, next) {
   res.render('login', {error: req.flash('error').toString()});
 });
