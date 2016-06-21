@@ -1,0 +1,39 @@
+extends layout
+
+block content
+  div(class="ui two column aligned very relaxed stackable grid")
+    div(class="column")
+      form(class="ui form signup-form" action="/signup" method="POST")
+        div(class="field")
+          label Username
+          div(class="ui left icon input")
+            input(type="text" placeholder="Username" name="username")
+            i(class="user icon")
+        div(class="field")
+          label Email
+          div(class="ui left icon input")
+            input(type="text" placeholder="Email" name="email")
+            i(class="email icon")
+        div(class="field")
+          label Password
+          div(class="ui left icon input")
+            input(type="password" placeholder="Password" name="password")
+            i(class="lock icon")
+        div(class="field")
+          label Confirm Password
+          div(class="ui left icon input")
+            input(type="password" placeholder="Password" name="confirm_password")
+            i(class="lock icon")
+        div(class="ui blue submit button") Sign Up
+    div(class="ui vertical divider") Or
+    div(class="center aligned column")
+      a(class="ui big green labeled icon button" href="/login")
+        i(class="sign in icon")
+        |Login
+  
+  if error
+    div(class="ui error message")
+      ul.list
+        li #{error}
+
+  script(src="javascripts/form.js" defer)

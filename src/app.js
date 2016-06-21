@@ -4,8 +4,16 @@ var favicon = require('serve-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
+var expressSession = require('express-session');
+var flash = require('connect-flash');
 
 var routes = require('./routes/index');
+var midiRoute = require('./routes/midiRoute');
+
+// connect to mongodb://localhost/online-studio
+var mongoose = require('mongoose');
+mongoose.connect('mongodb://localhost/online-studio');
+
 
 var app = express();
 
@@ -21,7 +29,11 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
+app.use(expressSession({secret: 'mySecretKeyabc123', resave: true, saveUninitialized: true}));
+app.use(flash());
+
 app.use('/', routes);
+app.use('/midi', midiRoute);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
