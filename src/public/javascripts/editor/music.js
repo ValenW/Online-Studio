@@ -3,25 +3,38 @@ window.addEventListener("load", init, false);
 var context;
 var bufferList;
 
-var start = 0;
 var tempo = 110;
 var unitTime  = 15 / tempo;
 
 function init() {
-	loadSource();
+	// loadSource();
 	initButtons();
 }
 
 function initButtons() {
-	document.getElementById("play").onclick = function() {
+	$("#play").click(function() {
 		window.playBuoy(unitTime);
-	}
-	document.getElementById("pause").onclick = function() {
+		$("#play").addClass("active");
+		$("#pause").removeClass("active");
+		$("#stop").removeClass("active");
+	});
+	$("#pause").click(function() {
 		window.pauseBuoy();
-	}
-	document.getElementById("stop").onclick = function() {
+		$("#play").removeClass("active");
+		$("#pause").addClass("active");
+		$("#stop").removeClass("active");
+	});
+	$("#stop").click(function() {
 		window.stopBuoy();
-	}
+		$("#play").removeClass("active");
+		$("#pause").removeClass("active");
+		$("#stop").addClass("active");
+	});
+	$('#pattern').dropdown({
+		onChange: function(val) {
+			window.switchPattern(val);
+		}
+	});
 }
 
 function BufferLoader(context, urlList, callback) {
@@ -84,8 +97,16 @@ function loadSource() {
 		.modal('show');
 
 	urlList = new Array();
-	for (var i = 0; i < 88; ++i) {
-		urlList.push("sounds/piano1/"+getKeyName(i)+".mp3");
+	for (var i = 108; i >= 21; --i) {
+		// urlList.push("sounds/piano1/"+getKeyName(i)+".mp3");
+		index = "";
+		if (i < 100) {
+			index = "0" + i.toString();
+		} else {
+			index = i.toString();
+		}
+		audioPath = "sounds/piano2/GermanConcertD_"+index+"_083.wav";
+		urlList.push(audioPath);
 	}
 
 	bufferLoader = new BufferLoader(context, urlList, finishedLoading);
@@ -108,8 +129,8 @@ function playSound(buffer, head, tail) {
 	gainNode.connect(context.destination);
 
 	source.buffer = buffer;
-	// gainNode.gain.linearRampToValueAtTime(1, endTime - 1);
-	// gainNode.gain.linearRampToValueAtTime(0, endTime);
+	gainNode.gain.linearRampToValueAtTime(1, endTime - 1);
+	gainNode.gain.linearRampToValueAtTime(0, endTime);
 
 	if (!source.start)
 		source.start = source.noteOn;
@@ -117,10 +138,9 @@ function playSound(buffer, head, tail) {
 	source.stop(endTime);
 }
 
-
 window.playNote = function(note) {
 	if (note)
-		playSound(bufferList[note.key], 0, note.tail - note.head);
+		playSound(bufferList[note.key], 0, note.tail - note.head + 1);
 }
 
 /* utility function */

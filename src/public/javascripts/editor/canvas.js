@@ -3,8 +3,6 @@ window.addEventListener("load", init, false);
 var stage, w, h;
 var keyContainer, noteContainer, barContainer, staticContainer;
 
-var pattern = 0;
-
 /* size */
 var unitW = 20, unitH = 20;
 var keyW = 80, keyH = unitH;
@@ -28,7 +26,7 @@ var KEY_MASK_COLOR = "rgba(0,0,0,0.1)";
 
 /* initialization */
 function init() {
-	w = window.innerWidth - 20;
+	w = window.innerWidth;
 	h = window.innerHeight - 100;
 	var canvas = document.getElementById('canvas');
 	canvas.setAttribute("width", w);
@@ -42,7 +40,8 @@ function initCanvas() {
 	stage = new createjs.Stage("canvas");
 
 	// noteContainer stays on the right displaying notes
-	initNoteContainer();
+	noteContainer = new createjs.Container();
+	initNoteContainer(1);
 	stage.addChild(noteContainer);
 
 	// barContainer stays on the top displaying tools
@@ -73,14 +72,15 @@ function initCanvas() {
 	createjs.Ticker.addEventListener("tick", tick);
 }
 
-function initNoteContainer() {
-	noteContainer = new createjs.Container();
+function initNoteContainer(pattern) {
 	noteContainer.x = noteContainer.originX = keyW;
 	noteContainer.y = noteContainer.originY = scrollbarH+barH;
-	noteContainer.w = 0;
+	if (noteContainer.w == null) noteContainer.w = 0;
 	noteContainer.h = unitH*keyNum;
 	noteContainer.setBounds(0, 0, w-keyW-scrollbarH, h-scrollbarH-barH);
 	noteContainer.tickEnabled = false;
+
+	noteContainer.pattern = pattern;
 
 	// grid is used to draw lines on the background
 	var grid = new createjs.Shape();
@@ -100,7 +100,7 @@ function initBarContainer() {
 	barContainer = new createjs.Container();
 	barContainer.x = barContainer.originX = keyW;
 	barContainer.y = barContainer.originY = scrollbarH;
-	barContainer.w = 0;
+	if (barContainer.w == null) barContainer.w = 0;
 	barContainer.tickEnabled = false;
 	barContainer.setBounds(0, 0, w-keyW-scrollbarH, barH);
 
@@ -300,7 +300,8 @@ function extendGrid(x, y, length) {
 		label.y = barH/2;
 		barContainer.addChild(label);
 	}
-	barContainer.w += unitW*length;
+	if (barContainer.w < x + unitW+length)
+		barContainer.w += unitW*length;
 
 	// extend grid
 	var grid = noteContainer.getChildAt(0);
@@ -318,7 +319,8 @@ function extendGrid(x, y, length) {
 	for (var i = 0; i < keyNum; ++i) {
 		grid.graphics.ss(0.05).mt(x, y+i*unitH).lt(x+unitW*length, y+i*unitH);
 	}
-	noteContainer.w += unitW*length;
+	if (noteContainer.w < x + unitW*length)
+		noteContainer.w += unitW*length;
 
 	// resize srcollbar button
 	var scrollbarHorizontal = staticContainer.getChildByName("scrollbarHorizontal");
@@ -365,38 +367,45 @@ function noteContainerMouseDownHandler(event) {
 	var inside = mx > 0 && mx < rect.width && my > 0 && my < rect.height;
 
 	if (event.target.name == "grid" && inside) {
-		var note = new createjs.Shape();
-		note.name = "note";
-
-		note.head = Math.floor(event.localX / unitW);
-		note.key = Math.floor(event.localY / unitH);
-		note.x = note.head*unitW;
-		note.y = note.key*unitH;
-		note.units = 2;
-		if (note.x >= barContainer.getChildByName('buoyContainer').x) note.iplayed = false;
-		else note.iplayed = true;
-		note.index = window.addNote(pattern, note.key, note.head, note.head+note.units, note.iplayed);
-
+		var head = Math.floor(event.localX / unitW);
+		var key = Math.floor(event.localY / unitH);
+		var note = addNoteOnContainer(key, head, 2);
 		// extend grid when note is near the end of container
 		if (noteContainer.w - note.x <= 16*unitW) {
 			extendGrid(noteContainer.w, 0, cacheLength);
 		}
-
-		note.graphics.f(NOTE_COLOR).rr(0, 0, unitW*note.units-0.1, unitH-0.1, 4);
-
-		note.on("mousedown", noteMouseDownHandler);
-		note.on("pressup", notePressUpHandler);
-		note.on("pressmove", notePressMoveHandler);
-		note.on("rollover", noteRollOverHandler);
-		note.on("dblclick", noteDblClickHandler);
-
-		noteContainer.addChild(note);
+		note.index = window.addNote(noteContainer.pattern, note.key, note.head, note.head+note.units, note.iplayed);
 		keyPressEffect(note.y/unitH);
 	}
 
 	var buoy = barContainer.getChildByName('buoyContainer');
 	if (buoy.unitTime != null)
 		playBuoy(buoy.unitTime);
+}
+
+function addNoteOnContainer(key, head, units) {
+	var note = new createjs.Shape();
+	note.name = "note";
+
+	note.head = head;
+	note.key = key;
+	note.x = note.head*unitW;
+	note.y = note.key*unitH;
+	note.units = units;
+
+	if (note.x >= barContainer.getChildByName('buoyContainer').x) note.iplayed = false;
+	else note.iplayed = true;
+
+	note.graphics.f(NOTE_COLOR).rr(0, 0, unitW*note.units-0.1, unitH-0.1, 4);
+
+	note.on("mousedown", noteMouseDownHandler);
+	note.on("pressup", notePressUpHandler);
+	note.on("pressmove", notePressMoveHandler);
+	note.on("rollover", noteRollOverHandler);
+	note.on("dblclick", noteDblClickHandler);
+
+	noteContainer.addChild(note);
+	return note;
 }
 
 function noteContainerPressUpHandler(event) {
@@ -428,9 +437,6 @@ function notePressMoveHandler(event) {
 		var y = Math.round(py / unitH)*unitH;
 		if (x < 0) { this.x = 0; }
 		else { this.x = x; }
-		if (this.x >= buoy.x) {
-			window.patternList[pattern][this.index].played = false;
-		}
 		if (y < 0) { y = 0; }
 		if (this.y != y) {
 			this.y = y;
@@ -450,7 +456,11 @@ function notePressMoveHandler(event) {
 	if (buoy.unitTime != null)
 		playBuoy(buoy.unitTime);
 
-	window.updateNote(0, this.index, this.key, this.head, this.head+this.units);
+	var played = true;
+	if (this.x >= buoy.x) {
+		played = false;
+	}
+	window.updateNote(noteContainer.pattern, this.index, this.key, this.head, this.head+this.units, played);
 
 	// if (noteContainer.getCacheDataURL() != null)
 	// 	noteContainer.updateCache();
@@ -466,7 +476,7 @@ function noteRollOverHandler(event) {
 }
 
 function noteDblClickHandler(event) {
-	window.removeNote(pattern, this.index);
+	window.removeNote(noteContainer.pattern, this.index);
 	noteContainer.removeChild(this);
 }
 
@@ -593,16 +603,11 @@ function getDisplayCacheArea(container) {
 // scroll horizontal container display area and cache it
 function scrollHContainer(container) {
 	container.x = -getHButtonP()*container.w + container.originX;
-	var rect = getDisplayCacheArea(container);
-	// container.cache(rect.x, rect.y, rect.w, rect.h);
 }
 
 // scroll vertical container display area and cache it
 function scrollVContainer(container) {
 	container.y = -getVButtonP()*container.h + container.originY;
-	var rect = getDisplayCacheArea(container);
-	// if (container.getCacheDataURL() != null)
-	// 	container.cache(rect.x, rect.y, rect.w, rect.h);
 }
 
 // when key is pressed, the key should turn its color and show a mask
@@ -688,19 +693,14 @@ animateBuoySE = function(start, end, unitTime) {
 function initInterface() {
 	// tween the buoy from beginning to nearest end
 	window.playBuoy = function(unitTime) {
-		var array = noteContainer.children;
-		if (array.length == 2) {
-			animateBuoySE(0, 16*unitW, unitTime);
-		}
-		else {
-			var maxX = 0;
-			for (var i = 2; i < array.length; ++i) {
-				var x = array[i].x + array[i].graphics.command.w;
-				if (x > maxX) maxX = x;
+		var maxX = 16*unitW;
+		dataProcess(function(note) {
+			if (note.tail*unitW > maxX) {
+				maxX = note.tail*unitW;
 			}
-			var end = Math.ceil(maxX/(16*unitW))*16*unitW;
-			animateBuoySE(0, end, unitTime);
-		}
+		});
+		var end = Math.ceil(maxX/(16*unitW))*16*unitW;
+		animateBuoySE(0, end, unitTime);
 	}
 
 	// remove tween actions and hide buoy's light
@@ -716,5 +716,33 @@ function initInterface() {
 	window.stopBuoy = function() {
 		pauseBuoy();
 		moveBuoyTo(0);
+	}
+
+	// switch pattern
+	window.switchPattern = function(pattern) {
+		if (pattern != noteContainer.pattern) {
+			// remove all notes
+			var length = noteContainer.children.length;
+			for (var i = 2; i < length; ++i) {
+				noteContainer.removeChildAt(2);
+			}
+			noteContainer.pattern = pattern;
+
+			var notes = window.patternList[pattern-1];
+			if (notes) {
+				for (var i = 0; i < notes.length; ++i) {
+					if (notes[i]) {
+						var key = notes[i].key;
+						var head = notes[i].head;
+						var units = notes[i].tail - head;
+						var note = addNoteOnContainer(key, head, units);
+						note.index = i;
+					}
+				}
+			}
+
+			scrollVContainer(noteContainer);
+			scrollHContainer(noteContainer);
+		}
 	}
 }
