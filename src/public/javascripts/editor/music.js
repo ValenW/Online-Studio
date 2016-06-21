@@ -7,7 +7,7 @@ var tempo = 110;
 var unitTime  = 15 / tempo;
 
 function init() {
-	// loadSource();
+	loadSource();
 	initButtons();
 }
 
