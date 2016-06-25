@@ -4,6 +4,7 @@ var shortid = require('shortid');
 var URL = require('url');
 var assert = require('assert');
 
+var sign = require('../contorllers/sign');
 var User = require('../models/User');
 var TempUser = require('../models/tempUser');
 var MailSender = require('../models/mailsender.js');
@@ -41,32 +42,12 @@ router.get('/share', function(req, res, next) {
   res.render('share');
 });
 
-router.get('/login', function(req, res, next) {
-  res.render('login', {error: req.flash('error').toString()});
-});
+// sign
+router.get('/login', sign.showLogin);
 
-router.post('/login', function(req, res, next) {
-  User.findOne({
-    'username': req.body.username,
-    'password': req.body.password
-  }, function(err, user) {
-    if (err) {
-      console.log('error');
-    } else {
-      if (user === null) {
-        req.flash('error', 'The username or password is not correct');
-        res.redirect('/login');
-      } else {
-        req.session.user = user;
-        res.redirect('/');
-      }
-    }
-  });
-});
+router.post('/login', sign.login);
 
-router.get('/signup', function(req, res, next) {
-  res.render('signup', {error: req.flash('error').toString()});
-});
+router.get('/signup', sign.showSignup);
 
 router.post('/signup', function(req, res, next) {
   var username = req.body.username;
@@ -185,10 +166,7 @@ router.get('/conf', function(req, res, next) {
     });
 });
 
-router.get('/logout', function(req, res, next) {
-  req.session.destroy();
-  res.redirect('/');
-});
+router.get('/logout', sign.logout);
 
 
 module.exports = router;
