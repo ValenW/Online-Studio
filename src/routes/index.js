@@ -22,7 +22,7 @@ var isTempAuthenticated = function(req, res, next) {
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
-  res.render('index', { title: 'Express' });
+  res.render('home', { title: 'Express' });
 });
 
 router.get('/editor', function(req, res, next) {
