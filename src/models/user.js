@@ -5,6 +5,9 @@ UserSchema = new mongoose.Schema({
   username: String,
   email: String,
   password: String,
+  profile: String,
+  introduction: String,
+  musics: [{type: mongoose.Schema.Types.objectId, ref: 'Music'}],
   createDate: Date
 });
 
@@ -14,10 +17,6 @@ UserSchema.static('findByUsername', function(username, callback){
 
 UserSchema.static('findByEmail', function(email, callback) {
   return this.find({email: email}, callback);
-});
-
-UserSchema.method('print', function() {
-  console.log("hello");
 });
 
 module.exports = mongoose.model('User', UserSchema);
