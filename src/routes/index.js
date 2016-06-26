@@ -1,12 +1,41 @@
 var express = require('express');
 var router = express.Router();
 var shortid = require('shortid');
+
 var URL = require('url');
 var assert = require('assert');
+
+var multer = require('multer');
+var fs = require('fs');
 
 var sign = require('../contorllers/sign');
 var User = require('../models/User');
 var MailSender = require('../middlewares/mail.js');
+
+var headUploaderStorage = multer.diskStorage({
+  destination: function (req, file, cb) {
+    cb(null, './bin/public/uploads/head/')
+  },
+  filename: function (req, file, cb) {
+  typename = file.originalname.slice(file.originalname.lastIndexOf('.'), file.originalname.length);
+    cb(null, req.session.user._id + '_head')// + typename)
+  }
+});
+
+var headUploader = multer({
+  dest: './uploads/head/',
+  rename: function (fieldname, filename) {
+    return filename+"_"+Date.now();
+  },
+  onFileUploadStart: function (file) {
+    console.log(file.originalname + ' is starting ...')
+  },
+  onFileUploadComplete: function (file) {
+    console.log(file.fieldname + ' uploaded to  ' + file.path)
+    done=true;
+  },
+  storage: headUploaderStorage
+});
 
 var isAuthenticated = function(req, res, next) {
   if (req.session.user && req.session.user.confed == true) {
@@ -26,7 +55,24 @@ var isTempAuthenticated = function(req, res, next) {
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
-  res.render('index', { title: 'Express' });
+  path = 'uploads/head/';
+  headPath = "";
+  if (req.session.user) {
+    uid = req.session.user._id;
+    fileName = uid + "_head";
+    try {
+      headPath = path + fileName;
+      console.log("ok?: " + headPath);
+      fs.accessSync('./bin/public/' + headPath, fs.R_OK);
+      console.log("ok: " + headPath);
+    } catch (e) {
+      headPath = path + 'ghost';
+    }
+  } else {
+    headPath = path + 'ghost';
+  }
+  console.log("final: " + headPath);
+  res.render('index', { title: 'Express', headPath: headPath });
 });
 
 router.get('/editor', function(req, res, next) {
@@ -100,5 +146,15 @@ router.get('/conf', function(req, res, next) {
 });
 
 router.get('/logout', sign.logout);
+
+router.get('/uploads', isAuthenticated, function(req, res, next) {
+  res.render('upload');
+});
+
+router.post('/uploads', headUploader.single('image'), function(req, res, next) {
+  console.log(req.file);
+  username = req.session.user;
+  res.redirect('/');
+});
 
 module.exports = router;
