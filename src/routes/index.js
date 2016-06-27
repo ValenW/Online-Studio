@@ -80,8 +80,12 @@ router.get('/editor', function(req, res, next) {
   res.render('editor');
 });
 
+//调试
 router.get('/effect', auth.isAuthenticated, function(req, res, next) {
   res.render('effect');
+});
+router.get('/music_detail', auth.isAuthenticated, function(req, res, next) {
+  res.render('music_detail');
 });
 
 router.get('/share', function(req, res, next) {
