@@ -8,6 +8,7 @@ var assert = require('assert');
 var multer = require('multer');
 var fs = require('fs');
 
+var auth = require('../middlewares/auth');
 var sign = require('../contorllers/sign');
 var User = require('../models/User');
 var MailSender = require('../middlewares/mail.js');
@@ -55,6 +56,7 @@ var isTempAuthenticated = function(req, res, next) {
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
+  // headPath: path to the headcut
   path = 'uploads/head/';
   headPath = "";
   if (req.session.user) {
@@ -71,15 +73,14 @@ router.get('/', function(req, res, next) {
   } else {
     headPath = path + 'ghost';
   }
-  console.log("final: " + headPath);
-  res.render('index', { title: 'Express', headPath: headPath });
+  res.render('home', { title: 'Express' });
 });
 
 router.get('/editor', function(req, res, next) {
   res.render('editor');
 });
 
-router.get('/effect', isAuthenticated, function(req, res, next) {
+router.get('/effect', auth.isAuthenticated, function(req, res, next) {
   res.render('effect');
 });
 

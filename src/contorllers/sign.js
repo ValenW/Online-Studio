@@ -26,7 +26,7 @@ exports.login = function(req, res, next) {
                 res.redirect('/');
             }
         }
-    })
+    });
 };
 
 exports.signup = function(req, res, next) {
