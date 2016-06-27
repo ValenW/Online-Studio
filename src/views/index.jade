@@ -1,0 +1,15 @@
+extends layout
+
+block content
+  h1= title
+  p Welcome to #{title}
+  p hello world
+  
+  a(href="/editor") editor
+  br
+  a(href="/effect") effect
+  br
+  a(href="/uploads") change head
+  br
+  img(src="#{headPath}")
+  br
