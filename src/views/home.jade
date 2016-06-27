@@ -1,0 +1,96 @@
+extends layout
+
+block content
+	link(rel='stylesheet', href='/stylesheets/home.css')
+
+	- var types = ['流行', '抒情', 'BGM', '怀旧', '运动']
+
+	div.header
+		div.ui.inverted.vertical.masthead.center.aligned.segment
+			div.ui.text.container
+				h1.ui.inverted.header Online Studio
+		div.container
+			div.ui.large.secondary.pointing.menu
+				a.active.item 主页
+				each type in types
+					a.item #{type}
+				div.search.right.menu
+					div.item
+						div.ui.icon.input
+							input(type='text' placeholder='Search...')
+							i.search.link.icon
+	
+	div.page-content
+		div.preview
+			div.container
+				div.l-preview
+					div.topic-preview-wrapper
+						div.ui.card
+							div.image
+								img(src='#')
+				div.r-preview
+					div.list-preview-wrapper
+						ul
+							- for (var i = 0; i < 8; ++i)
+								li
+									div.ui.card.small-item
+										div.blurring.dimmable.image.small-item
+											img(src='#')
+											div.ui.dimmer
+												p.title 作品名称可以很长很长很长很长的喔
+												p.info 作者: 很黄很暴力
+												p.info 播放: 1000
+		each type in types
+			div.type
+				div.container
+					div.l-list
+						div.ui.secondary.menu
+							div.item
+								h2 #{type}
+							div.right.menu
+								div.item
+									div.ui.basic.button 更多
+						div.content-wrapper
+							ul
+								- for (var i = 0; i < 10; ++i)
+									li
+										div.ui.card.small-item
+											div.image.small-item
+												img(src='#')
+										p 作品名称可以很长很长很长很长的喔
+					div.r-list
+						div.rank
+							div.ui.secondary.menu
+								h3.item 排行
+							div.content-wrapper
+								div.ui.selection.list
+									- for (var i = 1; i < 4; ++i)
+										div.item
+											div.ui.red.horizontal.label #{i}
+											div.title 非常棒的作品
+									- for (var i = 4; i < 9; ++i)
+										div.item
+											div.ui.horizontal.label #{i}
+											div.title 非常棒的作品
+
+
+	div.footer
+		div.ui.inverted.vertical.footer.segment
+			div.ui.container
+				div.ui.stackable.inverted.divided.qual.grid
+					div.three.wide.column
+						div.ui.inverted.header 介绍
+						div.ui.inverted.link.list
+							a.item 关于我们
+							a.item 联系我们
+					div.three.wide.column
+						div.ui.inverted.header 帮助
+						div.ui.inverted.link.list
+							a.item 帮助文档
+							a.item Bug汇报
+					div.three.wide.column
+						div.ui.inverted.header 项目
+						div.ui.inverted.link.list
+							a.item GitHub
+
+	script(src="/javascripts/home.js")
