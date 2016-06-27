@@ -5,9 +5,10 @@ UserSchema = new mongoose.Schema({
   username: String,
   email: String,
   password: String,
+  confed: Boolean,
   profile: String,
   introduction: String,
-  musics: [{type: mongoose.Schema.Types.objectId, ref: 'Music'}],
+  musics: [{type: mongoose.Schema.Types.ObjectId, ref: 'Music'}],
   createDate: Date
 });
 
