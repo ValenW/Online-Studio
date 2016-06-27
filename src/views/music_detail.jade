@@ -15,29 +15,36 @@ block content
                     p 歌曲作者: 凯莉
                     p 歌曲标签: english
                     p 发行时间: 2016.6.27
+                div.right_message
+                    button.circular.ui.icon.button.right_button
+                        i.share.icon
+                    button.circular.ui.icon.button.right_button
+                        i.save.icon
         div.middle_view
-            div.middle_message
-                button.middle_button
-                    div ( 100000 )
-                    div 试听
-                button.middle_button
-                    div ( 100000 )
-                    div 收藏
-                button.middle_button
-                    div ( 100000 )
-                    div 评论
-            div.right_message
-                button.right_button
-                    i.share.icon
-                button.right_button
+            div.ui.labeled.button(tabindex="0")
+                div.ui.red.button
+                    i.heart.icon
+                    span 试听
+                a.ui.basic.left.pointing.label 10,000
+            div.ui.labeled.button(tabindex="0")
+                div.ui.red.button
                     i.save.icon
+                    span 收藏
+                a.ui.basic.left.pointing.label 10,000
+            div.ui.labeled.button(tabindex="0")
+                div.ui.red.button
+                    i.comments.icon
+                    span 评论
+                a.ui.basic.left.pointing.label 10,000
         div.bottom_view
             div.ui.comments
                 h3.ui.dividing.header 247评论
             div.send_comment
-                div.ui.action.input
-                    input(type='text' size="30")
-                    button.ui.teal.right.button
+                div.comment_head
+                    img.ui.circular.image.pos(src='#')
+                textarea.submit-textarea(rows="3" cols="20")
+                button.submit-button(style="background-color:#00b5e5") 发表评论
+            div.ui.horizontal.divider
             div.my_comment
                 - for(var x = 0; x < 2; x++)
                     div.comment
@@ -52,9 +59,9 @@ block content
                                 span.qua #172
                                 span.qua x年x月x日
                                 span.qua ( 1 )赞
-                                span.qua 回复
                         div.all
                             div.cha 查看全部
+                        div.ui.horizontal.divider
             div.next_page
                 span 共9页 
                     - for (var x = 1; x < 3; x++)
