@@ -16,6 +16,15 @@ var ctx;//画布的2D绘图环境对象
 var gradient;//定义一个渐变样式用于绘制频谱条
 
 
+navigator.getUserMedia = (navigator.getUserMedia ||
+                          navigator.mozGetUserMedia ||
+                          navigator.msGetUserMedia ||
+                          navigator.webkitGetUserMedia);
+
+if (navigator.getUserMedia) {
+  console.log('getUserMedia supported.');
+}
+
 //程序主体
 //音频在连接destination以前经过analyser
 //就可以获取音乐的频谱
@@ -50,7 +59,7 @@ function init() {
 	bufferLoader = new BufferLoader(
 	context,
 	[
-	  '01-A.mp3',
+	  'resources/audio/01-A.mp3',
 	  'resources/audio/Aimer - Broken Night.mp3',
 	],
 	finishedLoading
@@ -92,7 +101,7 @@ function draw(){
 
 
 
-
+var chunks=[];
 
 function finishedLoading(bufferList) {
   // Create two sources and play them both together.
@@ -106,9 +115,53 @@ function finishedLoading(bufferList) {
   source2.connect(analyser2);
   //analyser1.connect(source2);
   analyser2.fftSize = 2048;
+  var mediaStream = context.createMediaStreamDestination();
+  analyser2.connect(mediaStream);
   analyser2.connect(context.destination);
+
+  source2.onended = function(e){
+    console.log("onended");
+    mediaRecorder.stop();
+    mediaRecorder.requestData();
+  }
+
+  var mediaRecorder = new MediaRecorder(mediaStream.stream);
+    mediaRecorder.ondataavailable = function(e) {
+        chunks.push(e.data);
+
+        //var blob = new Blob(chunks, { 'type' : 'audio/mp3; codecs=opus' });
+         //window.location.href = URL.createObjectURL(blob);
+        //console.log(chunks);
+        console.log("ondataavailable");
+  }
+
+  mediaRecorder.onstop = function(evt) {
+         // Make blob out of our blobs, and open it.
+         var blob = new Blob(chunks, { 'type' : 'audio/mp3; codecs=opus' });
+         //window.location.href = URL.createObjectURL(blob);
+         var aud = document.getElementById('audio');
+         var audioURL = window.URL.createObjectURL(blob);
+         aud.src = audioURL;
+         var down = document.getElementById('download');
+         down.href = audioURL;
+         console.log(blob);
+  };
+
+  mediaRecorder.start();
   source2.start(0);
+  source2.stop(40);
+  // chunks.push(source2.buffer);
+  // var blob = new Blob(chunks, { 'type' : 'audio/mp3; codecs=opus' });
+  // //window.location.href = URL.createObjectURL(blob);
+  // var aud = document.getElementById('audio');
+  // var audioURL = window.URL.createObjectURL(blob);
+  // aud.src = audioURL;
   analyser = analyser2;
+
+
+  //console.log(mediaStream.stream);
+  //mediaRecorder.stop();
+  //var blob = new Blob(mediaStream.stream, { 'type' : 'audio/ogg; codecs=opus' });
   window.requestAnimationFrame(draw);
 }
 
