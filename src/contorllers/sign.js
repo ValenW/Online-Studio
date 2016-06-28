@@ -80,6 +80,6 @@ exports.signup = function(req, res, next) {
 }
 
 exports.logout = function(req, res, next) {
-    req.session.destory();
+    req.session.destroy();
     res.redirect('/');
 }
