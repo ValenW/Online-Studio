@@ -6,12 +6,12 @@ MusicSchema = new mongoose.Schema({
   name: String,
   author: String,
   tags: [{type: mongoose.Schema.Types.ObjectId, ref: 'Tag'}],
-  ranks: [ [long] ],
+  ranks: [ [Number] ],
   comments: [{type: mongoose.Schema.Types.ObjectId, ref: 'Comment'}],
-  listenN: long,
-  collectN: long,
-  commentN: long,
-  shareN: long
+  listenN: Number,
+  collectN: Number,
+  commentN: Number,
+  shareN: Number
 });
 
 MusicSchema.static('findMusicById', function(id, callback) {
