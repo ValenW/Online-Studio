@@ -6,7 +6,16 @@ MusicSchema = new mongoose.Schema({
   name: String,
   author: String,
   tags: [{type: mongoose.Schema.Types.ObjectId, ref: 'Tag'}],
-  comments: [{type: mongoose.Schema.Types.ObjectId, ref: 'Comment'}]
+  ranks: [ [Number] ],
+  comments: [{type: mongoose.Schema.Types.ObjectId, ref: 'Comment'}],
+  listenN: Number,
+  collectN: Number,
+  commentN: Number,
+  shareN: Number
+});
+
+MusicSchema.static('findMusicById', function(id, callback) {
+  return this.find({id: id}, callback);
 });
 
 module.exports = mongoose.model('Music', MusicSchema);
