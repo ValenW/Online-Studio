@@ -2,7 +2,7 @@ var express = require('express');
 var router = express.Router();
 
 
-router.route('/music/:music_id')
+router.route('/:music_id')
 .get(function(req, res, next) {
 	Music.find({
 		id : req.params.music_id
