@@ -5,6 +5,8 @@ MusicSchema = new mongoose.Schema({
   tracks: [{type: mongoose.Schema.Types.ObjectId, ref: 'Track'}],
   name: String,
   author: String,
+  cover: String,
+  date: {type: Date, default: Date.now},
   tags: [{type: mongoose.Schema.Types.ObjectId, ref: 'Tag'}],
   ranks: [ [Number] ],
   comments: [{type: mongoose.Schema.Types.ObjectId, ref: 'Comment'}],
