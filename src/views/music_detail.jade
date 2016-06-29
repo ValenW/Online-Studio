@@ -2,4 +2,73 @@ extends layout
 
 block content
     include header
+    link(rel='stylesheet', href='/stylesheets/music_detail.css')
+    div.page-content
+        div.top_view
+            div.music_poster
+                img.ui.fluid.image(src='#')
+            div.music_detail
+                div.evaluate
+                    div.ui.star.rating(data-rating="4")
+                div.music_message
+                    p 歌曲名字: Because of You
+                    p 歌曲作者: 凯莉
+                    p 歌曲标签: english
+                    p 发行时间: 2016.6.27
+                div.right_message
+                    button.circular.ui.icon.button.right_button
+                        i.share.icon
+                    button.circular.ui.icon.button.right_button
+                        i.save.icon
+        div.middle_view
+            div.ui.labeled.button(tabindex="0")
+                div.ui.red.button
+                    i.heart.icon
+                    span 试听
+                a.ui.basic.left.pointing.label 10,000
+            div.ui.labeled.button(tabindex="0")
+                div.ui.red.button
+                    i.save.icon
+                    span 收藏
+                a.ui.basic.left.pointing.label 10,000
+            div.ui.labeled.button(tabindex="0")
+                div.ui.red.button
+                    i.comments.icon
+                    span 评论
+                a.ui.basic.left.pointing.label 10,000
+        div.bottom_view
+            div.ui.comments
+                h3.ui.dividing.header 247评论
+            div.send_comment
+                div.comment_head
+                    img.ui.circular.image.pos(src='#')
+                textarea.submit-textarea(rows="3" cols="20")
+                button.submit-button(style="background-color:#00b5e5") 发表评论
+            div.ui.horizontal.divider
+            div.my_comment
+                - for(var x = 0; x < 2; x++)
+                    div.comment
+                        div.comment_head
+                            img.ui.circular.image.pos(src='#')
+                        div.all_content
+                            div.name
+                                p.description yonghuming
+                            div.content
+                                p.description 233333333333333
+                            div.message
+                                span.qua #172
+                                span.qua x年x月x日
+                                span.qua ( 1 )赞
+                        div.all
+                            div.cha 查看全部
+                        div.ui.horizontal.divider
+            div.next_page
+                span 共9页 
+                    - for (var x = 1; x < 3; x++)
+                        a(href='') #{x} 
+                span 下一页
+
+
+
+
     include footer
