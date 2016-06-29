@@ -1,17 +1,18 @@
 var express = require('express');
-var router = express.Router();
+var router  = express.Router();
 var shortid = require('shortid');
 
-var URL = require('url');
-var assert = require('assert');
+var URL     = require('url');
+var assert  = require('assert');
+var multer  = require('multer');
+var fs      = require('fs');
 
-var multer = require('multer');
-var fs = require('fs');
+var User        = require('../models/User');
+var auth        = require('../middlewares/auth');
+var MailSender  = require('../middlewares/mail');
+var sign        = require('../contorllers/sign');
+var musicDetail = require('../contorllers/musicDetail');
 
-var auth = require('../middlewares/auth');
-var sign = require('../contorllers/sign');
-var User = require('../models/User');
-var MailSender = require('../middlewares/mail.js');
 
 var headUploaderStorage = multer.diskStorage({
   destination: function (req, file, cb) {
@@ -87,10 +88,10 @@ router.get('/effect', auth.isAuthenticated, function(req, res, next) {
 router.get('/music_detail', auth.isAuthenticated, function(req, res, next) {
   res.render('music_detail');
 });
-
 router.get('/share', function(req, res, next) {
   res.render('share');
 });
+
 
 // sign
 router.get('/login', sign.showLogin);
@@ -100,6 +101,9 @@ router.post('/login', sign.login);
 router.get('/signup', sign.showSignup);
 
 router.post('/signup', sign.signup);
+
+// music
+// router.get('/music_detail', musicDetail.showMusicDetail);
 
 router.get('/wait', isTempAuthenticated, function(req, res, next) {
   console.log(req.session.user);
