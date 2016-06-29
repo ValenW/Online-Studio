@@ -3,7 +3,7 @@ var mongoose = require("mongoose");
 KeySchema = new mongoose.Schema({
 	id: {type: String, required: true},
 	url: String,
-	instrument_id: String
+	instrument_id: [{type: mongoose.Schema.Types.objectId, ref: 'Instrument'}]
 });
 
 KeySchema.static('findKeyById', function(id, callback) {
