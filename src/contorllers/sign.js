@@ -3,11 +3,11 @@ var shortid = require('shortid');
 var MailSender = require('../middlewares/mail.js');
 
 exports.showLogin = function(req, res, next) {
-    res.render('login', {error: req.flash('error').toString()});
+    res.render('sign/login', {error: req.flash('error').toString()});
 }
 
 exports.showSignup = function(req, res, next) {
-    res.render('signup', {error: req.flash('error').toString()});
+    res.render('sign/signup', {error: req.flash('error').toString()});
 }
 
 exports.login = function(req, res, next) {

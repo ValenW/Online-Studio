@@ -1,7 +1,12 @@
-extends layout
+extends ../layout
 
 block content
-  div(class="ui two column aligned very relaxed stackable grid")
+
+  include ../header.jade
+
+  link(href="stylesheets/sign.css", rel="stylesheet")
+
+  div#sign-form-container(class="ui two column middle aligned very relaxed stackable grid")
     div(class="column")
       form(class="ui form login-form" action="/login" method="POST")
         div(class="field")
@@ -15,15 +20,17 @@ block content
             input(type="password" name="password" placeholder="Password")
             i(class="lock icon")
         div(class="ui blue submit button") Login
-    div(class="ui vertical divider") Or
+    div.form-divider(class="ui vertical divider") Or
     div(class="center aligned column")
       a(class="ui big green labeled icon button" href="/signup")
         i(class="signup icon")
         |Sign Up
 
   if error
-    div(class="ui error message")
+    div#error-message-block(class="ui error message")
       ul.list
         li #{error}
-  
+
+  include ../footer.jade
+
   script(src="/javascripts/form.js" defer)

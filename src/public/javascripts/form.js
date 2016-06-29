@@ -1,6 +1,7 @@
 $('.signup-form').form({
     fields: {
         username : 'empty',
+        email: 'email',
         password : ['minLength[6]', 'empty'],
         confirm_password: ['match[password]', 'empty']
     }
