@@ -10,4 +10,8 @@ TagSchema.static('findByTagName', function(tag_name, callback) {
   return this.find({tag_name: tag_name}, callback);
 });
 
+// TagSchema.static('getNewestMusics', function(tag_name_list, callback) {
+	
+// });
+
 module.exports = mongoose.model('Tag', TagSchema);
