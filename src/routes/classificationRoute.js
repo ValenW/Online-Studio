@@ -17,7 +17,7 @@ var hotest_cmp = function(music1, music2) {
 	}
 };
 
-router.route('/classification/:tag_id')
+router.route('/:tag_id')
 .get(function(req, res, next) {
 	// finding tag3 begin
 	Tag.findOne({
@@ -27,8 +27,8 @@ router.route('/classification/:tag_id')
 			console.log('Error in finding tag.');
 		} else {
 			// sort musics of tag0 , get newest musics and hotest music.
-			tag_newest_music = tag.music_list.sort(newest_cmp).slice(0, 6);
-			tag_hotest_music = tag.music_list.sort(hotest_cmp).slice(0, 10);
+			tag_newest_music = tag == null ? null : tag.music_list.sort(newest_cmp).slice(0, 6);
+			tag_hotest_music = tag == null ? null : tag.music_list.sort(hotest_cmp).slice(0, 10);
 
 			// render begin
 			res.render('***', {
