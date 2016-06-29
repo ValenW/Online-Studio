@@ -1,8 +1,4 @@
-/* Global */
-html, body, a, h1, h2, h3, h4, .item .button {
-	font-family: "Microsoft YaHei",Arial,Helvetica,sans-serif;
-}
-
+/* Local */
 .card.small-item, 
 .image.small-item,
 .image.small-item > img {
@@ -10,39 +6,35 @@ html, body, a, h1, h2, h3, h4, .item .button {
 	height: 100px;
 }
 
-ul, li {
-	margin: 0;
-	padding: 0;
-	list-style-type: none;
-}
-
 .ui.card {
 	box-shadow: none;
 }
 
-/* Header */
-.header .segment {
-	width: 100%;
-	height: 170px;
+/* Sticky Menu */
+.sticky-menu {
+	float: right;
+	margin-right: 50px;
 }
 
-.header .text.container {
-	margin-top: 80px;
+.sticky-menu .button {
+	width: 80px;
+	height: 40px;
 }
 
-.header > .container {
+/* Category Menu */
+.category-menu .container {
+	width: 1160px;
+	margin-top: 20px;
+}
+
+/* Page Content */
+.container {
 	width: 1160px;
 	margin: auto;
 }
 
-.search {
-	position: relative;
-	top: -60px;
-}
-
 /* Preview */
 .preview .container {
-	width: 1160px;
 	height: 220px;
 	margin: 20px auto 30px auto;
 }
@@ -109,24 +101,23 @@ ul, li {
 	margin: 0 5px 0px 5px;
 }
 
-/* Types */
-.type .container {
-	width: 1160px;
+/* Categories */
+.category .container {
 	height: 400px;
 	margin: 0 auto 30px auto;
 }
 
-.type .l-list {
+.category .l-list {
 	float: left;
 	width: 880px;
 }
 
-.type .r-list {
+.category .r-list {
 	float: right;
 	width: 280px;
 }
 
-.type .menu {
+.category .menu {
 	height: 45px;
 }
 
@@ -156,18 +147,18 @@ ul, li {
 	text-overflow: ellipsis;
 }
 
-.type li:hover {
+.category li:hover {
 	cursor: pointer;
 }
 
-.type li p {
+.category li p {
 	transition: color .2s;
 	-moz-transition: color .2s;
 	-webkit-transition: color .2s;
 	-o-transition: color .2s;
 }
 
-.type li:hover p {
+.category li:hover p {
 	color: #37A0E8;
 }
 

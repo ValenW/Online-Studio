@@ -73,7 +73,11 @@ router.get('/', function(req, res, next) {
   } else {
     headPath = path + 'ghost';
   }
-  res.render('home', { title: 'Express' });
+  res.render('home');
+});
+
+router.get('/category', function(req, res, next) {
+  res.render('category');
 });
 
 router.get('/editor', function(req, res, next) {
