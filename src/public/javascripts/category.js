@@ -2,6 +2,7 @@ window.addEventListener("load", init, false);
 
 var totalPage = 88;
 var displPage = 10;
+var currentPage = 1;
 
 function init() {
 	$('.card .image').dimmer({
@@ -27,27 +28,41 @@ function setPageSelector() {
 		for (var i = 1; i <= displPage; ++i) insertBtn(i.toString());
 	}
 	insertBtn("下一页");
+
+	$($('.button-groups').children()[1]).addClass('active');
 }
 
 function switchBtnHandler() {
 	var page = $(this).text();
-	switchHandler(page);
+	if (page == "上一页" && currentPage > 1) {
+		currentPage -= 1;
+		switchHandler();
+	}
+	else if (page == "下一页" && currentPage < totalPage) {
+		currentPage += 1;
+		switchHandler();
+	} else {
+		currentPage = Number(page);
+		switchHandler();
+	}
 }
 
 function switchInputHandler() {
-	var page = $(this).val();
-	switchHandler(page);
+	var page = Number($(this).val());
+	if (page != NaN && page > 0 && page <= totalPage) {
+		currentPage = page;
+		switchHandler();
+	} else {
+		$('.page-jump input').val(currentPage);
+	}
 }
 
-function switchHandler(page) {
-	if (page == "上一页") {
-
+function switchHandler() {
+	$('.page-jump input').val(currentPage);
+	var btns = $('.button-groups').children();
+	for (var i = 1; i <= 10; ++i) {
+		$(btns[i]).removeClass('active');
+		$(btns[i]).text(i+(Math.floor(currentPage/10)*10));
 	}
-	else if (page == "下一页") {
-
-	}
-	else {
-		var index = Number(page)
-		$('.page-jump input').val(index);
-	}
+	$(btns[currentPage%10]).addClass('active');
 }
