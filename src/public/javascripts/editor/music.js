@@ -30,11 +30,14 @@ function initButtons() {
 		$("#pause").removeClass("active");
 		$("#stop").addClass("active");
 	});
-	$('#pattern').dropdown({
+	$('#channel').dropdown({
 		onChange: function(val) {
-			window.switchPattern(val);
+			window.switchChannel(val);
 		}
 	});
+	$('#save').click(function() {
+		window.save();
+	})
 }
 
 function BufferLoader(context, urlList, callback) {
@@ -141,6 +144,13 @@ function playSound(buffer, head, tail) {
 window.playNote = function(note) {
 	if (note)
 		playSound(bufferList[note.key], 0, note.tail - note.head + 1);
+}
+
+window.setTempo = function(_tempo) {
+	if (_tempo > 0) {
+		tempo = _tempo;
+		unitTime  = 15 / tempo;
+	}
 }
 
 /* utility function */

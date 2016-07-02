@@ -1,5 +1,3 @@
-window.addEventListener("load", init, false);
-
 var stage, w, h;
 var keyContainer, noteContainer, barContainer, staticContainer;
 
@@ -25,7 +23,7 @@ var BUOY_LINE_COLOY = "rgba(255,255,0,0.5)";
 var KEY_MASK_COLOR = "rgba(0,0,0,0.1)";
 
 /* initialization */
-function init() {
+window.initEditor = function() {
 	w = window.innerWidth;
 	h = window.innerHeight - 100;
 	var canvas = document.getElementById('canvas');
@@ -34,6 +32,7 @@ function init() {
 
 	initCanvas();
 	initInterface();
+	window.switchChannel(1);
 }
 
 function initCanvas() {
@@ -41,7 +40,7 @@ function initCanvas() {
 
 	// noteContainer stays on the right displaying notes
 	noteContainer = new createjs.Container();
-	initNoteContainer(1);
+	initNoteContainer(-1);
 	stage.addChild(noteContainer);
 
 	// barContainer stays on the top displaying tools
@@ -72,7 +71,7 @@ function initCanvas() {
 	createjs.Ticker.addEventListener("tick", tick);
 }
 
-function initNoteContainer(pattern) {
+function initNoteContainer(channel) {
 	noteContainer.x = noteContainer.originX = keyW;
 	noteContainer.y = noteContainer.originY = scrollbarH+barH;
 	if (noteContainer.w == null) noteContainer.w = 0;
@@ -80,7 +79,7 @@ function initNoteContainer(pattern) {
 	noteContainer.setBounds(0, 0, w-keyW-scrollbarH, h-scrollbarH-barH);
 	noteContainer.tickEnabled = false;
 
-	noteContainer.pattern = pattern;
+	noteContainer.channel = channel;
 
 	// grid is used to draw lines on the background
 	var grid = new createjs.Shape();
@@ -374,7 +373,7 @@ function noteContainerMouseDownHandler(event) {
 		if (noteContainer.w - note.x <= 16*unitW) {
 			extendGrid(noteContainer.w, 0, cacheLength);
 		}
-		note.index = window.addNote(noteContainer.pattern, note.key, note.head, note.head+note.units, note.iplayed);
+		note.index = window.addNote(noteContainer.channel, note.key, note.head, note.head+note.units, note.iplayed);
 		keyPressEffect(note.y/unitH);
 	}
 
@@ -460,7 +459,7 @@ function notePressMoveHandler(event) {
 	if (this.x >= buoy.x) {
 		played = false;
 	}
-	window.updateNote(noteContainer.pattern, this.index, this.key, this.head, this.head+this.units, played);
+	window.updateNote(noteContainer.channel, this.index, this.key, this.head, this.head+this.units, played);
 
 	// if (noteContainer.getCacheDataURL() != null)
 	// 	noteContainer.updateCache();
@@ -476,7 +475,7 @@ function noteRollOverHandler(event) {
 }
 
 function noteDblClickHandler(event) {
-	window.removeNote(noteContainer.pattern, this.index);
+	window.removeNote(noteContainer.channel, this.index);
 	noteContainer.removeChild(this);
 }
 
@@ -530,8 +529,8 @@ function scrollHPressMoveHandler(event) {
 
 /* data */
 function dataProcess(func) {
-	for (var i = 0; i < window.patternList.length; ++i) {
-		var noteList = window.patternList[i];
+	for (var i = 0; i < window.channelList.length; ++i) {
+		var noteList = window.channelList[i];
 		if (noteList) {
 			for (var j = 0; j < noteList.length; ++j) {
 				if (noteList[j])
@@ -718,17 +717,17 @@ function initInterface() {
 		moveBuoyTo(0);
 	}
 
-	// switch pattern
-	window.switchPattern = function(pattern) {
-		if (pattern != noteContainer.pattern) {
+	// switch channel
+	window.switchChannel = function(channel) {
+		if (channel != noteContainer.channel) {
 			// remove all notes
 			var length = noteContainer.children.length;
 			for (var i = 2; i < length; ++i) {
 				noteContainer.removeChildAt(2);
 			}
-			noteContainer.pattern = pattern;
+			noteContainer.channel = channel;
 
-			var notes = window.patternList[pattern-1];
+			var notes = window.channelList[channel-1];
 			if (notes) {
 				for (var i = 0; i < notes.length; ++i) {
 					if (notes[i]) {
@@ -737,6 +736,9 @@ function initInterface() {
 						var units = notes[i].tail - head;
 						var note = addNoteOnContainer(key, head, units);
 						note.index = i;
+						if (noteContainer.w - note.x <= 16*unitW) {
+							extendGrid(noteContainer.w, 0, cacheLength);
+						}
 					}
 				}
 			}
