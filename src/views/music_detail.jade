@@ -1,12 +1,14 @@
 extends layout
 
 block content
+    include top_marked
     include header
+    include top_button
     link(rel='stylesheet', href='/stylesheets/music_detail.css')
     div.page-content
         div.top_view
             div.music_poster
-                img.ui.fluid.image.myimage(src='/resources/images/music_backgroud.jpg')
+                img.ui.fluid.image.myimage(src='/resources/images/music_background.jpg')
             div.music_detail
                 div.evaluate
                     div.ui.star.rating(data-rating="4")
@@ -46,7 +48,7 @@ block content
                 button.submit-button(style="background-color:#00b5e5") 发表评论
             div.ui.dividing.header.divideline
             div.my_comment
-                - for(var x = 0; x < 2; x++)
+                - for(var x = 0; x < 5; x++)
                     div.comment
                         div.comment_head
                             img.ui.circular.image.pos(src='/resources/images/default_head.jpg')

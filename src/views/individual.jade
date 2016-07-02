@@ -1,0 +1,37 @@
+extends layout
+
+block content
+    - var categories = ['自制音乐', '改编音乐', '收藏音乐']
+    link(rel='stylesheet', href='/stylesheets/home.css')
+    include header
+
+    div.category-menu
+        div.container
+            div.ui.large.secondary.pointing.menu
+                each category in categories
+                    a.item(href='#'+'#{category}') #{category}
+
+    div.page-content
+        div.person_top
+        div.music_repository
+            each category in categories
+                div.category
+                    a.anchor(id='#{category}')
+                    div.container
+                        div.l-list
+                            div.ui.secondary.menu
+                                div.item
+                                    h2 #{category}
+                            div.content-wrapper
+                                ul
+                                    - for (var i = 0; i < 10; ++i)
+                                        li
+                                            div.ui.card.small-item
+                                                div.image.small-item
+                                                    img(src='#')
+                                            p 作品名称可以很长很长很长很长的喔
+
+
+
+
+    include footer
