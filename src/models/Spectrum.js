@@ -1,27 +1,27 @@
 var mongoose = require('mongoose');
 
-NoteSchema = new mongoose.Schema({
-    key: Number,
-    head: Number,
-    tail: Number
-});
+// NoteSchema = new mongoose.Schema({
+//     key: Number,
+//     head: Number,
+//     tail: Number
+// });
 
-var Note = mongoose.model('Note', NoteSchema);
+// var Note = mongoose.model('Note', NoteSchema);
 
-ChannelSchema = new mongoose.Schema({
-	instrument: int,
-  	notes: [Note]
-});
+// ChannelSchema = new mongoose.Schema({
+// 	instrument: Number,
+//   	notes: [Note]
+// });
 
-var Channel = mongoose.model('Channel', ChannelSchema);
+// var Channel = mongoose.model('Channel', ChannelSchema);
 
 SpectrumSchema = mongoose.Schema({
-	id: String,
+	// _id: String,
 	tempo : Number,
-	volumn : Number,
+	volume : Number,
 	createDate : Date,
 	lastModificationDate : Date,
-	channels : [ Channel ]
+	channels : Object
 });
 
 module.exports = mongoose.model('Spectrum', SpectrumSchema);

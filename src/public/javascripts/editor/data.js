@@ -3,7 +3,7 @@ window.addEventListener("load", init, false);
 function init() {
 	window.channelList = new Array();
 	window.spectrum = {
-		"spectrumId": 0,
+		// "_id": null,
 		"tempo": 110,
 		"volume": 10,
 		"channels": channelList,
@@ -63,14 +63,26 @@ function init() {
 			}
 		}
 		spectrum.channels = channels;
-		$.post(
-			"/editor/post",
-			{"spectrum": spectrum},
-			function(data) {
-				console.log(data);
-				spectrum = data;
-			}
-		);
+		console.log(spectrum);
+		// $.post("editor/post",
+		// 	{
+		// 		"spectrum": spectrum
+		// 	},
+		// 	function(data) {
+		// 		console.log(data);
+		// 		spectrum.spectrumId = data;
+		// 	}
+		// );
+		$.ajax({  
+		    url: 'editor/save',
+		    data: {'spectrum': JSON.stringify(spectrum)},
+		    dataType: "json",
+		    type: "POST",
+		    success: function (responseJSON) {
+		        // your logic
+		        console.log (responseJSON);
+		    }
+		});
 	}
 
 	// request spectrum
