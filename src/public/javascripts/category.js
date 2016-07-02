@@ -8,7 +8,11 @@ function init() {
 	$('.card .image').dimmer({
 		on: 'hover'
 	});
-	setPageSelector();
+	$('.page-jump input').change(switchInputHandler);
+	if (displPage > totalPage)
+		setPageSelector(totalPage, 1, 1);
+	else
+		setPageSelector(displPage, 1, 1);
 }
 
 function insertBtn(str) {
@@ -17,31 +21,31 @@ function insertBtn(str) {
 	$('.button-groups').append(dom);
 }
 
-function setPageSelector() {
+function setPageSelector(dispnum, start, index) {
 	$('.page-jump .total').text('/'+totalPage.toString());
-	$('.page-jump input').change(switchInputHandler);
 
 	insertBtn("上一页");
-	if (displPage > totalPage) {
-		for (var i = 1; i <= totalPage; ++i) insertBtn(i.toString());
-	} else {
-		for (var i = 1; i <= displPage; ++i) insertBtn(i.toString());
-	}
+	for (var i = 0; i < dispnum; ++i) insertBtn((i+start).toString());
 	insertBtn("下一页");
 
-	$($('.button-groups').children()[1]).addClass('active');
+	$($('.button-groups').children()[index]).addClass('active');
 }
 
 function switchBtnHandler() {
 	var page = $(this).text();
-	if (page == "上一页" && currentPage > 1) {
-		currentPage -= 1;
-		switchHandler();
+	if (page == "上一页") {
+		if (currentPage > 1) {
+			currentPage -= 1;
+			switchHandler();
+		}
 	}
-	else if (page == "下一页" && currentPage < totalPage) {
-		currentPage += 1;
-		switchHandler();
-	} else {
+	else if (page == "下一页") {
+		if (currentPage < totalPage) {
+			currentPage += 1;
+			switchHandler();
+		}
+	}
+	else {
 		currentPage = Number(page);
 		switchHandler();
 	}
@@ -60,9 +64,13 @@ function switchInputHandler() {
 function switchHandler() {
 	$('.page-jump input').val(currentPage);
 	var btns = $('.button-groups').children();
-	for (var i = 1; i <= 10; ++i) {
-		$(btns[i]).removeClass('active');
-		$(btns[i]).text(i+(Math.floor(currentPage/10)*10));
-	}
-	$(btns[currentPage%10]).addClass('active');
+	for (var i = 0; i < btns.length; ++i)
+		$(btns[i]).remove();
+	var start = Math.floor((currentPage-1)/displPage)*displPage+1;
+	var index = currentPage%displPage;
+	if (index == 0) index = displPage;
+	if (displPage > totalPage - start + 1)
+		setPageSelector(totalPage - start + 1, start, index);
+	else
+		setPageSelector(displPage, start, index);
 }

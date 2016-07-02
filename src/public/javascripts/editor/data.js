@@ -49,12 +49,16 @@ function init() {
 			if (channelList[i] != null) {
 				channels[i] = new Array();
 				for (var j = 0; j < channelList[i].length; ++j) {
-					note = {
-						key: channelList[i][j].key,
-						head: channelList[i][j].head,
-						tail: channelList[i][j].tail
+					if (channelList[i][j] == null) {
+						channels[i].push(null);
+					} else {
+						note = {
+							key: channelList[i][j].key,
+							head: channelList[i][j].head,
+							tail: channelList[i][j].tail
+						}
+						channels[i].push(note);
 					}
-					channels[i].push(note);
 				}
 			}
 		}
@@ -78,6 +82,24 @@ function init() {
 			function(data) {
 				console.log(data);
 				spectrum = data;
+				for (var i = 0; i < spectrum.channels; ++i) {
+					if (spectrum.channels[i] != null) {
+						channelList[i] = new Array();
+						for (var j = 0; j < spectrum.channels[i].length; ++j) {
+							if (spectrum.channels[i][j] == null) {
+								channelList[i].push(null);
+							} else {
+								note = {
+									key: spectrum.channels[i][j].key,
+									head: spectrum.channels[i][j].head,
+									tail: spectrum.channels[i][j].tail,
+									played: false
+								}
+								channelList[i].push(note);
+							}
+						}
+					}
+				}
 				window.setTempo(spectrum.tempo);
 				window.initEditor();
 			}
