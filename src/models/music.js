@@ -2,13 +2,13 @@ var mongoose = require('mongoose');
 
 MusicSchema = new mongoose.Schema({
   id: String,
-  tracks: [{type: mongoose.Schema.Types.ObjectId, ref: 'Track'}],
+  musicscores: [{type: mongoose.Schema.Types.ObjectId, ref: 'musicscore'}],
   name: String,
   author: String,
   cover: String,
   date: {type: Date, default: Date.now},
   tags: [{type: mongoose.Schema.Types.ObjectId, ref: 'Tag'}],
-  ranks: [ [Number] ],
+  ranks: [Number],
   comments: [{type: mongoose.Schema.Types.ObjectId, ref: 'Comment'}],
   listenN: Number,
   collectN: Number,
