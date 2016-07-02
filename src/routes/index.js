@@ -81,9 +81,9 @@ router.get('/category', function(req, res, next) {
   res.render('category');
 });
 
-router.get('/editor', function(req, res, next) {
-  res.render('editor');
-});
+// router.get('/editor', function(req, res, next) {
+//   res.render('editor');
+// });
 
 //调试
 router.get('/effect', auth.isAuthenticated, function(req, res, next) {
