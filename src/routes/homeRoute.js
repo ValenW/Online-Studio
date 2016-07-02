@@ -1,6 +1,6 @@
 var express = require('express');
 var router = express.Router();
-var Tag = require('../models/Tag')
+var Tag = require('../models/Tag');
 // var showHomePage = function(req, res, next) {
 // 	var tag_name_list = new Array('抒情', '恐怖', '空灵', '浪漫');
 // 	// Tag.getNewestMusics(tag_name_list);
