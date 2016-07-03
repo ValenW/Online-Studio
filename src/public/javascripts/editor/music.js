@@ -32,6 +32,7 @@ function initButtons() {
 	});
 	$('#channel').dropdown({
 		onChange: function(val) {
+			$('.channel-indicate').text(val);
 			window.switchChannel(val);
 		}
 	});
