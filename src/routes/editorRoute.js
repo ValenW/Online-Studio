@@ -4,9 +4,32 @@ var Spectrum = require('../models/Spectrum');
 
 router.route('/')
 .get(function(req, res, next) {
-	res.render('editor', {
-		spectrum: null
-	});
+
+	if (req.query.spectrum_id == undefined) {
+		// first time create Spectrum
+		res.render('editor', {
+			spectrum: null
+		});
+
+	} else {
+		// revise Spectrum according to spectrum_id
+		spectrum_id = req.query.spectrum_id;
+		console.log(req.query);
+		console.log(spectrum_id);
+
+		Spectrum.find({_id: spectrum_id}, function(err, spectrums) {
+			if (err) {
+				console.log ('Error in /editor interface.');
+			} else {
+				console.log (spectrums);
+				res.render('editor', {
+					spectrum: spectrums[0]
+				});
+			}
+		});
+
+	}
+	
 });
 
 // if spectrum_param has no _id, the new method create one.
@@ -15,7 +38,8 @@ router.route('/save')
 .post(function(req, res, next) {
 	spectrum_param = JSON.parse(req.body.spectrum);
 	spectrum = new Spectrum(spectrum_param);
-
+	console.log (spectrum);
+	console.log (spectrum.channels);
 	spectrum.save(function(err) {
 		if (err) {
 			console.log ('Error in /editor/save interface. ');
@@ -36,19 +60,20 @@ router.route('/save')
 
 });
 
-// requestSpectrum
-router.route('/:spectrum_id')
-.get(function(req, res, next) {
-	Spectrum.find({id : spectrum_id}, function(err, spectrum) {
-		if (err) {
-			console.log ('Error in requestSpectrum interface .');
-		} else {
-			res.render('editor', {
-				spectrum: spectrum
-			});	
-		}
-	});
-});
+// // requestSpectrum
+// router.route('/')
+// .get(function(req, res, next) {
+// 	console.log (req.params.spectrum_id);
+// 	Spectrum.find({_id : req.params.spectrum_id}, function(err, spectrum) {
+// 		if (err) {
+// 			console.log ('Error in requestSpectrum interface .');
+// 		} else {
+// 			res.render('editor', {
+// 				spectrum: spectrum
+// 			});	
+// 		}
+// 	});
+// });
 
 
 module.exports = router;
