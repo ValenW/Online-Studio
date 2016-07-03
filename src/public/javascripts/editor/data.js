@@ -1,7 +1,6 @@
 window.addEventListener("load", init, false);
 
 function init() {
-	console.log(spectrum);
 	window.channelList = new Array();
 	if (spectrum == null) {
 		window.spectrum = {
@@ -12,7 +11,6 @@ function init() {
 			"createDate": new Date(),
 			"lastModificationDate": new Date()
 		}
-		window.initEditor();
 	}
 
 	/* interface */
