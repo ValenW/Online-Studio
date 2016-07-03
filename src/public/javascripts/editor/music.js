@@ -150,6 +150,7 @@ window.setTempo = function(_tempo) {
 	if (_tempo > 0) {
 		tempo = _tempo;
 		unitTime  = 15 / tempo;
+		window.spectrum.tempo = _tempo;
 	}
 }
 

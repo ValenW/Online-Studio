@@ -57,6 +57,9 @@ router.route('/save')
 				console.log ('Error in /editor/save updating Spectrum.');
 			} else {
 				console.log ('Updating Spectrum ', spectrum_param._id,' Success.');
+				res.json({
+					_id: spectrum_param._id
+				});
 			}
 		});
 	}

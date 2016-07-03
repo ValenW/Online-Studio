@@ -1,7 +1,6 @@
 window.addEventListener("load", init, false);
 
 function init() {
-	console.log(spectrum);
 	window.channelList = new Array();
 	if (spectrum == null) {
 		window.spectrum = {
@@ -12,7 +11,6 @@ function init() {
 			"createDate": new Date(),
 			"lastModificationDate": new Date()
 		}
-		window.initEditor();
 	}
 
 	/* interface */
@@ -67,7 +65,7 @@ function init() {
 			}
 		}
 		spectrum.channels = channels;
-		console.log(spectrum);
+		// console.log(spectrum);
 		$.ajax({  
 			url: 'editor/save',
 			data: {'spectrum': JSON.stringify(spectrum)},
@@ -76,7 +74,6 @@ function init() {
 			success: function (responseJSON) {
 				console.log("save with id: " + responseJSON._id);
 				spectrum._id = responseJSON._id;
-				// spectrum = responseJSON;
 			}
 		});
 	}
