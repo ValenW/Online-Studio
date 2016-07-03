@@ -15,13 +15,11 @@ router.route('/')
 		// revise Spectrum according to spectrum_id
 		spectrum_id = req.query.spectrum_id;
 		console.log(req.query);
-		console.log(spectrum_id);
 
 		Spectrum.find({_id: spectrum_id}, function(err, spectrums) {
 			if (err) {
 				console.log ('Error in /editor interface.');
 			} else {
-				console.log (spectrums);
 				res.render('editor', {
 					spectrum: spectrums[0]
 				});

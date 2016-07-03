@@ -12,8 +12,9 @@
 
 /* Sticky Menu */
 .sticky-menu {
-	float: right;
-	margin-right: 50px;
+	position: fixed;
+	right: 80px;
+	z-index: 1000;
 }
 
 .sticky-menu .button {
@@ -39,12 +40,12 @@
 	margin: 20px auto 30px auto;
 }
 
-.l-preview {
+.preview .l-preview {
 	float: left;
 	width: 440px;
 }
 
-.r-preview {
+.preview .r-preview {
 	float: right;
 	width: 720px;
 }
