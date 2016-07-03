@@ -37,7 +37,13 @@ function initButtons() {
 	});
 	$('#save').click(function() {
 		window.save();
-	})
+	});
+	$('#signin-modal')
+		.modal('attach events', '#signin', 'show')
+		.modal({blurring:true});
+	$('#signup-modal')
+		.modal('attach events', '#signup', 'show')
+		.modal({blurring:true});
 }
 
 function BufferLoader(context, urlList, callback) {
@@ -95,8 +101,8 @@ function loadSource() {
 	window.AudioContext = window.AudioContext || window.webkitAudioContext;
 	context = new AudioContext();
 
-	$('#modal')
-		.modal('setting', 'closable', false)
+	$('#progress-modal')
+		.modal({closable: false, blurring: true})
 		.modal('show');
 
 	urlList = new Array();
@@ -119,7 +125,7 @@ function loadSource() {
 
 function finishedLoading(buffer) {
 	bufferList = buffer;
-	$('#modal').modal('hide');
+	$('#progress-modal').modal('hide');
 }
 
 function playSound(buffer, head, tail) {
