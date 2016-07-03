@@ -1,6 +1,21 @@
 header
-    div.header
-        div.ui.inverted.vertical.masthead.center.aligned.segment(style='width:100%; height:170px;')
+    div.header(style="background-image:url(/resources/images/header_background.jpg);",max-height="100%")
+        -var login = true;
+        div.ui.secondary.menu
+            div.left.menu
+                a.item(style="color:#fff",href="/") Home
+            div.right.menu
+                if login
+                    //登陆成功
+                    div.item
+                        img.ui.avatar.image(height="35px",src='/resources/images/default_head.jpg')
+                        span(style="color:#fff") 用户名
+                    a.item(href="/individual",style="color:#fff") 个人空间
+                    a.item(href="/logout",style="color:#fff") 退出登陆
+                else
+                    a.item(href="/login",style="color:#fff") 登陆
+                    a.item(href="/signup",style="color:#fff") 注册
+        div.ui.vertical.masthead.center.aligned.segment(style='width:100%; height:170px;')
             div.ui.text.container(style='margin-top:80px')
                 h1.ui.inverted.header Online Studio
             div.item(style='position:relative; left:480px;')

@@ -1,0 +1,52 @@
+extends layout
+
+block content
+    - var categories = ['自制音乐', '改编音乐', '收藏音乐']
+    - var num = [1,2,100]
+    link(rel='stylesheet', href='/stylesheets/individual.css')
+    include top_marked
+    include header
+    include top_button
+
+    div.category-menu
+        div.container
+            div.ui.large.secondary.pointing.menu
+                each category in categories
+                    a.item(href='#'+'#{category}') #{category}
+
+    div.page-content
+        div.person_top
+            div.category
+                div.container
+                    div.content-wrapper
+                        div.left_head
+                            img.ui.medium.circular.image.myimage(src="/resources/images/default_head.jpg")
+                        div.message
+                            div.name 用户名
+                            div.detail_message 自我介绍
+
+        div.music_repository
+            - for (var i = 0; i < 3; i++)
+                div.category
+                    a.anchor(id='#{categories[i]}')
+                    div.container
+                        div.l-list
+                            div.ui.secondary.menu
+                                div.item
+                                    h2 #{categories[i]} ( #{num[i]} )
+                                div.right.menu
+                                    div.item
+                                        div.ui.basic.button 下一页
+                            div.content-wrapper
+                                ul
+                                    - for (var j = 0; j < 10; ++j)
+                                        li
+                                            div.ui.card.small-item
+                                                div.image.small-item
+                                                    img(src='#')
+                                            p 作品名称可以很长很长很长很长的喔
+
+
+
+
+    include footer

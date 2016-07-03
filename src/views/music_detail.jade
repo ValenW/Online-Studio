@@ -1,12 +1,14 @@
 extends layout
 
 block content
+    include top_marked
     include header
+    include top_button
     link(rel='stylesheet', href='/stylesheets/music_detail.css')
     div.page-content
         div.top_view
             div.music_poster
-                img.ui.fluid.image(src='#')
+                img.ui.fluid.image.myimage(src='/resources/images/music_background.jpg')
             div.music_detail
                 div.evaluate
                     div.ui.star.rating(data-rating="4")
@@ -41,15 +43,15 @@ block content
                 h3.ui.dividing.header 247评论
             div.send_comment
                 div.comment_head
-                    img.ui.circular.image.pos(src='#')
+                    img.ui.circular.image.pos(src='/resources/images/default_head.jpg')
                 textarea.submit-textarea(rows="3" cols="20")
                 button.submit-button(style="background-color:#00b5e5") 发表评论
-            div.ui.horizontal.divider
+            div.ui.dividing.header.divideline
             div.my_comment
-                - for(var x = 0; x < 2; x++)
+                - for(var x = 0; x < 5; x++)
                     div.comment
                         div.comment_head
-                            img.ui.circular.image.pos(src='#')
+                            img.ui.circular.image.pos(src='/resources/images/default_head.jpg')
                         div.all_content
                             div.name
                                 p.description yonghuming
@@ -61,7 +63,7 @@ block content
                                 span.qua ( 1 )赞
                         div.all
                             div.cha 查看全部
-                        div.ui.horizontal.divider
+                    div.ui.dividing.header.divideline
             div.next_page
                 span 共9页 
                     - for (var x = 1; x < 3; x++)
