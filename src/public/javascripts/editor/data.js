@@ -76,6 +76,7 @@ function init() {
 			success: function (responseJSON) {
 				console.log("save with id: " + responseJSON._id);
 				spectrum._id = responseJSON._id;
+				// spectrum = responseJSON;
 			}
 		});
 	}
