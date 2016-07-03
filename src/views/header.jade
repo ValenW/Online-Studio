@@ -1,15 +1,15 @@
 header
     div.header(style="background-image:url(/resources/images/header_background.jpg);",max-height="100%")
-        -var login = true;
+        //-var login = true;
         div.ui.secondary.menu
             div.left.menu
                 a.item(style="color:#fff",href="/") Home
             div.right.menu
-                if login
+                if user
                     //登陆成功
                     div.item
-                        img.ui.avatar.image(height="35px",src='/resources/images/default_head.jpg')
-                        span(style="color:#fff") 用户名
+                        img.ui.avatar.image(height="35px",src='#{user.profile}')
+                        span(style="color:#fff") #{user.username}
                     a.item(href="/individual",style="color:#fff") 个人空间
                     a.item(href="/logout",style="color:#fff") 退出登陆
                 else
