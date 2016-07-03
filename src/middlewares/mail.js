@@ -1,8 +1,8 @@
 var nodemailer = require('nodemailer');
 var config = {
     // service: 'QQ',
-	host: "smtp.sina.cn",
-	port: 25,
+    host: "smtp.sina.cn",
+    port: 25,
     auth: {
         user: 'meliodas@sina.com',
         pass: 'Meliodas'
@@ -44,6 +44,5 @@ var sendSinupConf = transporter.templateSender({
 // });
 
 module.exports = {
-    singup: sendSinupConf,
-	
+    singup: sendSinupConf
 }

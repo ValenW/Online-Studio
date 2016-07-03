@@ -111,19 +111,19 @@ router.post('/signup', sign.signup);
 
 router.get('/wait', isTempAuthenticated, function(req, res, next) {
   console.log(req.session.user);
-  res.render('wait', {email: req.session.user.email, tlink: "/sendagain?id=" + req.session.user.id});
+  res.render('wait', {email: req.session.user.email, tlink: "/sendagain?id=" + req.session.user._id});
 });
 
 router.get('/sendagain', isTempAuthenticated, function(req, res, next) {
   var arg = URL.parse(req.url, true).query;
   var id2conf = arg.id;
-  User.find({"id": id2conf}, function(err, users) {
+  User.find({_id: id2conf}, function(err, users) {
     if (users.length == 1) {
       MailSender.singup({
         to: users[0].email
       }, {
         username: users[0].username,
-        link: 'http://localhost:3000/conf?id=' + users[0].id // TODO
+        link: 'http://localhost:3000/conf?id=' + users[0]._id // TODO
       }, function(err, info) {
         if(err){
           console.log('Error');
@@ -146,7 +146,7 @@ router.get('/conf', function(req, res, next) {
   var id2conf = arg.id;
   console.log("id2conf: " + id2conf);
 
-  User.findOneAndUpdate({id: id2conf}, {confed: true}, function(err, user) {
+  User.findOneAndUpdate({_id: id2conf}, {confed: true}, function(err, user) {
     if (err) {
       console.log('conf Error');
     } else {
