@@ -95,9 +95,6 @@ router.get('/music_detail', auth.isAuthenticated, function(req, res, next) {
 router.get('/share', function(req, res, next) {
   res.render('share');
 });
-router.get('/individual', auth.isAuthenticated, function(req, res, next) {
-  res.render('individual');
-});
 
 
 // sign
