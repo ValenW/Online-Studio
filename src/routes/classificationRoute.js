@@ -34,7 +34,11 @@ router.route('/:tag_id')
 			res.render('***', {
 				tag: tag,
 				newest_music: tag_newest_music,
-				hotest_music: tag_hotest_music
+				hotest_music: tag_hotest_music,
+				user: {
+					username: req.session.user == undefined ? null : req.session.user.username,
+					profile: req.session.user == undefined ? null : req.session.user.profiles
+				}
 			});
 			// render end
 
