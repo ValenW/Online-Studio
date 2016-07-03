@@ -12,6 +12,8 @@ block content
 						div.item(data-value="2") 2
 						div.item(data-value="3") 3
 						div.item(data-value="4") 4
+			div.item
+				div.ui.inverted.compact.button.channel-indicate 1
 			div.item(style="width:200px")
 				div.ui.icon.buttons(style="width:100%")
 					button.ui.button(id="play")
@@ -40,29 +42,44 @@ block content
 	div.ui.small.modal(id="signin-modal")
 		div.header
 		div.content(style="width:300px; margin:auto")
-			form.ui.form
-				div.field
-					label 账号
-					input.username(placeholder="账号或邮箱")
-				div.field
-					label 密码
-					input.password(type="password")
+			form(class="ui form signin-form")
+				div(class="field")
+					label Username
+					div(class="ui left icon input")
+						input(type="text" name="username" placeholder="Username")
+						i(class="user icon")
+				div(class="field")
+					label Password
+					div(class="ui left icon input")
+						input(type="password" name="password" placeholder="Password")
+						i(class="lock icon")
 		div.actions(style="text-align:center")
 			div.ui.green.button(style="width:30%") 登陆
 
 	div.ui.small.modal(id="signup-modal")
 		div.header
 		div.content(style="width:300px; margin:auto")
-			form.ui.form
-				div.field
-					label 邮箱
-					input.username(placeholder="邮箱")
-				div.field
-					label 密码
-					input.password(type="password")
-				div.field
-					label 密码确认
-					input.confirm(type="password")
+			form(class="ui form signup-form")
+				div(class="field")
+					label Username
+					div(class="ui left icon input")
+						input(type="text" placeholder="Username" name="username")
+						i(class="user icon")
+				div(class="field")
+					label Email
+					div(class="ui left icon input")
+						input(type="text" placeholder="Email" name="email")
+						i(class="mail icon")
+				div(class="field")
+					label Password
+					div(class="ui left icon input")
+						input(type="password" name="password" placeholder="Password")
+						i(class="lock icon")
+				div(class="field")
+					label Confirm Password
+					div(class="ui left icon input")
+						input(type="password" placeholder="Password" name="confirm_password")
+						i(class="lock icon")
 		div.actions(style="text-align:center")
 			div.ui.green.button(style="width:30%") 注册
 
