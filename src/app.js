@@ -13,7 +13,7 @@ var classificationRoute = require('./routes/classificationRoute');
 var homeRoute = require('./routes/homeRoute');
 var musicDetailRoute = require('./routes/musicDetailRoute');
 var editorRoute = require('./routes/editorRoute');
-// var individualRoute = require('./routes/individualRoute');
+var individualRoute = require('./routes/individualRoute');
 
 // connect to mongodb://localhost/online-studio
 var mongoose = require('mongoose');
@@ -44,7 +44,7 @@ app.use('/classification', classificationRoute);
 app.use('/home', homeRoute );
 app.use('/music', musicDetailRoute);
 app.use('/editor', editorRoute);
-// app.use('/individual', individualRoute);
+app.use('/individual', individualRoute);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
