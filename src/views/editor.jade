@@ -24,13 +24,48 @@ block content
 				div.ui.inverted.button(id="signin" style="width:80px; margin-left:15px") 登陆
 				div.ui.inverted.button(id="signup" style="width:80px; margin-left:15px") 注册
 				div.ui.inverted.button(id="save" style="width:80px; margin-left:15px") 保存
-
 		canvas(id="canvas")
-	div.ui.basic.modal(id="modal")
+
+	div.ui.basic.modal(id="progress-modal")
 		div.ui.inverted.orange.progress(id="loading" data-value="1" data-total="88")
 			div.bar
 				div.progress
 			div.label Loading Sources
+
+	div.ui.basic.modal(id="saving-modal")
+		div.ui.icon.huge.header
+			i.massive.checkmark.icon
+			h1.header Saved
+
+	div.ui.small.modal(id="signin-modal")
+		div.header
+		div.content(style="width:300px; margin:auto")
+			form.ui.form
+				div.field
+					label 账号
+					input.username(placeholder="账号或邮箱")
+				div.field
+					label 密码
+					input.password(type="password")
+		div.actions(style="text-align:center")
+			div.ui.green.button(style="width:30%") 登陆
+
+	div.ui.small.modal(id="signup-modal")
+		div.header
+		div.content(style="width:300px; margin:auto")
+			form.ui.form
+				div.field
+					label 邮箱
+					input.username(placeholder="邮箱")
+				div.field
+					label 密码
+					input.password(type="password")
+				div.field
+					label 密码确认
+					input.confirm(type="password")
+		div.actions(style="text-align:center")
+			div.ui.green.button(style="width:30%") 注册
+
 	script.
 		window.spectrum = !{JSON.stringify(spectrum)};
 
