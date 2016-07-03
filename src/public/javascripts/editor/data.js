@@ -1,14 +1,18 @@
 window.addEventListener("load", init, false);
 
 function init() {
+	console.log(spectrum);
 	window.channelList = new Array();
-	window.spectrum = {
-		// "_id": null,
-		"tempo": 110,
-		"volume": 10,
-		"channels": channelList,
-		"createDate": new Date(),
-		"lastModificationDate": new Date()
+	if (spectrum == null) {
+		window.spectrum = {
+			// "_id": null,
+			"tempo": 110,
+			"volume": 10,
+			"channels": channelList,
+			"createDate": new Date(),
+			"lastModificationDate": new Date()
+		}
+		window.initEditor();
 	}
 
 	/* interface */
@@ -64,61 +68,41 @@ function init() {
 		}
 		spectrum.channels = channels;
 		console.log(spectrum);
-		// $.post("editor/post",
-		// 	{
-		// 		"spectrum": spectrum
-		// 	},
-		// 	function(data) {
-		// 		console.log(data);
-		// 		spectrum.spectrumId = data;
-		// 	}
-		// );
 		$.ajax({  
-		    url: 'editor/save',
-		    data: {'spectrum': JSON.stringify(spectrum)},
-		    dataType: "json",
-		    type: "POST",
-		    success: function (responseJSON) {
-		        // your logic
-		        console.log (responseJSON);
-		    }
+			url: 'editor/save',
+			data: {'spectrum': JSON.stringify(spectrum)},
+			dataType: "json",
+			type: "POST",
+			success: function (responseJSON) {
+				console.log("save with id: " + responseJSON._id);
+				spectrum._id = responseJSON._id;
+			}
 		});
 	}
 
-	// request spectrum
-	var param = location.pathname.split('/editor/');
-	if (param.length > 1 && param[1].length > 0) {
-		var id = param[1];
-		$.get(
-			"/editor/"+id,
-			function(data) {
-				console.log(data);
-				spectrum = data;
-				for (var i = 0; i < spectrum.channels; ++i) {
-					if (spectrum.channels[i] != null) {
-						channelList[i] = new Array();
-						for (var j = 0; j < spectrum.channels[i].length; ++j) {
-							if (spectrum.channels[i][j] == null) {
-								channelList[i].push(null);
-							} else {
-								note = {
-									key: spectrum.channels[i][j].key,
-									head: spectrum.channels[i][j].head,
-									tail: spectrum.channels[i][j].tail,
-									played: false
-								}
-								channelList[i].push(note);
-							}
+	// init editor
+	if (spectrum != null) {
+		for (var i = 0; i < spectrum.channels.length; ++i) {
+			if (spectrum.channels[i] != null) {
+				channelList[i] = new Array();
+				for (var j = 0; j < spectrum.channels[i].length; ++j) {
+					if (spectrum.channels[i][j] == null) {
+						channelList[i].push(null);
+					} else {
+						note = {
+							key: spectrum.channels[i][j].key,
+							head: spectrum.channels[i][j].head,
+							tail: spectrum.channels[i][j].tail,
+							played: false
 						}
+						channelList[i].push(note);
 					}
 				}
-				window.setTempo(spectrum.tempo);
-				window.initEditor();
 			}
-		);
+		}
+		window.setTempo(spectrum.tempo);
+		window.initEditor();
 	} else {
 		window.initEditor();
 	}
 }
-
-
