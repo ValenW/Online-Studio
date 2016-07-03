@@ -1,7 +1,6 @@
 var mongoose = require('mongoose');
 
 CommentSchema = new mongoose.Schema({
-  id: String,
   music_id: {type: mongoose.Schema.Types.ObjectId, ref: 'Music'},
   user_id: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
   comment_date: {type: Date, default: Date.now},

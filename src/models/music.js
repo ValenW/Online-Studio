@@ -1,7 +1,6 @@
 var mongoose = require('mongoose');
 
 MusicSchema = new mongoose.Schema({
-  id: String,
   spectrum: [{type: mongoose.Schema.Types.ObjectId, ref: 'Spectrum'}],
   name: String,
   author: String,
@@ -16,8 +15,8 @@ MusicSchema = new mongoose.Schema({
   shareN: Number
 });
 
-MusicSchema.static('findMusicById', function(id, callback) {
-  return this.find({id: id}, callback);
+MusicSchema.static('findMusicById', function(_id, callback) {
+  return this.find({_id: _id}, callback);
 });
 
 module.exports = mongoose.model('Music', MusicSchema);
