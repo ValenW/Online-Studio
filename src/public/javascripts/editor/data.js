@@ -65,7 +65,7 @@ function init() {
 			}
 		}
 		spectrum.channels = channels;
-		console.log(spectrum);
+		// console.log(spectrum);
 		$.ajax({  
 			url: 'editor/save',
 			data: {'spectrum': JSON.stringify(spectrum)},
