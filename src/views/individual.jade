@@ -22,8 +22,8 @@ block content
                         div.left_head
                             img.ui.medium.circular.image.myimage(src="/resources/images/default_head.jpg")
                         div.message
-                            div.name 用户名
-                            div.detail_message 自我介绍
+                            div.name #{user.username}
+                            div.detail_message #{user.introduction}
 
         div.music_repository
             - for (var i = 0; i < 3; i++)
