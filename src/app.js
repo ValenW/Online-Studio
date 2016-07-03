@@ -18,6 +18,8 @@ var editorRoute = require('./routes/editorRoute');
 var mongoose = require('mongoose');
 mongoose.connect('mongodb://localhost/online-studio');
 
+// var data = require('./data/data');
+// data.createData();
 
 var app = express();
 

@@ -1,8 +1,8 @@
 var mongoose = require('mongoose');
 
 var TagSchema = new mongoose.Schema({
-  tag_name: String,
-  music_list: [{type: mongoose.Schema.Types.ObjectId, ref: 'Music'}]
+    tag_name: String,
+    music_list: [{type: mongoose.Schema.Types.ObjectId, ref: 'Music'}]
 });
 
 TagSchema.static('findByTagName', function(tag_name, callback) {

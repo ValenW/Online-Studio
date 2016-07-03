@@ -13,6 +13,8 @@ var MailSender  = require('../middlewares/mail');
 var sign        = require('../contorllers/sign');
 var musicDetail = require('../contorllers/musicDetail');
 
+var data = require('../data/data');
+
 
 var headUploaderStorage = multer.diskStorage({
   destination: function (req, file, cb) {
@@ -172,5 +174,7 @@ router.post('/uploads', headUploader.single('image'), function(req, res, next) {
   username = req.session.user;
   res.redirect('/');
 });
+
+router.get('/create_data', data.createData);
 
 module.exports = router;
