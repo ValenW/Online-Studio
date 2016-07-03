@@ -35,43 +35,32 @@ router.route('/')
 router.route('/save')
 .post(function(req, res, next) {
 	spectrum_param = JSON.parse(req.body.spectrum);
-	spectrum = new Spectrum(spectrum_param);
-	console.log (spectrum);
-	console.log (spectrum.channels);
-	spectrum.save(function(err) {
-		if (err) {
-			console.log ('Error in /editor/save interface. ');
-		} else {
-			Spectrum.find({
-				_id: spectrum._id
-			}).exec(function(err, spectrums) {
-				if (err) {
-					console.log ('Error in find Spectrum. 【/editor/save】');
-				} else {
+
+	if (spectrum_param._id == undefined) {	// create Spectrum document
+		spectrum = new Spectrum(spectrum_param);
+		spectrum.save(function(err, spectrumAffected, numAffected) {
+			if (err) {
+				console.log ('Error in /editor/save subopertion creating Spectrum.');
+			} else {
+				if (spectrum._id == spectrumAffected._id) {
 					res.json({
-						_id: spectrums[0]._id
+						_id: spectrumAffected._id
 					});
+				} else {
+					console.log ('Something unexpected happened in /editor/save.' );
 				}
-			});
-		}
-	});
+			}
+		});
+	} else {	// update Spectrum document
+		Spectrum.update({_id: spectrum_param._id}, spectrum_param, {}, function(err, info) {
+			if (err) {
+				console.log ('Error in /editor/save updating Spectrum.');
+			} else {
+				console.log ('Updating Spectrum ', spectrum_param._id,' Success.');
+			}
+		});
+	}
 
 });
-
-// // requestSpectrum
-// router.route('/')
-// .get(function(req, res, next) {
-// 	console.log (req.params.spectrum_id);
-// 	Spectrum.find({_id : req.params.spectrum_id}, function(err, spectrum) {
-// 		if (err) {
-// 			console.log ('Error in requestSpectrum interface .');
-// 		} else {
-// 			res.render('editor', {
-// 				spectrum: spectrum
-// 			});	
-// 		}
-// 	});
-// });
-
 
 module.exports = router;
