@@ -40,7 +40,7 @@ block content
 									div.ui.card.small-item
 										div.blurring.dimmable.image.small-item
 											img(src='#{music.cover}')
-											div.ui.dimmer
+											a.ui.dimmer(href='/effect')
 												p.title #{music.name}
 												p.info 作者: #{music.author.username}
 												p.info 播放: #{music.listenN}
@@ -48,7 +48,7 @@ block content
 								li
 									div.ui.card.small-item
 										div.blurring.dimmable.image.small-item
-											img(src='')
+											img(src='/resources/images/default_cover.png')
 
 		each tag in tags
 			div.category
@@ -66,15 +66,16 @@ block content
 								- var blank = 10 - tag.newest_music.length
 								each music in tag.newest_music
 									li
-										div.ui.card.small-item
-											div.image.small-item
-												img(src='#{music.cover}')
-										p #{music.name}
+										a(href='/effect' style="color:rgba(0,0,0,.87);")
+											div.ui.card.small-item
+												div.image.small-item
+													img(src='#{music.cover}')
+											p #{music.name}
 								- for (var i = 0; i < blank; ++i)
 									li
 										div.ui.card.small-item
 											div.image.small-item
-												img(src='')
+												img(src='/resources/images/default_cover.png')
 										
 					div.r-list
 						div.rank
@@ -84,7 +85,7 @@ block content
 								div.ui.selection.list
 									- var index = 1
 									each music in tag.hotest_music
-										div.item
+										a.item(href='/effect')
 											if index < 4
 												div.ui.red.horizontal.label #{index}
 											else
