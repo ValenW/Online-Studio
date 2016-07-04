@@ -17,11 +17,12 @@ var hotest_cmp = function(music1, music2) {
 	}
 };
 
-router.route('/:tag_id')
+// interface : classfication?tag_id=*** 
+router.route('/')
 .get(function(req, res, next) {
 	// finding tag3 begin
 	Tag.findOne({
-		id: tag_id
+		id: req.query.tag_id
 	}).populate('music_list').exec(function(error, tag) {
 		if (err) {
 			console.log('Error in finding tag.');
