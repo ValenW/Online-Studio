@@ -111,6 +111,9 @@ router.route('/save')
 						console.log ('Error in /editor/save updating User.');
 					}  else {
 						console.log('Update User with Music successfully.');
+						res.json({
+							_id: spectrum._id
+						});
 					}
 				});
 

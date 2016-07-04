@@ -26,9 +26,9 @@ router.route('/')
 .get(function(req, res, next) {
 	var bg_image_url = '***';
 	var tag_name_list = new Array('抒情', '恐怖', '空灵', '浪漫');
-	tot_hotest_count = 8;
-	newest_count = 10;
-	hotest_count = 8;
+	var tot_hotest_count = 8;
+	var newest_count = 10;
+	var hotest_count = 8;
 
 	Tag.findOne({
 		tag_name: tag_name_list[0]
@@ -38,8 +38,8 @@ router.route('/')
 		} else {
 
 			// sort musics of tag0 , get newest musics and hotest music.
-			tag0_newest_music = tag0 == null ? null : tag0.music_list.sort(newest_cmp).slice(0, newest_count);
-			tag0_hotest_music = tag0 == null ? null : tag0.music_list.sort(hotest_cmp).slice(0, hotest_count);
+			var tag0_newest_music = tag0 == null ? null : tag0.music_list.sort(newest_cmp).slice(0, newest_count);
+			var tag0_hotest_music = tag0 == null ? null : tag0.music_list.sort(hotest_cmp).slice(0, hotest_count);
 
 			// finding tag1 begin
 			Tag.findOne({
@@ -49,8 +49,8 @@ router.route('/')
 					console.log('Error in finding tag1.');
 				} else {
 					// sort musics of tag0 , get newest musics and hotest music.
-					tag1_newest_music = tag1== null ? null : tag1.music_list.sort(newest_cmp).slice(0, newest_count);
-					tag1_hotest_music = tag1== null ? null : tag1.music_list.sort(hotest_cmp).slice(0, hotest_count);
+					var tag1_newest_music = tag1== null ? null : tag1.music_list.sort(newest_cmp).slice(0, newest_count);
+					var tag1_hotest_music = tag1== null ? null : tag1.music_list.sort(hotest_cmp).slice(0, hotest_count);
 
 					// finding tag2 begin
 					Tag.findOne({
@@ -60,8 +60,8 @@ router.route('/')
 							console.log('Error in finding tag2.');
 						} else {
 							// sort musics of tag0 , get newest musics and hotest music.
-							tag2_newest_music = tag2== null ? null : tag2.music_list.sort(newest_cmp).slice(0, newest_count);
-							tag2_hotest_music = tag2== null ? null : tag2.music_list.sort(hotest_cmp).slice(0, hotest_count);
+							var tag2_newest_music = tag2== null ? null : tag2.music_list.sort(newest_cmp).slice(0, newest_count);
+							var tag2_hotest_music = tag2== null ? null : tag2.music_list.sort(hotest_cmp).slice(0, hotest_count);
 
 							// finding tag3 begin
 							Tag.findOne({
@@ -71,8 +71,8 @@ router.route('/')
 									console.log('Error in finding tag3.');
 								} else {
 									// sort musics of tag0 , get newest musics and hotest music.
-									tag3_newest_music = tag3 == null ? null : tag3.music_list.sort(newest_cmp).slice(0, newest_count);
-									tag3_hotest_music = tag3 == null ? null : tag3.music_list.sort(hotest_cmp).slice(0, hotest_count);
+									var tag3_newest_music = tag3 == null ? null : tag3.music_list.sort(newest_cmp).slice(0, newest_count);
+									var tag3_hotest_music = tag3 == null ? null : tag3.music_list.sort(hotest_cmp).slice(0, hotest_count);
 
 									// Music find begin.
 									Music.find({},function(err, musics) {
@@ -80,10 +80,10 @@ router.route('/')
 											console.log('Error in /home interface.');
 										} else {
 											// get tot_hotest_music
-											tot_hotest_music = musics.sort(hotest_cmp).slice(0, tot_hotest_count);
+											var tot_hotest_music = musics.sort(hotest_cmp).slice(0, tot_hotest_count);
 											
 											// render begin.
-											User.populate(tot_hotest_music, {path:'author'}, function(err, tot_hotest_music_pu){
+											User.populate(tot_hotest_music,  {path:'author'}, function(err, tot_hotest_music_pu){
 											User.populate(tag0_newest_music, {path:'author'}, function(err, tag0_newest_music_pu){
 											User.populate(tag0_hotest_music, {path:'author'}, function(err, tag0_hotest_music_pu){
 											User.populate(tag1_hotest_music, {path:'author'}, function(err, tag1_newest_music_pu){
@@ -92,7 +92,6 @@ router.route('/')
 											User.populate(tag2_hotest_music, {path:'author'}, function(err, tag2_hotest_music_pu){
 											User.populate(tag3_hotest_music, {path:'author'}, function(err, tag3_newest_music_pu){
 											User.populate(tag3_hotest_music, {path:'author'}, function(err, tag3_hotest_music_pu){
-												console.log (tag3_hotest_music_pu);
 												res.render('home', {
 													bg_image_url: bg_image_url,
 													tot_hotest_music: tot_hotest_music_pu,
