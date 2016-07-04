@@ -3,7 +3,7 @@ var mongoose = require('mongoose');
 MusicSchema = new mongoose.Schema({
   spectrum: [{type: mongoose.Schema.Types.ObjectId, ref: 'Spectrum'}],
   name: String,
-  author: String,
+  author: {type: mongoose.Schema.Types.ObjectId, ref: 'User'},
   cover: String,
   date: {type: Date, default: Date.now},
   tags: [{type: mongoose.Schema.Types.ObjectId, ref: 'Tag'}],

@@ -72,7 +72,13 @@ function init() {
 			dataType: "json",
 			type: "POST",
 			success: function (responseJSON) {
-				console.log("save with id: " + responseJSON._id);
+				$('#saving-modal')
+					.modal({ blurring: true })
+					.modal('show');
+				setTimeout(function(){
+					$('#saving-modal').modal('hide');
+				}, 1000);
+
 				spectrum._id = responseJSON._id;
 			}
 		});

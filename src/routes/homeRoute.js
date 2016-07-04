@@ -1,6 +1,7 @@
 var express = require('express');
 var router = express.Router();
 var Tag = require('../models/Tag');
+var Music = require('../models/Music');
 // var showHomePage = function(req, res, next) {
 // 	var tag_name_list = new Array('抒情', '恐怖', '空灵', '浪漫');
 // 	// Tag.getNewestMusics(tag_name_list);
@@ -72,59 +73,77 @@ router.route('/')
 									tag3_newest_music = tag3== null ? null : tag3.music_list.sort(newest_cmp).slice(0, 6);
 									tag3_hotest_music = tag3== null ? null : tag3.music_list.sort(hotest_cmp).slice(0, 10);
 
-									// render begin
-									// res.render('home', {
-									// 	bg_image_url: bg_image_url,
-									// 	tags: {
-									// 		tag0: {
-									// 			tag: tag0,
-									// 			newest_music: tag0_newest_music,
-									// 			hotest_music: tag0_hotest_music
-									// 		},
-									// 		tag1: {
-									// 			tag: tag1,
-									// 			newest_music: tag1_newest_music,
-									// 			hotest_music: tag1_hotest_music
-									// 		},
-									// 		tag2: {
-									// 			tag: tag2,
-									// 			newest_music: tag2_newest_music,
-									// 			hotest_music: tag2_hotest_music
-									// 		},
-									// 		tag3: {
-									// 			tag: tag3,
-									// 			newest_music: tag3_newest_music,
-									// 			hotest_music: tag3_hotest_music
-									// 		},
-									// 	}
-									// });
-									res.send( {
-										bg_image_url: bg_image_url,
-										tags: {
-											tag0: {
-												tag: tag0,
-												newest_music: tag0_newest_music,
-												hotest_music: tag0_hotest_music
-											},
-											tag1: {
-												tag: tag1,
-												newest_music: tag1_newest_music,
-												hotest_music: tag1_hotest_music
-											},
-											tag2: {
-												tag: tag2,
-												newest_music: tag2_newest_music,
-												hotest_music: tag2_hotest_music
-											},
-											tag3: {
-												tag: tag3,
-												newest_music: tag3_newest_music,
-												hotest_music: tag3_hotest_music
-											},
+									// Music find begin.
+									Music.find({}, function(err, musics) {
+										if (err) {
+											console.log('Error in /home interface.');
+										} else {
+											tot_hotest_music = musics.sort(hotest_cmp).slice(0, 9);
+											// render begin
+											// console.log ({
+											// 	bg_image_url: bg_image_url,
+											// 	tot_hotest_music: tot_hotest_music,
+											// 	tags: {
+											// 		tag0: {
+											// 			tag: tag0,
+											// 			newest_music: tag0_newest_music,
+											// 			hotest_music: tag0_hotest_music
+											// 		},
+											// 		tag1: {
+											// 			tag: tag1,
+											// 			newest_music: tag1_newest_music,
+											// 			hotest_music: tag1_hotest_music
+											// 		},
+											// 		tag2: {
+											// 			tag: tag2,
+											// 			newest_music: tag2_newest_music,
+											// 			hotest_music: tag2_hotest_music
+											// 		},
+											// 		tag3: {
+											// 			tag: tag3,
+											// 			newest_music: tag3_newest_music,
+											// 			hotest_music: tag3_hotest_music
+											// 		},
+											// 	},
+											// 	user: {
+											// 		username: req.session.user == undefined ? null : req.session.user.username,
+											// 		profile: req.session.user == undefined ? null : req.session.user.profiles
+											// 	}
+											// });
+											res.render('home', {
+												bg_image_url: bg_image_url,
+												tot_hotest_music: tot_hotest_music,
+												tags: {
+													tag0: {
+														tag: tag0,
+														newest_music: tag0_newest_music,
+														hotest_music: tag0_hotest_music
+													},
+													tag1: {
+														tag: tag1,
+														newest_music: tag1_newest_music,
+														hotest_music: tag1_hotest_music
+													},
+													tag2: {
+														tag: tag2,
+														newest_music: tag2_newest_music,
+														hotest_music: tag2_hotest_music
+													},
+													tag3: {
+														tag: tag3,
+														newest_music: tag3_newest_music,
+														hotest_music: tag3_hotest_music
+													},
+												},
+												user: {
+													username: req.session.user == undefined ? null : req.session.user.username,
+													profile: req.session.user == undefined ? null : req.session.user.profiles
+												}
+											});
+											// render end
 										}
 									});
-									// render end
-
+									// Music find end.
 								}
 							});
 							// finding tag3 end

@@ -17,11 +17,12 @@ var hotest_cmp = function(music1, music2) {
 	}
 };
 
-router.route('/:tag_id')
+// interface : classfication?tag_id=*** 
+router.route('/')
 .get(function(req, res, next) {
 	// finding tag3 begin
 	Tag.findOne({
-		id: tag_id
+		id: req.query.tag_id
 	}).populate('music_list').exec(function(error, tag) {
 		if (err) {
 			console.log('Error in finding tag.');
@@ -34,7 +35,11 @@ router.route('/:tag_id')
 			res.render('***', {
 				tag: tag,
 				newest_music: tag_newest_music,
-				hotest_music: tag_hotest_music
+				hotest_music: tag_hotest_music,
+				user: {
+					username: req.session.user == undefined ? null : req.session.user.username,
+					profile: req.session.user == undefined ? null : req.session.user.profiles
+				}
 			});
 			// render end
 

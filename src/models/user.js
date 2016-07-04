@@ -11,6 +11,7 @@ UserSchema = new mongoose.Schema({
     createDate: Date
 });
 
+
 UserSchema.static('findByUsername', function(username, callback){
     return this.find({username: username}, callback);
 });
