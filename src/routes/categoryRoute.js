@@ -39,15 +39,23 @@ router.route('/')
 			// render begin
 			User.populate(tag_newest_music, {path:'author'}, function(err, tag_newest_music_pu) {
 			User.populate(tag_hotest_music, {path:'author'}, function(err, tag_hotest_music_pu) {
-				res.render('category', {
-					tag: tag,
-					newest_music: tag_newest_music_pu,
-					hotest_music: tag_hotest_music_pu,
-					user: {
-						username: req.session.user == undefined ? null : req.session.user.username,
-						profile: req.session.user == undefined ? null : req.session.user.profiles
-					}
-				});
+				if (req.query.page == undefined) {	// page request
+					res.render('category', {
+						tag: tag,
+						newest_music: tag_newest_music_pu,
+						hotest_music: tag_hotest_music_pu,
+						user: {
+							username: req.session.user == undefined ? null : req.session.user.username,
+							profile: req.session.user == undefined ? null : req.session.user.profiles
+						}
+					});
+				} else {	// ajax request
+					res.json({
+						newest_music: tag_newest_music_pu,
+						hotest_music: tag_hotest_music_pu,
+					});
+				}
+				
 			}); });
 			// render end
 
