@@ -1,5 +1,7 @@
 var User = require('../models/User');
 var MailSender = require('../middlewares/mail.js');
+var URL     = require('url');
+var assert  = require('assert');
 
 exports.showLogin = function(req, res, next) {
     res.render('sign/login', {error: req.flash('error').toString()});
@@ -80,4 +82,51 @@ exports.signup = function(req, res, next) {
 exports.logout = function(req, res, next) {
     req.session.destroy();
     res.redirect('/');
+}
+
+exports.getWait = function(req, res, next) {
+    res.render('wait', {email: req.session.user.email, tlink: "/sendagain?id=" + req.session.user._id});
+}
+
+exports.getSendAgain = function(req, res, next) {
+    var arg = URL.parse(req.url, true).query;
+    var id2conf = arg.id;
+    User.find({_id: id2conf}, function(err, users) {
+        if (users.length == 1) {
+            MailSender.singup({
+                to: users[0].email
+            }, {
+                username: users[0].username,
+                link: 'http://localhost:3000/conf?id=' + users[0]._id // TODO
+            }, function(err, info) {
+                if(err){
+                    console.log('Error');
+                } else {
+                    console.log('Account Confer email sent');
+                }
+            });
+            res.redirect('/wait');
+        } else {
+            assert(users.length == 0);
+            var err = new Error('Not Found');
+            err.status = 404;
+            next(err);
+        }
+    });
+}
+
+exports.getConf = function(req, res, next) {
+    var arg = URL.parse(req.url, true).query;
+    var id2conf = arg.id;
+    console.log("id2conf: " + id2conf);
+    User.findOneAndUpdate({_id: id2conf}, {confed: true}, function(err, user) {
+        if (err) {
+            console.log('conf Error');
+        } else {
+            user.confed = true;
+            req.session.user = user;
+            console.log("user:", user);
+            res.redirect('/');
+        }
+    });
 }
