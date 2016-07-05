@@ -43,26 +43,28 @@ var headUploader = multer({
 });
 
 /* GET home page. */
-router.get('/', function(req, res, next) {
-  // headPath: path to the headcut
-  path = 'uploads/head/';
-  headPath = "";
-  if (req.session.user) {
-    uid = req.session.user._id;
-    fileName = uid + "_head";
-    try {
-      headPath = path + fileName;
-      console.log("ok?: " + headPath);
-      fs.accessSync('./bin/public/' + headPath, fs.R_OK);
-      console.log("ok: " + headPath);
-    } catch (e) {
-      headPath = path + 'ghost';
-    }
-  } else {
-    headPath = path + 'ghost';
-  }
-  res.render('home');
-});
+// router.get('/', function(req, res, next) {
+//   // headPath: path to the headcut
+//   path = 'uploads/head/';
+//   headPath = "";
+//   if (req.session.user) {
+//     uid = req.session.user._id;
+//     fileName = uid + "_head";
+//     try {
+//       headPath = path + fileName;
+//       console.log("ok?: " + headPath);
+//       fs.accessSync('./bin/public/' + headPath, fs.R_OK);
+//       console.log("ok: " + headPath);
+//     } catch (e) {
+//       headPath = path + 'ghost';
+//     }
+//   } else {
+//     headPath = path + 'ghost';
+//   }
+//   res.render('home');
+// });
+router.get('/', home.showHome);
+
 
 router.get('/music_info', function(req, res, next) {
   res.render('music_info');
