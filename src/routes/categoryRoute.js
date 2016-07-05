@@ -21,7 +21,8 @@ var hotest_cmp = function(music1, music2) {
 
 var filterPublicMusic = function(music_list) {
 	rst_list = [];
-	for (var music in music_list) {
+	for (m_i in music_list) {
+		music = music_list[m_i];
 		if (music.is_music_public) {
 			rst_list.push(music);
 		}
@@ -69,6 +70,8 @@ router.route('/')
 								tag: tag,	// tag requested
 								tags: tags,	// tags showed in Home Page
 								music_list: music_list_pu,
+								tot_count: tag_music_list.length,
+								sorted: sorted,
 								user: {
 									username: req.session.user == undefined ? null : req.session.user.username,
 									profile: req.session.user == undefined ? null : req.session.user.profiles
@@ -84,6 +87,7 @@ router.route('/')
 						// newest_music: tag_newest_music_pu,
 						// hotest_music: tag_hotest_music_pu,
 						music_list: music_list_pu,
+						tot_count: tag_music_list.length
 					});
 					// json end.
 				}
