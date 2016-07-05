@@ -17,7 +17,19 @@ exports.showMusicDetail = function(req, res, next) {
             } else {
                 if (music == null) console.log("no such music with ID: ", music_id);
                 else {
-                    res.render('music_detail', {music: music});
+
+                    var opts = [{
+                        path: "comments.comment_userId",
+                        select: "profile",
+                        model: 'User'
+                    }];
+                    Music.populate(music, opts, function(err, populatedMusic) {
+                        if (err) {
+                            console.log("err when loading music with ID: ", music_id);
+                        } else {
+                            res.render('music_detail', {music: populatedMusic});
+                        }
+                    });
                 }
             }
         });
