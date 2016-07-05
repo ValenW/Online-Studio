@@ -7,7 +7,7 @@ var tempo = 110;
 var unitTime  = 15 / tempo;
 
 function init() {
-	// loadSource();
+	loadSource();
 	initButtons();
 }
 
@@ -115,7 +115,7 @@ function loadSource() {
 		} else {
 			index = i.toString();
 		}
-		audioPath = "sounds/piano2/GermanConcertD_"+index+"_083.wav";
+		audioPath = "resources/sounds/piano2/GermanConcertD_"+index+"_083.wav";
 		urlList.push(audioPath);
 	}
 

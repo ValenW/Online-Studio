@@ -6,7 +6,7 @@ var filter = require('../middlewares/filter');
 
 exports.showHome = function(req, res, next) {
 	var bg_image_url = '***';
-	var tag_name_list = new Array('抒情', '恐怖', '空灵', '浪漫');
+	var tag_name_list = new Array('空灵', '抒情', '恐怖', '浪漫');
 	var tot_hotest_count = 8;
 	var newest_count = 10;
 	var hotest_count = 8;
