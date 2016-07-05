@@ -135,6 +135,9 @@ router.get('/individual', auth.isTempAuthenticated, individual.showIndividual);
 
 // musicDetail
 router.get('/music', musicDetail.showMusicDetail);
+router.post('/music/saveMusicToRepo', auth.isTempAuthenticated, musicDetail.saveMusicToRepo);
+router.post('/music/insertComment', auth.isTempAuthenticated, musicDetail.insertComment);
+router.post('/music/share', musicDetail.share);
 
 // debug
 router.get('/create_tags', debug.createTags);

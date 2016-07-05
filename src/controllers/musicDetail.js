@@ -2,8 +2,9 @@ var Music = require('../models/Music');
 var User = require('../models/User');
 var Comment = require('../models/Comment');
 
+/*Url: /music?music_id=123*/
 exports.showMusicDetail = function(req, res, next) {
-    var music_id = req.params.music_id;
+    var music_id = req.query.music_id;
     console.log("music ID: ", music_id);
 
     Music
@@ -16,15 +17,28 @@ exports.showMusicDetail = function(req, res, next) {
             } else {
                 if (music == null) console.log("no such music with ID: ", music_id);
                 else {
-                    res.render('music_detail', {music: music});
+
+                    var opts = [{
+                        path: "comments.comment_userId",
+                        select: "profile",
+                        model: 'User'
+                    }];
+                    Music.populate(music, opts, function(err, populatedMusic) {
+                        if (err) {
+                            console.log("err when loading music with ID: ", music_id);
+                        } else {
+                            res.render('music_detail', {music: populatedMusic});
+                        }
+                    });
                 }
             }
         });
 };
 
+/*Url /music/saveMusicToRepo?music_id=123*/
 exports.saveMusicToRepo = function(req, res, next) {
     var user_id = req.session.user._id;
-    var music_id = req.params.music_id;
+    var music_id = req.query.music_id;
     console.log("user ID:", user_id);
 
     User
@@ -62,6 +76,9 @@ exports.saveMusicToRepo = function(req, res, next) {
         });
 }
 
+
+/*Url /music/insertComment */
+router.post('/music/share', musicDetail.share);*/
 exports.insertComment = function(req, res, next) {
     var user_id = req.session.user._id;
 
@@ -108,8 +125,10 @@ exports.insertComment = function(req, res, next) {
         });
 }
 
+
+/*Url /music/share?music_id=123  */
 exports.share = function(req, res, next) {
-    var music_id = req.params.music_id;
+    var music_id = req.query.music_id;
     Music
         .findOne({_id: music_id})
         .exec(function(err, music) {
