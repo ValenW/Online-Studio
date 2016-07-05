@@ -63,18 +63,9 @@ router.get('/', function(req, res, next) {
   res.render('home');
 });
 
-router.get('/category', function(req, res, next) {
-  res.render('category');
-});
-
 router.get('/music_info', function(req, res, next) {
   res.render('music_info');
 });
-
-
-// router.get('/editor', function(req, res, next) {
-//   res.render('editor');
-// });
 
 //调试
 router.get('/effect', function(req, res, next) {
