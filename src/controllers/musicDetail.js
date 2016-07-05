@@ -1,27 +1,23 @@
-var URL = require('url');
-
 var Music = require('../models/Music');
 var User = require('../models/User');
 
-var shortid = require('shortid');
-
 exports.showMusicDetail = function(req, res, next) {
-    var arg = URL.parse(req.url, true).query;
-    var musicId = arg.id;
-    console.log("music ID: ", musicId);
+    var music_id = req.query.music_id;
+    console.log("music ID: ", music_id);
 
     Music
-        .findOne({_id: musicId})
+        .findOne({_id: music_id})
         .populate('tracks tags comments')
         .exec(function(err, music) {
             if (err) {
                 console.log("err when find music by ID: ", err);
                 throw err;
             } else {
-                if (music == null) console.log("no such music with ID: ", musicId);
+                if (music == null) console.log("no such music with ID: ", music_id);
                 else {
                     res.render('music_detail', {music: music});
                 }
             }
         });
-}
+};
+

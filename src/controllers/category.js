@@ -1,39 +1,11 @@
-var express = require('express');
-var router = express.Router();
 var User = require('../models/User');
 var Tag = require('../models/Tag');
-
-var newest_cmp = function(music1, music2) {
-	if (music1.date > music2.date) {
-		return 1;
-	} else if (music1.date < music2.date) {
-		return -1;
-	}
-};
-
-var hotest_cmp = function(music1, music2) {
-	if (music1.listenN > music2.listenN) {
-		return 1;
-	} else if (music1.listenN < music2.listenN) {
-		return -1;
-	}
-};
-
-var filterPublicMusic = function(music_list) {
-	rst_list = [];
-	for (m_i in music_list) {
-		music = music_list[m_i];
-		if (music.is_music_public) {
-			rst_list.push(music);
-		}
-	}
-	return rst_list;
-};
+var cmp = require('../middlewares/cmp');
+var filter = require('../middlewares/filter');
 
 // interface : category?tag_id=***&sorted=lastest&page=#
 // interface : category?tag_id=***&sorted=lastest
-router.route('/')
-.get(function(req, res, next) {
+exports.showCategory = function(req, res, next) {
 	var newest_count = 20;
 	var hotest_count = 20;
 	var page = req.query.page == undefined ? 0 :  req.query.page - 1;
@@ -48,9 +20,9 @@ router.route('/')
 		if (err) {
 			console.log('Error in finding tag.');
 		} else {
-			var tag_music_list = filterPublicMusic(tag == null ? [] : tag.music_list);
+			var tag_music_list = filter.filterPublicMusic(tag == null ? [] : tag.music_list);
 			// sort musics of tag0 , get newest musics and hotest music.
-			var music_list = tag == null ? null : ( sorted == 'latest' ? tag_music_list.sort(newest_cmp).slice(page*newest_count, (page+1)*newest_count) : tag_music_list.sort(hotest_cmp).slice(page*hotest_count, (page+1)*hotest_count));
+			var music_list = tag == null ? null : ( sorted == 'latest' ? tag_music_list.sort(cmp.newest_cmp).slice(page*newest_count, (page+1)*newest_count) : tag_music_list.sort(cmp.hotest_cmp).slice(page*hotest_count, (page+1)*hotest_count));
 
 			// render begin
 			User.populate(music_list, {path:'author'}, function(err, music_list_pu) {
@@ -98,7 +70,4 @@ router.route('/')
 		}
 	});
 	// finding tag3 end
-});
-
-
-module.exports = router;
+}
