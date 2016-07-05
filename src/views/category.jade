@@ -17,17 +17,18 @@ block content
 	div.search-result
 		div.container
 			ul
+				- var blank = 20 - music_list.length
 				each music in music_list
 					li
 						div.item
 							div.ui.card.small-item
 								div.blurring.dimmable.image.small-item
-									img(src='')
+									img(src='#{music.cover}')
 									div.ui.dimmer
 										div.content
 											i.large.play.icon
 							div.l-r
-								a.title(href='#') #{music.name}
+								a.title(href='/effect') #{music.name}
 								div.v-desc #{music.introduction}
 								div.v-info
 									span.bf
@@ -36,9 +37,29 @@ block content
 									span.pl
 										i.comment.outline.icon
 										span #{music.commentN}
-								a.author(href='') #{music.author.username}
+								a.author(href='/individual') #{music.author.username}
+				- for (var i = 0; i < blank; ++i)
+					li(style='display:none')
+						div.item
+							div.ui.card.small-item
+								div.blurring.dimmable.image.small-item
+									img(src='')
+									div.ui.dimmer
+										div.content
+											i.large.play.icon
+							div.l-r
+								a.title(href='/')
+								div.v-desc
+								div.v-info
+									span.bf
+										i.toggle.right.icon
+										span
+									span.pl
+										i.comment.outline.icon
+										span
+								a.author(href='/')
 
-		- var tot_page = Math.floor(tot_count/20) + 1;
+		- var tot_page = Math.floor((tot_count-1)/20) + 1;
 		
 		div.page-selector
 			div.button-groups
@@ -53,6 +74,8 @@ block content
 	include footer
 
 	script.
-		window.tot_count = !{JSON.stringify(tot_page)};
+		window.tot_page = !{JSON.stringify(tot_page)};
+		window.tag_id = !{JSON.stringify(tag._id)};
+		window.sorted = !{JSON.stringify(sorted)};
 
 	script(src="/javascripts/category.js")

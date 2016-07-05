@@ -47,16 +47,20 @@ function switchBtnHandler() {
 		}
 	}
 	else {
-		currentPage = Number(page);
-		switchHandler();
+		if (currentPage != Number(page)) {
+			currentPage = Number(page);
+			switchHandler();
+		}
 	}
 }
 
 function switchInputHandler() {
 	var page = Number($(this).val());
 	if (page != NaN && page > 0 && page <= totalPage) {
-		currentPage = page;
-		switchHandler();
+		if (currentPage != page) {
+			currentPage = page;
+			switchHandler();
+		}
 	} else {
 		$('.page-jump input').val(currentPage);
 	}
@@ -74,4 +78,39 @@ function switchHandler() {
 		setPageSelector(totalPage - start + 1, start, index);
 	else
 		setPageSelector(displPage, start, index);
+	requestData();
+}
+
+function requestData() {
+	$.ajax({  
+		url: 'category/?tag_id='+tag_id+'\&sorted='+sorted+'\&page='+currentPage.toString(),
+		type: "GET",
+		success: function (data) {
+			if (data) refreshData(data.music_list);
+		}
+	});
+}
+
+function refreshData(data) {
+	var lis = $('ul').children('li');
+	for (var i = 0; i < lis.length; ++i) {
+		if (i < data.length) {
+			$(lis[i]).children('img').attr('src', data[i].cover);
+			$(lis[i]).children('.title').attr('href', '/effect').text(data[i].name);
+			$(lis[i]).children('.v-desc').text(data[i].name);
+			$(lis[i]).children('.bf span').text(data[i].listenN);
+			$(lis[i]).children('.pl span').text(data[i].commentN);
+			$(lis[i]).children('.author').attr('href', '/individual').text(data[i].author.username);
+			$(lis[i]).show();
+		} else {
+			$(lis[i]).hide();
+		}
+	}
+	scrollTo(0);
+}
+
+function scrollTo(position) {
+	$('html body').animate({
+		scrollTop: position
+	}, 500);
 }

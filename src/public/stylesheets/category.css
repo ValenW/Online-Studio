@@ -72,6 +72,7 @@ li .item .card {
 }
 
 .v-desc {
+	min-height: 40px;
 	color: #99a2aa;
 	word-wrap: break-word;
 	word-break: break-all;
