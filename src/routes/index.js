@@ -14,6 +14,8 @@ var sign        = require('../controllers/sign');
 var home        = require('../controllers/home');
 var editor      = require('../controllers/editor');
 
+var debug       = require('../controllers/debug');
+
 var musicDetail = require('../controllers/musicDetail');
 
 
@@ -103,7 +105,10 @@ router.get('/home', home.showHome);
 router.get('/editor', editor.showEditor);
 router.post('/editor/save', editor.saveSpectrum);
 
-// 
+// debug
+router.get('/create_tags', debug.createTags);
+router.get('/look_tags', debug.lookTags);
+router.get('/clear_data', debug.clearData);
 
 
 router.get('/uploads', auth.isAuthenticated, function(req, res, next) {
