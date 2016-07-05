@@ -1,6 +1,6 @@
 window.addEventListener("load", init, false);
 
-var totalPage = window.tot_count ? window.tot_count : 1;
+var totalPage = window.tot_page > 0 ? window.tot_page : 1;
 var displPage = 10;
 var currentPage = 1;
 
