@@ -11,7 +11,7 @@ block content
 			div.ui.large.secondary.pointing.menu
 				a.active.item 主页
 					each tag in tags
-						a.item(href='/category') #{tag.tag.tag_name}
+						a.item(href='/category?tag_id='+'#{tag.tag._id}'+'\&sort=latest') #{tag.tag.tag_name}
 
 	div.sticky-menu
 		div.ui.sticky
@@ -28,7 +28,7 @@ block content
 			div.container
 				div.l-preview
 					div.topic-preview-wrapper
-						div.ui.card
+						a.ui.card(href='/editor')
 							div.image
 								img(src='')
 				div.r-preview
@@ -60,7 +60,7 @@ block content
 								h2 #{tag.tag.tag_name}
 							div.right.menu
 								div.item
-									a.ui.basic.button(href='/category') 更多
+									a.ui.basic.button(href='/category?tag_id='+'#{tag.tag._id}'+'\&sort=latest') 更多
 						div.content-wrapper
 							ul
 								- var blank = 10 - tag.newest_music.length
@@ -81,6 +81,9 @@ block content
 						div.rank
 							div.ui.secondary.menu
 								h3.item 排行
+								div.right.menu
+									div.item
+										a.ui.basic.button(href='/category?tag_id='+'#{tag.tag._id}'+'\&sort=hotest') 更多
 							div.content-wrapper
 								div.ui.selection.list
 									- var index = 1

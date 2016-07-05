@@ -1,0 +1,28 @@
+p, .lf, .rf, input, textarea {
+	display: inline-block;
+}
+
+.ui.form {
+	width: 1000px;
+	min-height: 500px;
+	margin: 40px auto 50px auto;
+}
+
+.form .item {
+	padding: 20px 0 20px 0;
+}
+
+.lf {
+	width: 300px;
+	padding-left: 100px;
+}
+
+.rf {
+	width: 700px;
+	padding-right: 100px;
+}
+
+.checkbox {
+	display: inline-block;
+	width: 100px;
+}
