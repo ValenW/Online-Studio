@@ -81,13 +81,31 @@ router.get('/share', function(req, res, next) {
   res.render('share');
 });
 
-
 // sign
 router.get('/login', sign.showLogin);
 
-router.post('/login', sign.login);
+router.post('/login', function(req, res, next) {
+  User.findOne({
+    'username': req.body.username,
+    'password': req.body.password
+  }, function(err, user) {
+    if (err) {
+      console.log('error');
+    } else {
+      if (user === null) {
+        req.flash('error', 'The username or password is not correct');
+        res.redirect('/login');
+      } else {
+        req.session.user = user;
+        res.redirect('/');
+      }
+    }
+  });
+});
 
-router.get('/signup', sign.showSignup);
+router.get('/signup', function(req, res, next) {
+  res.render('signup', {error: req.flash('error').toString()});
+});
 
 router.post('/signup', sign.signup);
 
@@ -97,7 +115,10 @@ router.get('/sendagain', auth.isTempAuthenticated, sign.getSendAgain);
 
 router.get('/conf', sign.getConf);
 
-router.get('/logout', sign.logout);
+router.get('/logout', function(req, res, next) {
+  req.session.destroy();
+  res.redirect('/');
+});
 
 // home
 router.get('/home', home.showHome);
