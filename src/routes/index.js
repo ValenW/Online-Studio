@@ -10,8 +10,16 @@ var fs      = require('fs');
 var User        = require('../models/User');
 var auth        = require('../middlewares/auth');
 var MailSender  = require('../middlewares/mail');
-var sign        = require('../contorllers/sign');
-var musicDetail = require('../contorllers/musicDetail');
+var sign        = require('../controllers/sign');
+var home        = require('../controllers/home');
+var editor      = require('../controllers/editor');
+var category    = require('../controllers/category');
+var individual  = require('../controllers/individual');
+
+var debug       = require('../controllers/debug');
+
+var musicDetail = require('../controllers/musicDetail');
+
 
 var data = require('../data/data');
 
@@ -95,6 +103,31 @@ router.get('/sendagain', auth.isTempAuthenticated, sign.getSendAgain);
 router.get('/conf', sign.getConf);
 
 router.get('/logout', sign.logout);
+
+// home
+router.get('/home', home.showHome);
+
+// editor
+router.get('/editor', editor.showEditor);
+router.post('/editor/save', editor.saveSpectrum);
+
+// category
+router.get('/category', category.showCategory);
+
+// individual
+router.get('/individual', auth.isTempAuthenticated, individual.showIndividual);
+
+// musicDetail
+router.get('/music', musicDetail.showMusicDetail);
+
+// debug
+router.get('/create_tags', debug.createTags);
+router.get('/look_tags', debug.lookTags);
+router.get('/clear_data', debug.clearData);
+router.get('/look_musics', debug.lookMusics);
+router.get('/look_users', debug.lookUsers);
+router.get('/look_commments', debug.lookComments);
+router.get('/look_spectrums', debug.lookSpectrums);
 
 router.get('/uploads', auth.isAuthenticated, function(req, res, next) {
   res.render('upload');
