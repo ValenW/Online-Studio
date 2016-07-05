@@ -3,10 +3,28 @@ extends layout
 block content
 	link(rel='stylesheet', href='/stylesheets/home.css')
 
-	- var types = ['流行', '抒情', 'BGM', '怀旧', '运动']
+	- var categories = ['流行', '抒情', 'BGM', '怀旧', '运动']
 
-	include header.jade
-	
+	a.anchor(id='top')
+	include header
+
+	div.category-menu
+		div.container
+			div.ui.large.secondary.pointing.menu
+				a.active.item 主页
+					each category in categories
+						a.item(href="/category") #{category}
+
+	div.sticky-menu
+		div.ui.sticky
+			div.ui.middle.aligned.animated.list
+				each category in categories
+					div.item
+						a.ui.button(href='#'+'#{category}') #{category}
+				div.ui.divider
+				a.ui.icon.button(href='#top')
+					i.big.fitted.caret.up.icon(style='margin-top:-6px;')
+
 	div.page-content
 		div.preview
 			div.container
@@ -27,13 +45,14 @@ block content
 												p.title 作品名称可以很长很长很长很长的喔
 												p.info 作者: 很黄很暴力
 												p.info 播放: 1000
-		each type in types
-			div.type
+		each category in categories
+			div.category
+				a.anchor(id='#{category}')
 				div.container
 					div.l-list
 						div.ui.secondary.menu
 							div.item
-								h2 #{type}
+								h2 #{category}
 							div.right.menu
 								div.item
 									div.ui.basic.button 更多
@@ -60,6 +79,6 @@ block content
 											div.ui.horizontal.label #{i}
 											div.title 非常棒的作品
 
-	include footer.jade
-	
+	include footer
+
 	script(src="/javascripts/home.js")

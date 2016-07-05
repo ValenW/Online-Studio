@@ -3,13 +3,17 @@ extends layout
 block content
 	div.ui.inverted.segment(style="border-radius: 0px; width:100%; height:100%; padding:0; margin:0")
 		div.ui.inverted.borderless.menu(style="margin:0;border-radius:0")
-			div.ui.dropdown.item(id="pattern") Pattern
-				i.dropdown.icon
-				div.menu
-					div.active.item(data-value="1") 1
-					div.item(data-value="2") 2
-					div.item(data-value="3") 3
-					div.item(data-value="4") 4
+			div.item
+				div.ui.dropdown(id="channel" style="height:100%")
+					div.ui.inverted.icon.button(style="width:100px") Channel
+						i.dropdown.icon
+					div.menu
+						div.active.item(data-value="1" style="width:100px") 1
+						div.item(data-value="2") 2
+						div.item(data-value="3") 3
+						div.item(data-value="4") 4
+			div.item
+				div.ui.inverted.compact.button.channel-indicate 1
 			div.item(style="width:200px")
 				div.ui.icon.buttons(style="width:100%")
 					button.ui.button(id="play")
@@ -18,14 +22,69 @@ block content
 						i.pause.icon
 					button.ui.active.button(id="stop")
 						i.stop.icon
-			a.right.item Save
-
+			div.right.item
+				div.ui.inverted.button(id="signin" style="width:80px; margin-left:15px") 登陆
+				div.ui.inverted.button(id="signup" style="width:80px; margin-left:15px") 注册
+				div.ui.inverted.button(id="save" style="width:80px; margin-left:15px") 保存
 		canvas(id="canvas")
-	div.ui.basic.modal(id="modal")
+
+	div.ui.basic.modal(id="progress-modal")
 		div.ui.inverted.orange.progress(id="loading" data-value="1" data-total="88")
 			div.bar
 				div.progress
 			div.label Loading Sources
+
+	div.ui.basic.modal(id="saving-modal")
+		div.ui.icon.huge.header
+			i.massive.checkmark.icon
+			h1.header Saved
+
+	div.ui.small.modal(id="signin-modal")
+		div.header
+		div.content(style="width:300px; margin:auto")
+			form(class="ui form signin-form")
+				div(class="field")
+					label Username
+					div(class="ui left icon input")
+						input(type="text" name="username" placeholder="Username")
+						i(class="user icon")
+				div(class="field")
+					label Password
+					div(class="ui left icon input")
+						input(type="password" name="password" placeholder="Password")
+						i(class="lock icon")
+		div.actions(style="text-align:center")
+			div.ui.green.button(style="width:30%") 登陆
+
+	div.ui.small.modal(id="signup-modal")
+		div.header
+		div.content(style="width:300px; margin:auto")
+			form(class="ui form signup-form")
+				div(class="field")
+					label Username
+					div(class="ui left icon input")
+						input(type="text" placeholder="Username" name="username")
+						i(class="user icon")
+				div(class="field")
+					label Email
+					div(class="ui left icon input")
+						input(type="text" placeholder="Email" name="email")
+						i(class="mail icon")
+				div(class="field")
+					label Password
+					div(class="ui left icon input")
+						input(type="password" name="password" placeholder="Password")
+						i(class="lock icon")
+				div(class="field")
+					label Confirm Password
+					div(class="ui left icon input")
+						input(type="password" placeholder="Password" name="confirm_password")
+						i(class="lock icon")
+		div.actions(style="text-align:center")
+			div.ui.green.button(style="width:30%") 注册
+
+	script.
+		window.spectrum = !{JSON.stringify(spectrum)};
 
 	script(src="libs/createjs/createjs-2015.11.26.min.js")
 	script(src="javascripts/editor/music.js")

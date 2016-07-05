@@ -7,7 +7,7 @@ var tempo = 110;
 var unitTime  = 15 / tempo;
 
 function init() {
-	loadSource();
+	// loadSource();
 	initButtons();
 }
 
@@ -30,11 +30,21 @@ function initButtons() {
 		$("#pause").removeClass("active");
 		$("#stop").addClass("active");
 	});
-	$('#pattern').dropdown({
+	$('#channel').dropdown({
 		onChange: function(val) {
-			window.switchPattern(val);
+			$('.channel-indicate').text(val);
+			window.switchChannel(val);
 		}
 	});
+	$('#save').click(function() {
+		window.save();
+	});
+	$('#signin-modal')
+		.modal('attach events', '#signin', 'show')
+		.modal({blurring:true});
+	$('#signup-modal')
+		.modal('attach events', '#signup', 'show')
+		.modal({blurring:true});
 }
 
 function BufferLoader(context, urlList, callback) {
@@ -92,8 +102,8 @@ function loadSource() {
 	window.AudioContext = window.AudioContext || window.webkitAudioContext;
 	context = new AudioContext();
 
-	$('#modal')
-		.modal('setting', 'closable', false)
+	$('#progress-modal')
+		.modal({closable: false, blurring: true})
 		.modal('show');
 
 	urlList = new Array();
@@ -116,7 +126,7 @@ function loadSource() {
 
 function finishedLoading(buffer) {
 	bufferList = buffer;
-	$('#modal').modal('hide');
+	$('#progress-modal').modal('hide');
 }
 
 function playSound(buffer, head, tail) {
@@ -141,6 +151,14 @@ function playSound(buffer, head, tail) {
 window.playNote = function(note) {
 	if (note)
 		playSound(bufferList[note.key], 0, note.tail - note.head + 1);
+}
+
+window.setTempo = function(_tempo) {
+	if (_tempo > 0) {
+		tempo = _tempo;
+		unitTime  = 15 / tempo;
+		window.spectrum.tempo = _tempo;
+	}
 }
 
 /* utility function */

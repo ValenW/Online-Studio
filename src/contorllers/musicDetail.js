@@ -11,7 +11,7 @@ exports.showMusicDetail = function(req, res, next) {
     console.log("music ID: ", musicId);
 
     Music
-        .findOne({id: musicId})
+        .findOne({_id: musicId})
         .populate('tracks tags comments')
         .exec(function(err, music) {
             if (err) {

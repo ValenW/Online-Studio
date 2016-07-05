@@ -1,0 +1,51 @@
+extends layout
+
+block content
+	link(rel='stylesheet', href='/stylesheets/category.css')
+	include header
+
+	- var categories = ['流行', '抒情', 'BGM', '怀旧', '运动']
+
+	div.category-menu
+		div.container
+			div.ui.large.secondary.pointing.menu
+				a.item 主页
+					each category in categories
+						a.item #{category}
+
+	div.search-result
+		div.container
+			ul
+				- for (var i = 0; i < 20; ++i)
+					li
+						div.item
+							div.ui.card.small-item
+								div.blurring.dimmable.image.small-item
+									img(src='#')
+									div.ui.dimmer
+										div.content
+											i.large.play.icon
+							div.l-r
+								a.title(href='') 作品名称可以很长很长很长很长的喔
+								div.v-desc 这里是脑残的作品简述，然而简述了也没卵用，因为根本没人会留意，所以我故意写这么长怎么滴！
+								div.v-info
+									span.bf
+										i.toggle.right.icon
+										span 233
+									span.pl
+										i.comment.outline.icon
+										span 666
+								a.author(href='') Up主
+		div.page-selector
+			div.button-groups
+			div.page-jump
+				p 第
+				div.ui.input
+					input(type="text" value="1" style="padding: .6em .8em .6em .8em;")
+				p.total /1
+				p 页
+
+
+	include footer
+
+	script(src="/javascripts/category.js")
