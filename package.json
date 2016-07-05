@@ -21,7 +21,8 @@
     "mongoose": "^4.4.17",
     "morgan": "^1.7.0",
     "serve-favicon": "^2.3.0",
-    "shortid": "^2.2.6"
+    "shortid": "^2.2.6",
+    "multer": "^1.1.0"
   },
   "devDependencies": {
     "grunt": "^1.0.1",

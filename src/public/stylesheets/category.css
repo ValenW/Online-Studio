@@ -1,0 +1,144 @@
+/* Local */
+.card.small-item, 
+.image.small-item,
+.image.small-item > img {
+	width: 160px;
+	height: 100px;
+}
+
+.ui.card {
+	box-shadow: none;
+}
+
+.ui.card:hover {
+	cursor: pointer;
+}
+
+/* Category Menu */
+.category-menu > .container {
+	width: 1160px;
+	margin: 20px auto 20px auto;
+}
+
+/* Search Result */
+.search-result .container {
+	position: relative;
+	overflow: hidden;
+	width: 1160px;
+	min-height: 400px;
+	clear: both;
+	margin: 0 auto 20px auto;
+	padding-bottom: 10px;
+}
+
+ul {
+	position: relative;
+	margin-right: -42px;
+	padding: 0 0 20px 0;
+}
+
+li {
+	float: left;
+	display: list-item;
+	text-align: -webkit-match-parent;
+	width: 50%;
+	border-bottom: 1px solid #e5e9ef;
+}
+
+li .item {
+	position: relative;
+	height: 173px;
+	padding: 20px 20px 20px 0;
+	margin-right: 20px;
+	border-right: 1px solid #e5e9ef;
+	background-color: #fff;
+}
+
+li .item .card {
+	float: left;
+	margin-right: 20px;
+}
+
+.l-r {
+	float: left;
+	width: 240px;
+}
+
+.title {
+	color: #222;
+	max-height: 40px;
+	word-wrap: break-word;
+	word-break: break-all;
+}
+
+.v-desc {
+	min-height: 40px;
+	color: #99a2aa;
+	word-wrap: break-word;
+	word-break: break-all;
+	margin: 14px 0 14px 0;
+	overflow: hidden;
+	clear: both;
+}
+
+.v-info {
+	float: right;
+}
+
+.v-info .bf,
+.v-info .pl {
+	float: left;
+	width: 70px;
+	color: #99a2aa;
+}
+
+.author {
+	color: #99a2aa;
+	float: left;
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+}
+
+a {
+	transition: color .2s;
+	-moz-transition: color .2s;
+	-webkit-transition: color .2s;
+	-o-transition: color .2s;
+}
+
+a:hover {
+	color: #00a1d6;
+}
+
+/* Page Selector */
+.page-selector {
+	width: 1160px;
+	height: 60px;
+	margin: 20px auto 60px auto;
+}
+
+.page-selector p {
+	display: inline-block;
+	margin: 0 5px 0 5px;
+}
+
+.button-groups {
+	float: left;
+}
+
+.button-groups .button {
+	font-family: "Microsoft YaHei";
+	font-weight: 500;
+	height: 36px;
+	text-align: center;
+	line-height: 1.5;
+}
+
+.page-jump {
+	float: right;
+}
+
+.page-jump .input {
+	width: 60px;
+}

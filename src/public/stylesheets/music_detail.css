@@ -1,0 +1,160 @@
+.top_view{
+    width: 800px;
+    height: 220px;
+    margin: 20px auto 30px auto;
+}
+.top_view .music_poster{
+    width: 60%;
+    height: 100%;
+    background-color: green;
+    display: inline-block;
+    vertical-align:top;
+    max-height: 100%;
+}
+
+.top_view .music_poster .myimage{
+    max-height: 100% !important;
+}
+
+.top_view .music_detail{
+    width: 30%;
+    height: 60%;
+    display: inline-block;
+    margin: 10px 20px;
+    vertical-align:top;
+}
+.top_view .music_detail .evaluate{
+    height: 0%;
+    width: 100%;
+    display: inline-block;
+    vertical-align:top;
+}
+.top_view .music_detail .music_message{
+    height: 70%;
+    width: 100%;
+    display: inline-block;
+    vertical-align:top;
+}
+.middle_view{
+    width: 800px;
+    height: 50px;
+    margin: 20px auto 30px auto;
+    margin-top: 20px;
+}
+
+.middle_view .middle_message{
+    width: 100%;
+    height: 100%;
+}
+
+.middle_view .middle_message .middle_button{
+    width: 33%;
+    height: 100%;
+}
+
+.music_detail .right_message{
+    width: 100%;
+    height: 50%;
+    display: inline-block;
+    margin-top: 50px;
+}
+.middle_view .right_message .right_button{
+    width: 50%;
+    height: 100%;
+}
+
+.comment_head{
+    width: 100px;
+    height: 100px;
+    margin-top: 5px;
+    margin-right: 20px;
+    display: inline-block !important;
+    align-content: center !important; 
+    vertical-align:top;  
+}
+
+.comment .all_content{
+    width: 40%;
+    height: 80px;
+    display: inline-block; 
+    align-content: center !important;
+    vertical-align:top;
+}
+
+.comment .all_content .name{
+    margin-bottom: 5px;
+    font-weight: bold;
+    color: #6d757a;
+}
+
+.comment .all_content .content{
+    margin-bottom: 5px;
+}
+
+.comment .all_content .message{
+    margin-left: -10px;
+}
+
+.comment .all_content .message .qua{
+    margin-left: 10px;
+    color: #aaa;
+}
+
+.ui .circular .image .pos{
+    margin-left: 10px;
+}
+
+.comment .all{
+    width: 20%;
+    height: 80px;
+    display: inline-block;
+    align-content: center;
+    text-align: center;
+    vertical-align:top;
+}
+
+.bottom_view .send_comment{
+    height: 80px;
+}
+
+.bottom_view .divideline{
+    width: 650px;
+}
+
+.bottom_view .comment{
+    padding-top: 20px;
+    height: 100px;
+}
+
+.comment .all .cha{
+    margin-top: 20px;
+}
+
+.next_page{
+    text-align: right;
+    padding-right: 200px;
+}
+
+.bottom_view{
+    width: 800px;
+    margin: 20px auto 30px auto;
+    margin-top: 20px;
+}
+
+.submit-textarea{
+    width: 40%;
+    height: 80px;
+    display: inline-block; 
+    align-content: center !important;
+    vertical-align:top;    
+}
+
+.submit-button{
+    margin-left: 10px;
+    width: 15%;
+    height: 80px;
+    display: inline-block;
+    align-content: center;
+    text-align: center;
+    vertical-align:top;
+}

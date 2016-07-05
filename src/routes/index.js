@@ -1,49 +1,88 @@
 var express = require('express');
-var router = express.Router();
-var shortid = require('shortid');
-var URL = require('url');
-var assert = require('assert');
+var router  = express.Router();
 
-var User = require('../models/User');
-var TempUser = require('../models/tempUser');
-var MailSender = require('../models/mailsender.js');
+var multer  = require('multer');
+var fs      = require('fs');
 
-var isAuthenticated = function(req, res, next) {
-  if (req.session.user) {
-    next();
-  } else {
-    res.redirect('/login');
+var auth        = require('../middlewares/auth');
+var sign        = require('../controllers/sign');
+var home        = require('../controllers/home');
+var editor      = require('../controllers/editor');
+var category    = require('../controllers/category');
+var individual  = require('../controllers/individual');
+
+var debug       = require('../controllers/debug');
+
+var musicDetail = require('../controllers/musicDetail');
+
+var data = require('../data/data');
+
+var headUploaderStorage = multer.diskStorage({
+  destination: function (req, file, cb) {
+    cb(null, './bin/public/uploads/head/')
+  },
+  filename: function (req, file, cb) {
+  typename = file.originalname.slice(file.originalname.lastIndexOf('.'), file.originalname.length);
+    cb(null, req.session.user._id + '_head')// + typename)
   }
-}
+});
 
-var isTempAuthenticated = function(req, res, next) {
-  if (req.session.tuser) {
-    next();
-  } else {
-    res.redirect('/login');
-  }
-}
+var headUploader = multer({
+  dest: './uploads/head/',
+  rename: function (fieldname, filename) {
+    return filename+"_"+Date.now();
+  },
+  onFileUploadStart: function (file) {
+    console.log(file.originalname + ' is starting ...')
+  },
+  onFileUploadComplete: function (file) {
+    console.log(file.fieldname + ' uploaded to  ' + file.path)
+    done=true;
+  },
+  storage: headUploaderStorage
+});
 
 /* GET home page. */
-router.get('/', function(req, res, next) {
-  res.render('index', { title: 'Express' });
+// router.get('/', function(req, res, next) {
+//   // headPath: path to the headcut
+//   path = 'uploads/head/';
+//   headPath = "";
+//   if (req.session.user) {
+//     uid = req.session.user._id;
+//     fileName = uid + "_head";
+//     try {
+//       headPath = path + fileName;
+//       console.log("ok?: " + headPath);
+//       fs.accessSync('./bin/public/' + headPath, fs.R_OK);
+//       console.log("ok: " + headPath);
+//     } catch (e) {
+//       headPath = path + 'ghost';
+//     }
+//   } else {
+//     headPath = path + 'ghost';
+//   }
+//   res.render('home');
+// });
+router.get('/', home.showHome);
+
+
+router.get('/music_info', function(req, res, next) {
+  res.render('music_info');
 });
 
-router.get('/editor', function(req, res, next) {
-  res.render('editor');
-});
-
-router.get('/effect', isAuthenticated, function(req, res, next) {
+//调试
+router.get('/effect', function(req, res, next) {
   res.render('effect');
 });
-
+router.get('/music_detail', function(req, res, next) {
+  res.render('music_detail');
+});
 router.get('/share', function(req, res, next) {
   res.render('share');
 });
 
-router.get('/login', function(req, res, next) {
-  res.render('login', {error: req.flash('error').toString()});
-});
+// sign
+router.get('/login', sign.showLogin);
 
 router.post('/login', function(req, res, next) {
   User.findOne({
@@ -68,127 +107,55 @@ router.get('/signup', function(req, res, next) {
   res.render('signup', {error: req.flash('error').toString()});
 });
 
-router.post('/signup', function(req, res, next) {
-  var username = req.body.username;
-  var password = req.body.password;
-  var email = req.body.email;
+router.post('/signup', sign.signup);
 
-  User.find({$or: [ {'username': username}, {'email': email} ]}, function(err, users) {
-    if (users.length > 0) {
-      req.flash('error', 'The username has been used');
-      res.redirect('/signup');
-    } else {
-      TempUser.find({$or: [ {'username': username}, {"email": email} ]}, function(err, users) {
-        if (users.length > 0) {
-          req.flash('error', 'The username hasn\'t been confired');
-          res.redirect('/signup');
-        } else {
-          var id = shortid.generate();
-          var date = new Date();
+router.get('/wait', auth.isTempAuthenticated, sign.getWait);
 
-          console.log(typeof(id), id);
+router.get('/sendagain', auth.isTempAuthenticated, sign.getSendAgain);
 
-          TempUser.create({
-            'id': id,
-            'username': username,
-            'password': password,
-            'email': email,
-            'createDate': date
-          }, function(err, newTUser) {
-			if (err) {
-			  console.log('error when create tUser!');
-			} else {
-			  MailSender.singup({
-				to: email
-			  }, {
-				username: username,
-				link: 'http://localhost:3000/conf?id=' + id // TODO
-			  }, function(err, info){
-				if(err){
-				  console.log('Error');
-				} else {
-				  console.log('Account Confer email sent');
-				}
-			  });
-			  req.flash('error', 'The account confiring email has been send.');
-			  req.session.tuser = newTUser;
-			  res.redirect('/wait');
-			}
-		  });
-        }
-      });
-    }
-  });
-});
-
-router.get('/wait', isTempAuthenticated, function(req, res, next) {
-  res.render('wait', {email: req.session.tuser.email, tlink: "/sendagain?id=" + req.session.tuser.id});
-});
-
-router.get('/sendagain', isTempAuthenticated, function(req, res, next) {
-  var arg = URL.parse(req.url, true).query;
-  var id2conf = arg.id;
-  TempUser.find({"id": id2conf}, function(err, users) {
-    if (users.length == 1) {
-      MailSender.singup({
-		to: users[0].email
-	  }, {
-		username: users[0].username,
-		link: 'http://localhost:3000/conf?id=' + users[0].id // TODO
-	  }, function(err, info){
-		if(err){
-		  console.log('Error');
-		} else {
-		  console.log('Account Confer email sent');
-		}
-	  });
-	  res.redirect('/wait');
-    } else {
-		assert(users.length == 0);
-		var err = new Error('Not Found');
-		err.status = 404;
-		next(err);
-	  }
-    });
-});
-
-router.get('/conf', function(req, res, next) {
-  var arg = URL.parse(req.url, true).query;
-  var id2conf = arg.id;
-  console.log("id2conf: " + id2conf);
-
-  TempUser.find({"id": id2conf}, function(err, users) {
-    if (users.length == 1) {
-      User.create({
-        'id': users[0].id,
-        'username': users[0].username,
-        'password': users[0].password,
-        'email': users[0].email,
-        'createDate': users[0].date
-      }, function(err, newUser) {
-        if (err) {
-          console.log('error when create user.');
-        } else {
-		  TempUser.findByIdAndRemove(users[0]._id, function(err, result) {
-			assert.equal(null, err);
-		  });
-		  req.session.user = newUser;
-		  res.redirect('/');
-		}
-      });
-      } else {
-        assert(users.length == 0);
-        var err = new Error('Not Found');
-        err.status = 404;
-        next(err);
-      }
-    });
-});
+router.get('/conf', sign.getConf);
 
 router.get('/logout', function(req, res, next) {
   req.session.destroy();
   res.redirect('/');
 });
 
+// home
+router.get('/home', home.showHome);
+
+// editor
+router.get('/editor', editor.showEditor);
+router.post('/editor/save', editor.saveSpectrum);
+
+// category
+router.get('/category', category.showCategory);
+
+// individual
+router.get('/individual', auth.isTempAuthenticated, individual.showIndividual);
+
+// musicDetail
+router.get('/music', musicDetail.showMusicDetail);
+
+// debug
+router.get('/create_tags', debug.createTags);
+router.get('/look_tags', debug.lookTags);
+router.get('/clear_data', debug.clearData);
+router.get('/look_musics', debug.lookMusics);
+router.get('/look_users', debug.lookUsers);
+router.get('/look_commments', debug.lookComments);
+router.get('/look_spectrums', debug.lookSpectrums);
+
+router.get('/uploads', auth.isAuthenticated, function(req, res, next) {
+  res.render('upload');
+});
+
+router.post('/uploads', headUploader.single('image'), function(req, res, next) {
+  console.log(req.file);
+  username = req.session.user;
+  res.redirect('/');
+});
+
+// create data
+router.get('/create_data', data.createData);
 
 module.exports = router;

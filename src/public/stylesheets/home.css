@@ -1,0 +1,179 @@
+/* Local */
+.card.small-item, 
+.image.small-item,
+.image.small-item > img {
+	width: 160px;
+	height: 100px;
+}
+
+.ui.card {
+	box-shadow: none;
+}
+
+/* Sticky Menu */
+.sticky-menu {
+	position: fixed;
+	right: 80px;
+	z-index: 1000;
+}
+
+.sticky-menu .button {
+	width: 80px;
+	height: 40px;
+}
+
+/* Category Menu */
+.category-menu .container {
+	width: 1160px;
+	margin-top: 20px;
+}
+
+/* Page Content */
+.container {
+	width: 1160px;
+	margin: auto;
+}
+
+/* Preview */
+.preview .container {
+	height: 220px;
+	margin: 20px auto 30px auto;
+}
+
+.preview .l-preview {
+	float: left;
+	width: 440px;
+}
+
+.preview .r-preview {
+	float: right;
+	width: 720px;
+}
+
+.topic-preview-wrapper {
+	height: 220px;
+	position: relative;
+}
+
+.topic-preview-wrapper .card,
+.topic-preview-wrapper .image {
+	width: 440px;
+	height: 220px;
+}
+
+.topic-preview-wrapper .card:hover {
+	cursor: pointer;
+}
+
+.list-preview-wrapper {
+	height: 240px;
+	position: relative;
+	overflow: hidden;
+	margin-left: 20px;
+}
+
+.list-preview-wrapper ul {
+	margin-right: -20px;
+}
+
+.list-preview-wrapper li {
+	width: 180px;
+	height: 100px;
+	float: left;
+	margin-bottom: 20px;
+}
+
+.list-preview-wrapper .card:hover {
+	cursor: pointer;
+}
+
+.list-preview-wrapper .dimmer {
+	border-radius: 2px;
+	text-align: left;
+}
+
+.list-preview-wrapper .dimmer .title {
+	color: white;
+	margin: 5px 5px 10px 5px;
+}
+
+.list-preview-wrapper .dimmer .info {
+	color: gray;
+	margin: 0 5px 0px 5px;
+}
+
+/* Categories */
+.category .container {
+	height: 400px;
+	margin: 0 auto 30px auto;
+}
+
+.category .l-list {
+	float: left;
+	width: 880px;
+}
+
+.category .r-list {
+	float: right;
+	width: 280px;
+}
+
+.category .menu {
+	height: 45px;
+}
+
+.content-wrapper {
+	height: 355px;
+	position: relative;
+	overflow: hidden;
+}
+
+.content-wrapper ul {
+	margin-right: -20px;
+}
+
+.content-wrapper li {
+	width: 180px;
+	height: 155px;
+	float: left;
+	margin-bottom: 20px;
+}
+
+.content-wrapper p {
+	height: 24px;
+	width: 160px;
+	padding: 0 5px 0 5px;
+	overflow: hidden;
+	white-space: nowrap;
+	-o-text-overflow: ellipsis;
+	text-overflow: ellipsis;
+}
+
+.category li:hover {
+	cursor: pointer;
+}
+
+.category li p {
+	transition: color .2s;
+	-moz-transition: color .2s;
+	-webkit-transition: color .2s;
+	-o-transition: color .2s;
+}
+
+.category li:hover p {
+	color: #37A0E8;
+}
+
+.rank {
+	margin-left: 20px;
+}
+
+.rank .item > .label,
+.rank .item > .title {
+	display: inline-block;
+}
+
+/* Footer */
+.ui.footer .container {
+	margin: 4em 0 4em 0;
+}

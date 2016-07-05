@@ -14,7 +14,6 @@ var midiRoute = require('./routes/midiRoute');
 var mongoose = require('mongoose');
 mongoose.connect('mongodb://localhost/online-studio');
 
-
 var app = express();
 
 // view engine setup
@@ -28,6 +27,7 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
+app.use(express.static(path.join(__dirname, 'uploads')));
 
 app.use(expressSession({secret: 'mySecretKeyabc123', resave: true, saveUninitialized: true}));
 app.use(flash());

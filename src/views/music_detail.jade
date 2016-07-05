@@ -1,0 +1,78 @@
+extends layout
+
+block content
+    include top_marked
+    include header
+    include top_button
+    link(rel='stylesheet', href='/stylesheets/music_detail.css')
+    div.page-content
+        div.top_view
+            div.music_poster
+                img.ui.fluid.image.myimage(src='/resources/images/music_background.jpg')
+            div.music_detail
+                div.evaluate
+                    div.ui.star.rating(data-rating="4")
+                div.music_message
+                    p 歌曲名字: #{music.name}
+                    p 歌曲作者: #{music.author}
+                    p 歌曲标签: 
+                    each tag in music.tags
+                        #{tag.tag_name}
+                    p 发行时间: #{music.date}
+                div.right_message
+                    button.circular.ui.icon.button.right_button
+                        i.share.icon
+                    button.circular.ui.icon.button.right_button
+                        i.save.icon
+        div.middle_view
+            div.ui.labeled.button(tabindex="0")
+                div.ui.red.button
+                    i.heart.icon
+                    span 试听
+                a.ui.basic.left.pointing.label #{music.listenN}
+            div.ui.labeled.button(tabindex="0")
+                div.ui.red.button
+                    i.save.icon
+                    span 收藏
+                a.ui.basic.left.pointing.label #{music.collectN}
+            div.ui.labeled.button(tabindex="0")
+                div.ui.red.button
+                    i.comments.icon
+                    span 评论
+                a.ui.basic.left.pointing.label #{music.commentN}
+        div.bottom_view
+            div.ui.comments
+                h3.ui.dividing.header #{music.commentN}评论
+            div.send_comment
+                div.comment_head
+                    img.ui.circular.image.pos(src='/resources/images/default_head.jpg')
+                textarea.submit-textarea(rows="3" cols="20")
+                button.submit-button(style="background-color:#00b5e5") 发表评论
+            div.ui.dividing.header.divideline
+            div.my_comment
+                - for(var x = 0; x < 5; x++)
+                    div.comment
+                        div.comment_head
+                            img.ui.circular.image.pos(src='/resources/images/default_head.jpg')
+                        div.all_content
+                            div.name
+                                p.description yonghuming
+                            div.content
+                                p.description 233333333333333
+                            div.message
+                                span.qua #172
+                                span.qua x年x月x日
+                                span.qua ( 1 )赞
+                        div.all
+                            div.cha 查看全部
+                    div.ui.dividing.header.divideline
+            div.next_page
+                span 共9页 
+                    - for (var x = 1; x < 3; x++)
+                        a(href='') #{x} 
+                span 下一页
+
+
+
+
+    include footer

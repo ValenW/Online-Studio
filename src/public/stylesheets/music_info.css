@@ -1,0 +1,48 @@
+.lf, .rf, .rlf, .rrf {
+	display: inline-block;
+}
+
+.ui.form {
+	width: 1000px;
+	min-height: 500px;
+	margin: 40px auto 50px auto;
+}
+
+.form .item {
+	padding: 20px 0 20px 0;
+}
+
+.lf {
+	width: 300px;
+	padding-left: 100px;
+}
+
+.rf {
+	width: 700px;
+	padding-right: 100px;
+}
+
+.rlf {
+	width: 300px;
+}
+
+.checkbox {
+	display: inline-block;
+	width: 100px;
+}
+
+.button-groups {
+	width: 400px;
+	margin: 0 auto 50px auto;
+}
+
+.button-groups .button {
+	display: inline-block;
+	width: 100px;
+	margin: 50px;
+	font-family: "Microsoft YaHei", Arial, Helvetica, sans-serif;
+}
+
+img {
+	border-radius: 5px;
+}
