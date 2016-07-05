@@ -63,11 +63,15 @@ router.get('/', function(req, res, next) {
   res.render('home');
 });
 
+router.get('/music_info', function(req, res, next) {
+  res.render('music_info');
+});
+
 //调试
-router.get('/effect', auth.isAuthenticated, function(req, res, next) {
+router.get('/effect', function(req, res, next) {
   res.render('effect');
 });
-router.get('/music_detail', auth.isAuthenticated, function(req, res, next) {
+router.get('/music_detail', function(req, res, next) {
   res.render('music_detail');
 });
 router.get('/share', function(req, res, next) {
