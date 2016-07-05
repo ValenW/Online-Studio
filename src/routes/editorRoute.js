@@ -105,7 +105,9 @@ router.route('/save')
 					listenN: 0,
 					collectN: 0,
 					commentN: 0,
-					shareN: 0
+					shareN: 0,
+					is_music_public: true,
+					is_spectrum_public: false
 				});
 				music.save();
 
