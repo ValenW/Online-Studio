@@ -142,6 +142,7 @@
 .content-wrapper p {
 	height: 24px;
 	width: 160px;
+	padding: 0 5px 0 5px;
 	overflow: hidden;
 	white-space: nowrap;
 	-o-text-overflow: ellipsis;

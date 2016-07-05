@@ -3,8 +3,6 @@ extends layout
 block content
 	link(rel='stylesheet', href='/stylesheets/home.css')
 
-	- var categories = ['流行', '抒情', 'BGM', '怀旧', '运动']
-
 	a.anchor(id='top')
 	include header
 
@@ -12,15 +10,15 @@ block content
 		div.container
 			div.ui.large.secondary.pointing.menu
 				a.active.item 主页
-					each category in categories
-						a.item(href="/category") #{category}
+				each tag in tags
+					a.item(href='/category?tag_id='+'#{tag.tag._id}'+'\&sorted=latest') #{tag.tag.tag_name}
 
 	div.sticky-menu
 		div.ui.sticky
 			div.ui.middle.aligned.animated.list
-				each category in categories
+				each tag in tags
 					div.item
-						a.ui.button(href='#'+'#{category}') #{category}
+						a.ui.button(href='#'+'#{tag.tag.tag_name}') #{tag.tag.tag_name}
 				div.ui.divider
 				a.ui.icon.button(href='#top')
 					i.big.fitted.caret.up.icon(style='margin-top:-6px;')
@@ -30,54 +28,73 @@ block content
 			div.container
 				div.l-preview
 					div.topic-preview-wrapper
-						div.ui.card
+						a.ui.card(href='/editor')
 							div.image
-								img(src='#')
+								img(src='')
 				div.r-preview
 					div.list-preview-wrapper
 						ul
-							- for (var i = 0; i < 8; ++i)
+							- var blank = 8 - tot_hotest_music.length
+							each music in tot_hotest_music
 								li
 									div.ui.card.small-item
 										div.blurring.dimmable.image.small-item
-											img(src='#')
-											div.ui.dimmer
-												p.title 作品名称可以很长很长很长很长的喔
-												p.info 作者: 很黄很暴力
-												p.info 播放: 1000
-		each category in categories
+											img(src='#{music.cover}')
+											a.ui.dimmer(href='/effect')
+												p.title #{music.name}
+												p.info 作者: #{music.author.username}
+												p.info 播放: #{music.listenN}
+							- for (var i = 0; i < blank; ++i)
+								li
+									div.ui.card.small-item
+										div.blurring.dimmable.image.small-item
+											img(src='/resources/images/default_cover.png')
+
+		each tag in tags
 			div.category
-				a.anchor(id='#{category}')
+				a.anchor(id='#{tag.tag.tag_name}')
 				div.container
 					div.l-list
 						div.ui.secondary.menu
 							div.item
-								h2 #{category}
+								h2 #{tag.tag.tag_name}
 							div.right.menu
 								div.item
-									div.ui.basic.button 更多
+									a.ui.basic.button(href='/category?tag_id='+'#{tag.tag._id}'+'\&sorted=latest') 更多
 						div.content-wrapper
 							ul
-								- for (var i = 0; i < 10; ++i)
+								- var blank = 10 - tag.newest_music.length
+								each music in tag.newest_music
+									li
+										a(href='/effect' style="color:rgba(0,0,0,.87);")
+											div.ui.card.small-item
+												div.image.small-item
+													img(src='#{music.cover}')
+											p #{music.name}
+								- for (var i = 0; i < blank; ++i)
 									li
 										div.ui.card.small-item
 											div.image.small-item
-												img(src='#')
-										p 作品名称可以很长很长很长很长的喔
+												img(src='/resources/images/default_cover.png')
+										
 					div.r-list
 						div.rank
 							div.ui.secondary.menu
 								h3.item 排行
+								div.right.menu
+									div.item
+										a.ui.basic.button(href='/category?tag_id='+'#{tag.tag._id}'+'\&sorted=hotest') 更多
 							div.content-wrapper
 								div.ui.selection.list
-									- for (var i = 1; i < 4; ++i)
-										div.item
-											div.ui.red.horizontal.label #{i}
-											div.title 非常棒的作品
-									- for (var i = 4; i < 9; ++i)
-										div.item
-											div.ui.horizontal.label #{i}
-											div.title 非常棒的作品
+									- var index = 1
+									each music in tag.hotest_music
+										a.item(href='/effect')
+											if index < 4
+												div.ui.red.horizontal.label #{index}
+											else
+												div.ui.horizontal.label #{index}
+											div.title #{music.name}
+											- index += 1
 
 	include footer
 

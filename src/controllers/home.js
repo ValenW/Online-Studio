@@ -66,7 +66,7 @@ exports.showHome = function(req, res, next) {
 										} else {
 											tot_music_list = filter.filterPublicMusic(musics);
 											// get tot_hotest_music
-											var tot_hotest_music = musics.sort(cmp.hotest_cmp).slice(0, tot_hotest_count);
+											var tot_hotest_music = tot_music_list.sort(cmp.hotest_cmp).slice(0, tot_hotest_count);
 											
 											// render begin.
 											User.populate(tot_hotest_music,  {path:'author'}, function(err, tot_hotest_music_pu){
@@ -110,6 +110,7 @@ exports.showHome = function(req, res, next) {
 												});
 											}); }); }); }); }); }); }); }); });
 											// render end
+
 										}
 									});
 									// Music find end.
