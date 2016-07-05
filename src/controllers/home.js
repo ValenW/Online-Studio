@@ -4,7 +4,6 @@ var User = require('../models/User');
 var cmp = require('../middlewares/cmp');
 var filter = require('../middlewares/filter');
 
-
 exports.showHome = function(req, res, next) {
 	var bg_image_url = '***';
 	var tag_name_list = new Array('抒情', '恐怖', '空灵', '浪漫');
