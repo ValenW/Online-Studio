@@ -5,6 +5,9 @@ exports.showIndividual = function(req, res, next) {
 		if (err) {
 			console.log ('Error in /individual interface...');
 		} else {
+			if (user === null) {
+				req.fresh('error', 'User not exist!');
+			}
 			console.log (user);
 			res.render('individual', {
 				user: user
