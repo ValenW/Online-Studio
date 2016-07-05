@@ -41,7 +41,6 @@ var headUploader = multer({
   storage: headUploaderStorage
 });
 
-
 /* GET home page. */
 router.get('/', function(req, res, next) {
   // headPath: path to the headcut
