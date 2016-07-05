@@ -19,9 +19,6 @@ var individualRoute = require('./routes/individualRoute');
 var mongoose = require('mongoose');
 mongoose.connect('mongodb://localhost/online-studio');
 
-// var data = require('./data/data');
-// data.createData();
-
 var app = express();
 
 // view engine setup

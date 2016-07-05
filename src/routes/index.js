@@ -1,20 +1,14 @@
 var express = require('express');
 var router  = express.Router();
-var shortid = require('shortid');
 
-var URL     = require('url');
-var assert  = require('assert');
 var multer  = require('multer');
 var fs      = require('fs');
 
-var User        = require('../models/User');
 var auth        = require('../middlewares/auth');
-var MailSender  = require('../middlewares/mail');
 var sign        = require('../contorllers/sign');
 var musicDetail = require('../contorllers/musicDetail');
 
 var data = require('../data/data');
-
 
 var headUploaderStorage = multer.diskStorage({
   destination: function (req, file, cb) {
@@ -111,6 +105,7 @@ router.post('/uploads', headUploader.single('image'), function(req, res, next) {
   res.redirect('/');
 });
 
+// create data
 router.get('/create_data', data.createData);
 
 module.exports = router;
