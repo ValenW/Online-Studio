@@ -1,7 +1,34 @@
 extends layout
 
 block content
-  p the account confid email has been send to #{email}, please wait.
-  p haven't reseave the email? click 
-  a(href="#{tlink}") here
-  to send another email.
+    include header
+
+    div(style="text-align:center")
+        h1(margin="0 auto")
+            | Welcome to Online Studio!
+            br
+            | Thanks for registering.
+
+        h3
+            | Please check your email
+            br
+            | for a confirmation request.
+            br
+
+        h3
+            | Once you click that link,
+            br
+            | your registration will be complete.
+            br
+        br
+
+        p
+            |If you haven't reseave the email,
+            br
+            button#conButton(onclick='showtime(60)' link="#{tlink}") click here
+            | to send another email.
+        br
+
+    include footer
+
+    script(src="/javascripts/wait.js")
