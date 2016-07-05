@@ -4,6 +4,7 @@ var Spectrum = require('../models/Spectrum');
 var Music = require('../models/Music');
 var User = require('../models/User');
 var Tag = require('../models/Tag');
+var Comment = require('../models/Comment');
 
 
 // debug being
@@ -25,6 +26,15 @@ router.route('/look_tags')
 	Tag.find({}, function(err, tags) {
 		res.send(tags);
 	});
+});
+
+router.route('clear_data')
+.get(function(req, res, next) {
+    User.remove({}, function(err) {});
+    Comment.remove({}, function(err) {});
+    Tag.remove({}, function(err){});
+    Spectrum.remove({}, function() {});
+    Music.remove({}, function(){});
 });
 
 // debug ending
@@ -95,7 +105,9 @@ router.route('/save')
 					listenN: 0,
 					collectN: 0,
 					commentN: 0,
-					shareN: 0
+					shareN: 0,
+					is_music_public: true,
+					is_spectrum_public: false
 				});
 				music.save();
 
