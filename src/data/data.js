@@ -40,6 +40,9 @@ exports.createData = function(req, res, next) {
             comment_content: "好听，赞赞赞"
         }, function(err, comment) {
             console.log(comment);
+            console.log('???');
+            console.log(spectrum);
+            console.log('???');
             Music.create({
                 spectrum: [spectrum._id],
                 name: "好听的歌",

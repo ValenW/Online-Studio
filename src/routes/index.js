@@ -41,30 +41,6 @@ var headUploader = multer({
   storage: headUploaderStorage
 });
 
-var isAuthenticated = function(req, res, next) {
-  if (req.session.user) {
-    if (req.session.user.confed == true) {
-      next();
-    } else {
-      res.redirect('/wait');
-    }
-  } else {
-    res.redirect('/login');
-  }
-}
-
-var isTempAuthenticated = function(req, res, next) {
-  if (req.session.user) {
-    if (req.session.user.confed == false) {
-      next();
-    } else {
-      res.redirect('/');
-    }
-  } else {
-    res.redirect('/login');
-  }
-}
-
 /* GET home page. */
 router.get('/', function(req, res, next) {
   // headPath: path to the headcut
@@ -116,61 +92,15 @@ router.get('/signup', sign.showSignup);
 
 router.post('/signup', sign.signup);
 
-// music
-// router.get('/music_detail', musicDetail.showMusicDetail);
+router.get('/wait', auth.isTempAuthenticated, sign.getWait);
 
-router.get('/wait', isTempAuthenticated, function(req, res, next) {
-  console.log(req.session.user);
-  res.render('wait', {email: req.session.user.email, tlink: "/sendagain?id=" + req.session.user._id});
-});
+router.get('/sendagain', auth.isTempAuthenticated, sign.getSendAgain);
 
-router.get('/sendagain', isTempAuthenticated, function(req, res, next) {
-  var arg = URL.parse(req.url, true).query;
-  var id2conf = arg.id;
-  User.find({_id: id2conf}, function(err, users) {
-    if (users.length == 1) {
-      MailSender.singup({
-        to: users[0].email
-      }, {
-        username: users[0].username,
-        link: 'http://localhost:3000/conf?id=' + users[0]._id // TODO
-      }, function(err, info) {
-        if(err){
-          console.log('Error');
-        } else {
-          console.log('Account Confer email sent');
-        }
-      });
-      res.redirect('/wait');
-    } else {
-      assert(users.length == 0);
-      var err = new Error('Not Found');
-      err.status = 404;
-      next(err);
-    }
-  });
-});
-
-router.get('/conf', function(req, res, next) {
-  var arg = URL.parse(req.url, true).query;
-  var id2conf = arg.id;
-  console.log("id2conf: " + id2conf);
-
-  User.findOneAndUpdate({_id: id2conf}, {confed: true}, function(err, user) {
-    if (err) {
-      console.log('conf Error');
-    } else {
-      user.confed = true;
-      req.session.user = user;
-      console.log("user:", user);
-      res.redirect('/');
-    }
-  });
-});
+router.get('/conf', sign.getConf);
 
 router.get('/logout', sign.logout);
 
-router.get('/uploads', isAuthenticated, function(req, res, next) {
+router.get('/uploads', auth.isAuthenticated, function(req, res, next) {
   res.render('upload');
 });
 
