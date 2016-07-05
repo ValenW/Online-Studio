@@ -10,9 +10,7 @@ var flash = require('connect-flash');
 var routes = require('./routes/index');
 var midiRoute = require('./routes/midiRoute');
 var categoryRoute = require('./routes/categoryRoute');
-var homeRoute = require('./routes/homeRoute');
 var musicDetailRoute = require('./routes/musicDetailRoute');
-var editorRoute = require('./routes/editorRoute');
 var individualRoute = require('./routes/individualRoute');
 
 // connect to mongodb://localhost/online-studio
@@ -43,9 +41,7 @@ app.use(flash());
 app.use('/', routes);
 app.use('/midi', midiRoute);
 app.use('/category', categoryRoute);
-app.use('/home', homeRoute );
 app.use('/music', musicDetailRoute);
-app.use('/editor', editorRoute);
 app.use('/individual', individualRoute);
 
 // catch 404 and forward to error handler

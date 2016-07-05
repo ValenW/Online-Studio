@@ -10,8 +10,12 @@ var fs      = require('fs');
 var User        = require('../models/User');
 var auth        = require('../middlewares/auth');
 var MailSender  = require('../middlewares/mail');
-var sign        = require('../contorllers/sign');
-var musicDetail = require('../contorllers/musicDetail');
+var sign        = require('../controllers/sign');
+var home        = require('../controllers/home');
+var editor      = require('../controllers/editor');
+
+var musicDetail = require('../controllers/musicDetail');
+
 
 var data = require('../data/data');
 
@@ -91,6 +95,16 @@ router.get('/sendagain', auth.isTempAuthenticated, sign.getSendAgain);
 router.get('/conf', sign.getConf);
 
 router.get('/logout', sign.logout);
+
+// home
+router.get('/home', home.showHome);
+
+// editor
+router.get('/editor', editor.showEditor);
+router.post('/editor/save', editor.saveSpectrum);
+
+// 
+
 
 router.get('/uploads', auth.isAuthenticated, function(req, res, next) {
   res.render('upload');
