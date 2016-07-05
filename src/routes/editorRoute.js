@@ -28,13 +28,14 @@ router.route('/look_tags')
 	});
 });
 
-router.route('clear_data')
+router.route('/clear_data')
 .get(function(req, res, next) {
     User.remove({}, function(err) {});
     Comment.remove({}, function(err) {});
     Tag.remove({}, function(err){});
     Spectrum.remove({}, function() {});
     Music.remove({}, function(){});
+    res.send('Clear data successfully.');
 });
 
 // debug ending
@@ -107,7 +108,8 @@ router.route('/save')
 					commentN: 0,
 					shareN: 0,
 					is_music_public: true,
-					is_spectrum_public: false
+					is_spectrum_public: false,
+					introduction: 'I am a music.'
 				});
 				music.save();
 
