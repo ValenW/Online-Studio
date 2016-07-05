@@ -16,7 +16,11 @@ block content
 			div.lf
 				p 上传图片
 			div.rf
-				input.cover-input(type='file')
+				div.rlf
+					input.cover-input(id='up' type='file')
+				div.rrf
+					div
+						img(id='cover' width='160' height='100' src='/resources/images/default_cover.png')
 		div.ui.divider
 		div.item
 			div.lf
@@ -41,28 +45,10 @@ block content
 					input.hidden(type='checkbox' tabindex='3')
 					label 浪漫
 		div.ui.divider
-		//- div.inline.fields
-		//- 	label 标题
-		//- 	input(type='text' placeholder='')
-		//- div.inline.fields
-		//- 	label 上传图片
-		//- 	input(type='file')
-		//- div.inline.fields
-		//- 	label 作品说明
-		//- 	textarea
-		//- div.inline.fields
-		//- 	label 标签
-		//- 	div.ui.checkbox
-		//- 		input.hidden(type='checkbox' tabindex='0')
-		//- 		label 抒情
-		//- 	div.ui.checkbox
-		//- 		input.hidden(type='checkbox' tabindex='0')
-		//- 		label 恐怖
-		//- 	div.ui.checkbox
-		//- 		input.hidden(type='checkbox' tabindex='0')
-		//- 		label 空灵
-		//- 	div.ui.checkbox
-		//- 		input.hidden(type='checkbox' tabindex='0')
-		//- 		label 浪漫
+		div.ui.button-groups
+			div.ui.button 保存
+			div.ui.button 发布
 
 	include footer
+
+	script(src="/javascripts/music_info.js")

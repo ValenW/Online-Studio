@@ -1,6 +1,6 @@
 window.addEventListener("load", init, false);
 
-var totalPage = 88;
+var totalPage = window.tot_count ? window.tot_count : 1;
 var displPage = 10;
 var currentPage = 1;
 
@@ -8,6 +8,7 @@ function init() {
 	$('.card .image').dimmer({
 		on: 'hover'
 	});
+
 	$('.page-jump input').change(switchInputHandler);
 	if (displPage > totalPage)
 		setPageSelector(totalPage, 1, 1);

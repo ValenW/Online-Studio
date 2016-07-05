@@ -1,4 +1,4 @@
-p, .lf, .rf, input, textarea {
+.lf, .rf, .rlf, .rrf {
 	display: inline-block;
 }
 
@@ -22,7 +22,27 @@ p, .lf, .rf, input, textarea {
 	padding-right: 100px;
 }
 
+.rlf {
+	width: 300px;
+}
+
 .checkbox {
 	display: inline-block;
 	width: 100px;
+}
+
+.button-groups {
+	width: 400px;
+	margin: 0 auto 50px auto;
+}
+
+.button-groups .button {
+	display: inline-block;
+	width: 100px;
+	margin: 50px;
+	font-family: "Microsoft YaHei", Arial, Helvetica, sans-serif;
+}
+
+img {
+	border-radius: 5px;
 }

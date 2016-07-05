@@ -7,14 +7,17 @@ block content
 	div.category-menu
 		div.container
 			div.ui.large.secondary.pointing.menu
-				a.item 主页
-					each tag in tags
-						a.item(href='/category?tag_id='+'#{tag._id}') #{tag.name}
+				a.item(href='/home') 主页
+				each tag_item in tags
+					if tag.tag_name == tag_item.tag_name
+						a.tag.active.item(href='/category?tag_id='+'#{tag_item._id}'+'\&sorted='+'#{sorted}') #{tag_item.tag_name}
+					else
+						a.tag.item(href='/category?tag_id='+'#{tag_item._id}'+'\&sorted='+'#{sorted}') #{tag_item.tag_name}
 
 	div.search-result
 		div.container
 			ul
-				each music in newest_music
+				each music in music_list
 					li
 						div.item
 							div.ui.card.small-item
@@ -40,10 +43,13 @@ block content
 				p 第
 				div.ui.input
 					input(type="text" value="1" style="padding: .6em .8em .6em .8em;")
-				p.total /1
+				p.total /#{tot_count}
 				p 页
 
 
 	include footer
+
+	script.
+		window.tot_count = !{JSON.stringify(tot_count)};
 
 	script(src="/javascripts/category.js")
