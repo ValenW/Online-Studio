@@ -12,7 +12,10 @@ MusicSchema = new mongoose.Schema({
   listenN: Number,
   collectN: Number,
   commentN: Number,
-  shareN: Number
+  shareN: Number,
+  is_music_public: Boolean,  // indicate whether music is public
+  is_spectrum_public: Boolean,  // indicate whether spectrum is public
+  introduction: String
 });
 
 MusicSchema.static('findMusicById', function(_id, callback) {

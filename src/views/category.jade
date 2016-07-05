@@ -4,48 +4,55 @@ block content
 	link(rel='stylesheet', href='/stylesheets/category.css')
 	include header
 
-	- var categories = ['流行', '抒情', 'BGM', '怀旧', '运动']
-
 	div.category-menu
 		div.container
 			div.ui.large.secondary.pointing.menu
-				a.item 主页
-					each category in categories
-						a.item #{category}
+				a.item(href='/home') 主页
+				each tag_item in tags
+					if tag.tag_name == tag_item.tag_name
+						a.tag.active.item(href='/category?tag_id='+'#{tag_item._id}'+'\&sorted='+'#{sorted}') #{tag_item.tag_name}
+					else
+						a.tag.item(href='/category?tag_id='+'#{tag_item._id}'+'\&sorted='+'#{sorted}') #{tag_item.tag_name}
 
 	div.search-result
 		div.container
 			ul
-				- for (var i = 0; i < 20; ++i)
+				each music in music_list
 					li
 						div.item
 							div.ui.card.small-item
 								div.blurring.dimmable.image.small-item
-									img(src='#')
+									img(src='')
 									div.ui.dimmer
 										div.content
 											i.large.play.icon
 							div.l-r
-								a.title(href='') 作品名称可以很长很长很长很长的喔
-								div.v-desc 这里是脑残的作品简述，然而简述了也没卵用，因为根本没人会留意，所以我故意写这么长怎么滴！
+								a.title(href='#') #{music.name}
+								div.v-desc #{music.introduction}
 								div.v-info
 									span.bf
 										i.toggle.right.icon
-										span 233
+										span #{music.listenN}
 									span.pl
 										i.comment.outline.icon
-										span 666
-								a.author(href='') Up主
+										span #{music.commentN}
+								a.author(href='') #{music.author.username}
+
+		- var tot_page = Math.floor(tot_count/20) + 1;
+		
 		div.page-selector
 			div.button-groups
 			div.page-jump
 				p 第
 				div.ui.input
 					input(type="text" value="1" style="padding: .6em .8em .6em .8em;")
-				p.total /1
+				p.total /#{tot_page}
 				p 页
 
 
 	include footer
+
+	script.
+		window.tot_count = !{JSON.stringify(tot_page)};
 
 	script(src="/javascripts/category.js")

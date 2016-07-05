@@ -5,8 +5,15 @@ var multer  = require('multer');
 var fs      = require('fs');
 
 var auth        = require('../middlewares/auth');
-var sign        = require('../contorllers/sign');
-var musicDetail = require('../contorllers/musicDetail');
+var sign        = require('../controllers/sign');
+var home        = require('../controllers/home');
+var editor      = require('../controllers/editor');
+var category    = require('../controllers/category');
+var individual  = require('../controllers/individual');
+
+var debug       = require('../controllers/debug');
+
+var musicDetail = require('../controllers/musicDetail');
 
 var data = require('../data/data');
 
@@ -35,7 +42,6 @@ var headUploader = multer({
   storage: headUploaderStorage
 });
 
-
 /* GET home page. */
 router.get('/', function(req, res, next) {
   // headPath: path to the headcut
@@ -58,19 +64,15 @@ router.get('/', function(req, res, next) {
   res.render('home');
 });
 
-router.get('/category', function(req, res, next) {
-  res.render('category');
+router.get('/music_info', function(req, res, next) {
+  res.render('music_info');
 });
-
-// router.get('/editor', function(req, res, next) {
-//   res.render('editor');
-// });
 
 //调试
-router.get('/effect', auth.isAuthenticated, function(req, res, next) {
+router.get('/effect', function(req, res, next) {
   res.render('effect');
 });
-router.get('/music_detail', auth.isAuthenticated, function(req, res, next) {
+router.get('/music_detail', function(req, res, next) {
   res.render('music_detail');
 });
 router.get('/share', function(req, res, next) {
@@ -94,6 +96,31 @@ router.get('/sendagain', auth.isTempAuthenticated, sign.getSendAgain);
 router.get('/conf', sign.getConf);
 
 router.get('/logout', sign.logout);
+
+// home
+router.get('/home', home.showHome);
+
+// editor
+router.get('/editor', editor.showEditor);
+router.post('/editor/save', editor.saveSpectrum);
+
+// category
+router.get('/category', category.showCategory);
+
+// individual
+router.get('/individual', auth.isTempAuthenticated, individual.showIndividual);
+
+// musicDetail
+router.get('/music', musicDetail.showMusicDetail);
+
+// debug
+router.get('/create_tags', debug.createTags);
+router.get('/look_tags', debug.lookTags);
+router.get('/clear_data', debug.clearData);
+router.get('/look_musics', debug.lookMusics);
+router.get('/look_users', debug.lookUsers);
+router.get('/look_commments', debug.lookComments);
+router.get('/look_spectrums', debug.lookSpectrums);
 
 router.get('/uploads', auth.isAuthenticated, function(req, res, next) {
   res.render('upload');
