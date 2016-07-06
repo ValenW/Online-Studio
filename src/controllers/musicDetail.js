@@ -58,16 +58,19 @@ exports.saveMusicToRepo = function(req, res, next) {
                             } else {
                                 if (music == null) console.log("no such music with ID: ", music_id);
                                 else {
-                                    if (music_id in user.musics) {
+                                    if (music_id in user.collected_musics) {
                                         music.collectN-=1;
-                                        delete user.musics[user.musics.indexOf(music_id)];
+                                        delete user.collected_musics[user.collected_musics.indexOf(music_id)];
                                     } else {
                                         music.collectN+=1;
-                                        user.musics.push(music_id);
+                                        user.collected_musics.push(music_id);
                                     }
 
                                     music.save();
                                     user.save();
+
+                                    res.send(music.collectN);
+
                                 }
                             }
                          });
@@ -116,6 +119,7 @@ exports.insertComment = function(req, res, next) {
                                     music.comments.push(comment._id);
                                     music.commentN+=1;
                                     music.save();
+                                    res.send(Comment.findByMusicId(music_id));
                                 }
                             }
                         });
@@ -140,6 +144,28 @@ exports.share = function(req, res, next) {
                     music.shareN+=1;
                     music.save();
                 }
+                res.send(music.shareN);
+            }
+        });
+}
+
+
+/*Url /music/listen?music_id=123  */
+exports.listen = function(req, res, next) {
+    var music_id = req.query.music_id;
+    Music
+        .findOne({_id: music_id})
+        .exec(function(err, music) {
+            if (err) {
+                console.log("err when find music by ID: ", err);
+                throw err;
+            } else {
+                if (music == null) console.log("no such music with ID: ", music_id);
+                else {
+                    music.listenN+=1;
+                    music.save();
+                }
+                res.send(music.listenN);
             }
         });
 }
