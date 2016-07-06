@@ -99,6 +99,9 @@ router.get('/home', home.showHome);
 // editor
 router.get('/editor', editor.showEditor);
 router.post('/editor/save', editor.saveSpectrum);
+router.post('/editor/login', editor.login);
+router.post('/editor/sign', editor.signup);
+router.get('/editor/logout', editor.logout);
 
 // category
 router.get('/category', category.showCategory);

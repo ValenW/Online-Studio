@@ -308,7 +308,7 @@ exports.signup = function(req, res, next) {
     });
 }
 
-// Request: /editor/logout 
+// Request: /editor/logout GET
 exports.logout = function(req, res, next) {
     req.session.destroy();
     res.json({
