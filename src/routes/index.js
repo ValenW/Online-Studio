@@ -1,10 +1,10 @@
 var express = require('express');
 var router  = express.Router();
 
-var multer  = require('multer');
 var fs      = require('fs');
 
 var auth        = require('../middlewares/auth');
+var uploadImg   = require('../middlewares/uploadImg');
 var sign        = require('../controllers/sign');
 var home        = require('../controllers/home');
 var editor      = require('../controllers/editor');
@@ -13,36 +13,15 @@ var individual  = require('../controllers/individual');
 var musicDetail = require('../controllers/musicDetail');
 var musicInfo   = require('../controllers/musicInfo');
 
-
 var debug       = require('../controllers/debug');
 
 
 var data = require('../data/data');
 
-var headUploaderStorage = multer.diskStorage({
-  destination: function (req, file, cb) {
-    cb(null, './bin/public/uploads/head/')
-  },
-  filename: function (req, file, cb) {
-  typename = file.originalname.slice(file.originalname.lastIndexOf('.'), file.originalname.length);
-    cb(null, req.session.user._id + '_head')// + typename)
-  }
-});
-
-var headUploader = multer({
-  dest: './uploads/head/',
-  rename: function (fieldname, filename) {
-    return filename+"_"+Date.now();
-  },
-  onFileUploadStart: function (file) {
-    console.log(file.originalname + ' is starting ...')
-  },
-  onFileUploadComplete: function (file) {
-    console.log(file.fieldname + ' uploaded to  ' + file.path)
-    done=true;
-  },
-  storage: headUploaderStorage
-});
+var headUploader = uploadImg('head/', function(req, file) {
+  console.log(file);
+  return req.session.user._id + '_head';
+})
 
 /* GET home page. */
 // router.get('/', function(req, res, next) {
