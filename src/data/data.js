@@ -40,13 +40,11 @@ exports.createData = function(req, res, next) {
             comment_content: "好听，赞赞赞"
         }, function(err, comment) {
             console.log(comment);
-            console.log('???');
             console.log(spectrum);
-            console.log('???');
             Music.create({
                 spectrum: [spectrum._id],
                 name: "好听的歌",
-                author: "linyiting",
+                author: null,
                 cover: "nice_song.png",
                 date: music_create_date,
                 tags: [],
@@ -55,8 +53,14 @@ exports.createData = function(req, res, next) {
                 listenN: 10,
                 collectN: 2,
                 commentN: 1,
-                shareN: 1
+                shareN: 1,
+                is_music_pubic: true,
+                is_spectrum_pubic: true,
+                introduction: "这是一首好听的歌"
             }, function(err, music) {
+                if (err) {
+                    console.log("发生了错误！！！！！！！");
+                }
                 console.log(music);
                 Tag.create({
                     tag_name: "流行",
@@ -74,7 +78,9 @@ exports.createData = function(req, res, next) {
                             createData: user_create_date
                         }, function(err, user) {
                             console.log(user);
-                            res.redirect('/');
+                            music.update( {$set: {author: user._id}}, function(err) {
+                                 res.redirect('/');
+                            });
                         });
                     });
                 });
