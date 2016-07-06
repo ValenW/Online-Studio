@@ -56,12 +56,14 @@ exports.saveSpectrum = function(req, res, next) {
 			if (err) {
 				console.log ('Error in /editor/save interface in finding tag.');
 			} else {
+				var data = new Data();
 				var music = new Music({
+					created_by: user,
 					spectrum: spectrum,
-					name: 'music',
+					name: date,
 					author: user,
-					cover: 'none',
-					date: new Date(),
+					cover: 'default_cover.png',
+					date: data,
 					tags: [tag],	// for debug
 					// tags: [],	// release version
 					ranks: [],
