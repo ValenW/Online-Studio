@@ -10,10 +10,12 @@ var home        = require('../controllers/home');
 var editor      = require('../controllers/editor');
 var category    = require('../controllers/category');
 var individual  = require('../controllers/individual');
+var musicDetail = require('../controllers/musicDetail');
+var musicInfo   = require('../controllers/musicInfo');
+
 
 var debug       = require('../controllers/debug');
 
-var musicDetail = require('../controllers/musicDetail');
 
 var data = require('../data/data');
 
@@ -138,6 +140,10 @@ router.get('/music', musicDetail.showMusicDetail);
 router.post('/music/saveMusicToRepo', auth.isTempAuthenticated, musicDetail.saveMusicToRepo);
 router.post('/music/insertComment', auth.isTempAuthenticated, musicDetail.insertComment);
 router.post('/music/share', musicDetail.share);
+
+// music_info
+router.get('/music_info', musicInfo.showMusicInfo);
+router.get('/update_music_info', musicInfo.updateMusicInfo);
 
 // debug
 router.get('/create_tags', debug.createTags);

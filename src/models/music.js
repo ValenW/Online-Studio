@@ -1,9 +1,10 @@
 var mongoose = require('mongoose');
 
 MusicSchema = new mongoose.Schema({
+  created_by: {type: mongoose.Schema.Types.ObjectId, ref: 'User'},  // original User
   spectrum: [{type: mongoose.Schema.Types.ObjectId, ref: 'Spectrum'}],
   name: String,
-  author: {type: mongoose.Schema.Types.ObjectId, ref: 'User'},
+  author: {type: mongoose.Schema.Types.ObjectId, ref: 'User'},  // revise User
   cover: String,
   date: {type: Date, default: Date.now},
   tags: [{type: mongoose.Schema.Types.ObjectId, ref: 'Tag'}],

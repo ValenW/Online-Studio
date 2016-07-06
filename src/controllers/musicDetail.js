@@ -78,7 +78,6 @@ exports.saveMusicToRepo = function(req, res, next) {
 
 
 /*Url /music/insertComment */
-router.post('/music/share', musicDetail.share);*/
 exports.insertComment = function(req, res, next) {
     var user_id = req.session.user._id;
 

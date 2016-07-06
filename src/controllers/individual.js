@@ -1,5 +1,6 @@
 var User = require('../models/User');
 
+// request: /individual
 exports.showIndividual = function(req, res, next) {
 	User.findOne({_id: req.session.user._id}).populate('musics').exec(function(err, user) {
 		if (err) {
