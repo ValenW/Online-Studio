@@ -111,10 +111,10 @@ router.get('/individual', auth.isTempAuthenticated, individual.showIndividual);
 
 // musicDetail
 router.get('/music', musicDetail.showMusicDetail);
-router.post('/music/saveMusicToRepo', auth.isTempAuthenticated, musicDetail.saveMusicToRepo);
+router.get('/music/saveMusicToRepo', auth.isTempAuthenticated, musicDetail.saveMusicToRepo);
+router.get('/music/share', musicDetail.share);
+router.get('/music/listen', musicDetail.listen);
 router.post('/music/insertComment', auth.isTempAuthenticated, musicDetail.insertComment);
-router.post('/music/share', musicDetail.share);
-router.post('/music/listen', musicDetail.listen);
 
 // music_info
 router.get('/music_info', musicInfo.showMusicInfo);

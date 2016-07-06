@@ -2,7 +2,7 @@ var Music = require('../models/Music');
 var User = require('../models/User');
 var Comment = require('../models/Comment');
 
-/*Url: /music?music_id=123*/
+/*Url: get /music?music_id=123*/
 exports.showMusicDetail = function(req, res, next) {
     var music_id = req.query.music_id;
     console.log("music ID: ", music_id);
@@ -27,7 +27,10 @@ exports.showMusicDetail = function(req, res, next) {
                         if (err) {
                             console.log("err when loading music with ID: ", music_id);
                         } else {
-                            res.render('music_detail', {music: populatedMusic});
+                            res.render('music_detail', {
+                                music: populatedMusic,
+                                user: req.session.user
+                            });
                         }
                     });
                 }
@@ -35,7 +38,7 @@ exports.showMusicDetail = function(req, res, next) {
         });
 };
 
-/*Url /music/saveMusicToRepo?music_id=123*/
+/*Url get /music/saveMusicToRepo?music_id=123*/
 exports.saveMusicToRepo = function(req, res, next) {
     var user_id = req.session.user._id;
     var music_id = req.query.music_id;
@@ -69,7 +72,9 @@ exports.saveMusicToRepo = function(req, res, next) {
                                     music.save();
                                     user.save();
 
-                                    res.send(music.collectN);
+                                    res.json({
+                                        collectN: music.collectN
+                                    });
 
                                 }
                             }
@@ -80,7 +85,7 @@ exports.saveMusicToRepo = function(req, res, next) {
 }
 
 
-/*Url /music/insertComment */
+/*Url post {music_id, comment_string}  /music/insertComment */
 exports.insertComment = function(req, res, next) {
     var user_id = req.session.user._id;
 
@@ -119,7 +124,9 @@ exports.insertComment = function(req, res, next) {
                                     music.comments.push(comment._id);
                                     music.commentN+=1;
                                     music.save();
-                                    res.send(Comment.findByMusicId(music_id));
+                                    res.json({
+                                        comment_list: Comment.findByMusicId(music_id)
+                                    });
                                 }
                             }
                         });
@@ -129,7 +136,7 @@ exports.insertComment = function(req, res, next) {
 }
 
 
-/*Url /music/share?music_id=123  */
+/*Url get /music/share?music_id=123  */
 exports.share = function(req, res, next) {
     var music_id = req.query.music_id;
     Music
@@ -144,13 +151,15 @@ exports.share = function(req, res, next) {
                     music.shareN+=1;
                     music.save();
                 }
-                res.send(music.shareN);
+                res.json({
+                    shareN: music.shareN
+                });
             }
         });
 }
 
 
-/*Url /music/listen?music_id=123  */
+/*Url get /music/listen?music_id=123  */
 exports.listen = function(req, res, next) {
     var music_id = req.query.music_id;
     Music
@@ -165,7 +174,9 @@ exports.listen = function(req, res, next) {
                     music.listenN+=1;
                     music.save();
                 }
-                res.send(music.listenN);
+                res.json({
+                    listenN: music.listenN
+                });
             }
         });
 }
