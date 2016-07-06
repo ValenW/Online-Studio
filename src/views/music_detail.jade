@@ -16,14 +16,16 @@ block content
                     p 歌曲名字: #{music.name}
                     p 歌曲作者: #{music.author}
                     p 歌曲标签: 
-                    each tag in music.tags
-                        #{tag.tag_name}
+                        each tag in music.tags
+                            span #{tag.tag_name}
                     p 发行时间: #{music.date}
                 div.right_message
                     button.circular.ui.icon.button.right_button
                         i.share.icon
+                        分享
                     button.circular.ui.icon.button.right_button
                         i.save.icon
+                        保存
         div.middle_view
             div.ui.labeled.button(tabindex="0")
                 div.ui.red.button
@@ -74,5 +76,5 @@ block content
 
 
 
-
     include footer
+    include music_player

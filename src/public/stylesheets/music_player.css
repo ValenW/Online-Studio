@@ -1,0 +1,45 @@
+/*音乐播放器样式
+1.波浪式
+2.播放，暂停 ，重播
+3.播放剩余时间
+*/
+.music-player{
+    height: 150px;
+    background-color: gray;
+    opacity:0.8;
+    width: 100%;
+    position: fixed;
+    bottom: 0px;
+}
+/*左边按键，播放，重播，暂停*/
+.left_button{
+    width: 15%;
+    height: 100%;
+    display: inline-block;
+    background-color: rgb(128,128,128);
+    vertical-align: top;
+}
+
+/**/
+.middle{
+    width: 70%;
+    display: inline-block;
+    vertical-align: top;
+}
+
+/*波动*/
+.music-canvas{
+    width: 100%;
+    height: 100%;
+    background-color: rgb(143,143,143);
+}
+
+/*音量*/
+.volume{
+    width: 15%;
+    display: inline-block;
+    height: 100%;
+    vertical-align: top;
+    background-color: rgb(128,128,128);
+}
+
