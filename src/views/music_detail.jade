@@ -5,10 +5,11 @@ block content
     include header
     include top_button
     link(rel='stylesheet', href='/stylesheets/music_detail.css')
+    link(rel='stylesheet', href='/javascripts/music_detail.js')
     div.page-content
         div.top_view
             div.music_poster
-                img.ui.fluid.image.myimage(src='/resources/images/music_background.jpg')
+                img.ui.fluid.image.myimage(src='/resources/images/#{music.cover}')
             div.music_detail
                 div.evaluate
                     div.ui.star.rating(data-rating="4")
