@@ -8,11 +8,14 @@ UserSchema = new mongoose.Schema({
     profile: String,
     introduction: String,
     musics: [{type: mongoose.Schema.Types.ObjectId, ref: 'Music'}],
+    original_musics  : [{type: mongoose.Schema.Types.ObjectId, ref: 'Music'}],
+    collected_musics : [{type: mongoose.Schema.Types.ObjectId, ref: 'Music'}],
+    derivative_musics: [{type: mongoose.Schema.Types.ObjectId, ref: 'Music'}],
     createDate: Date
 });
 
 
-UserSchema.static('findByUsername', function(username, callback){
+UserSchema.static('findByUsername', function(username, callback) {
     return this.find({username: username}, callback);
 });
 

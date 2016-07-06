@@ -1,7 +1,7 @@
 var mongoose = require('mongoose');
 
 MusicSchema = new mongoose.Schema({
-  created_by: {type: mongoose.Schema.Types.ObjectId, ref: 'User'},  // original User
+  based_on: {type: mongoose.Schema.Types.ObjectId, ref: 'Music'}, // adapted based on which Music 
   spectrum: [{type: mongoose.Schema.Types.ObjectId, ref: 'Spectrum'}],
   name: String,
   author: {type: mongoose.Schema.Types.ObjectId, ref: 'User'},  // revise User
