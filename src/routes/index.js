@@ -99,6 +99,9 @@ router.get('/home', home.showHome);
 // editor
 router.get('/editor', editor.showEditor);
 router.post('/editor/save', editor.saveSpectrum);
+router.post('/editor/login', editor.login);
+router.post('/editor/sign', editor.signup);
+router.get('/editor/logout', editor.logout);
 
 // category
 router.get('/category', category.showCategory);
@@ -108,9 +111,10 @@ router.get('/individual', auth.isTempAuthenticated, individual.showIndividual);
 
 // musicDetail
 router.get('/music', musicDetail.showMusicDetail);
-router.post('/music/saveMusicToRepo', auth.isTempAuthenticated, musicDetail.saveMusicToRepo);
+router.get('/music/saveMusicToRepo', auth.isTempAuthenticated, musicDetail.saveMusicToRepo);
+router.get('/music/share', musicDetail.share);
+router.get('/music/listen', musicDetail.listen);
 router.post('/music/insertComment', auth.isTempAuthenticated, musicDetail.insertComment);
-router.post('/music/share', musicDetail.share);
 
 // music_info
 router.get('/music_info', musicInfo.showMusicInfo);
