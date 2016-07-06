@@ -60,8 +60,12 @@ exports.showHome = function(req, res, next) {
 								res.render('home', {
 									bg_image_url: bg_image_url,
 									tot_hotest_music: tot_hotest_music_pu,
-									tags: ret_tags
-								})
+									tags: ret_tags,
+									user: req.session.user == undefined ? null : {
+										username: req.session.user.username,
+										profile: req.session.user.profiles
+									}
+								});
 							}); }); });
 							// render end
 

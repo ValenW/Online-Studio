@@ -38,19 +38,19 @@ exports.lookMusics = function(req, res, next) {
 };
 
 exports.lookUsers = function(req, res, next) {
-	Music.find({}, function(err, users) {
+	User.find({}, function(err, users) {
 		res.send(users);
 	});
 };
 
 exports.lookComments = function(req, res, next) {
-	Music.find({}, function(err, comments) {
+	Comment.find({}, function(err, comments) {
 		res.send(comments);
 	});
 };
 
 exports.lookSpectrums = function(req, res, next) {
-	Music.find({}, function(err, spectrums) {
+	Spectrum.find({}, function(err, spectrums) {
 		res.send(spectrums);
 	});
 };
