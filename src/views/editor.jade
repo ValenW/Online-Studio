@@ -23,26 +23,33 @@ block content
 					button.ui.active.button(id="stop")
 						i.stop.icon
 			div.right.item
-				div.ui.inverted.button(id="signin" style="width:80px; margin-left:15px") 登陆
-				div.ui.inverted.button(id="signup" style="width:80px; margin-left:15px") 注册
+				if user
+					div(id="username" style="width:80px; margin-left:15px") #{user.username}
+				else
+					div.ui.inverted.button(id="signin" style="width:80px; margin-left:15px") 登陆
+					div.ui.inverted.button(id="signup" style="width:80px; margin-left:15px") 注册
 				div.ui.inverted.button(id="save" style="width:80px; margin-left:15px") 保存
+		//- 编辑网格
 		canvas(id="canvas")
 
+	//- 音源读取进度条
 	div.ui.basic.modal(id="progress-modal")
 		div.ui.inverted.orange.progress(id="loading" data-value="1" data-total="88")
 			div.bar
 				div.progress
 			div.label Loading Sources
 
+	//- 保存成功提示
 	div.ui.basic.modal(id="saving-modal")
 		div.ui.icon.huge.header
 			i.massive.checkmark.icon
-			h1.header Saved
+			h1.header 保存成功
 
+	//- 登陆框
 	div.ui.small.modal(id="signin-modal")
 		div.header
 		div.content(style="width:300px; margin:auto")
-			form(class="ui form signin-form")
+			form(class="ui form login-form")
 				div(class="field")
 					label Username
 					div(class="ui left icon input")
@@ -53,9 +60,15 @@ block content
 					div(class="ui left icon input")
 						input(type="password" name="password" placeholder="Password")
 						i(class="lock icon")
+				div.ui.signin.submit.button(style="display:none")
+			if error
+				div#error-message-block(class="ui error message")
+					ul.list
+						li #{error}
 		div.actions(style="text-align:center")
-			div.ui.green.button(style="width:30%") 登陆
+			div.ui.green.button(id="signin-btn" style="width:30%") 登陆
 
+	//- 注册框
 	div.ui.small.modal(id="signup-modal")
 		div.header
 		div.content(style="width:300px; margin:auto")
@@ -80,13 +93,20 @@ block content
 					div(class="ui left icon input")
 						input(type="password" placeholder="Password" name="confirm_password")
 						i(class="lock icon")
+				div.ui.signup.submit.button(style="display:none")
+			if error
+				div#error-message-block(class="ui error message")
+					ul.list
+						li #{error}
 		div.actions(style="text-align:center")
-			div.ui.green.button(style="width:30%") 注册
+			div.ui.green.button(id="signup-btn" style="width:30%") 注册
 
 	script.
 		window.spectrum = !{JSON.stringify(spectrum)};
 
 	script(src="libs/createjs/createjs-2015.11.26.min.js")
+	script(src="javascripts/editor/menu.js")
 	script(src="javascripts/editor/music.js")
 	script(src="javascripts/editor/data.js")
 	script(src="javascripts/editor/canvas.js")
+	script(src="/javascripts/form.js" defer)

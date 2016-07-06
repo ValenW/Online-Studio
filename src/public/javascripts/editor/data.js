@@ -8,8 +8,8 @@ function init() {
 			"tempo": 110,
 			"volume": 10,
 			"channels": channelList,
-			"createDate": new Date(),
-			"lastModificationDate": new Date()
+			"createDate": null,
+			"lastModificationDate": null
 		}
 	}
 
@@ -45,7 +45,6 @@ function init() {
 	}
 
 	window.save = function() {
-		spectrum.lastModificationDate = new Date();
 		var channels = new Array();
 		for (var i = 0; i < channelList.length; ++i) {
 			if (channelList[i] != null) {
@@ -72,14 +71,20 @@ function init() {
 			dataType: "json",
 			type: "POST",
 			success: function (responseJSON) {
-				$('#saving-modal')
-					.modal({ blurring: true })
-					.modal('show');
-				setTimeout(function(){
-					$('#saving-modal').modal('hide');
-				}, 1000);
-
-				spectrum._id = responseJSON._id;
+				if (responseJSON.is_login) {
+					spectrum._id = responseJSON._id;
+					$('#saving-modal')
+						.modal({ blurring: true })
+						.modal('show');
+					setTimeout(function(){
+						$('#saving-modal').modal('hide');
+					}, 1000);
+				} else {
+					$('#signin-modal').show();
+				}
+			},
+			error: function (XMLHttpRequest, textStatus, errorThrown) {
+				alert('Oops 服务器出故障了！');
 			}
 		});
 	}
