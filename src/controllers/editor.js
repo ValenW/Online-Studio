@@ -227,3 +227,91 @@ exports.saveSpectrum = function(req, res, next) {
 	}
 
 };
+
+// Request: /editor/login POST username&password
+exports.login = function(req, res, next) {
+    User.findOne({
+        'username': req.body.username,
+        'password': req.body.password
+    }, function(err, user) {
+        if (err) {
+            console.log(err);
+        } else {
+            if (user === null) {
+                req.flash('error', 'The username or password is not correct');
+                res.json({
+                	login_rst: 'fail'
+                });
+            } else {
+                req.session.user = user;
+                res.json({
+                	login_rst: 'success',
+                	user: user
+                })
+            }
+        }
+    });
+};
+
+// Request: /editor/signup POST username&password&email
+exports.signup = function(req, res, next) {
+    var username = req.body.username;
+    var password = req.body.password;
+    var email = req.body.email;
+
+    User.find({$or: [ {'username': username}, {'email': email} ]}, function(err, users) {
+        if (users.length > 0) {
+            if (users[0].confed) {
+                console.log(users[0].confed);
+                req.flash('error', 'The username or email has been used');
+            } else {
+                req.flash('error', 'The username hasn\'t been confired');
+            }
+            res.json({
+            	signup_rst: 'fail'
+            });
+        } else {
+            var date = new Date();
+            User.create({
+                'username': username,
+                'password': password,
+                'email': email,
+                'confed': false,
+                'createDate': date
+            }, function(err, newUser) {
+                var id = newUser._id.toString();
+                if (err) {
+                    console.log('error when create User!');
+                } else {
+                    MailSender.singup({
+                        to: email
+                    }, {
+                        username: username,
+                        link: 'http://localhost:3000/conf?id=' + id // TODO
+                    }, function(err, info){
+                        if(err){
+                            console.log('Error');
+                        } else {
+                            console.log('Account Confer email sent');
+                        }
+                    });
+                    req.flash('error', 'The account confiring email has been send.');
+                    req.session.user = newUser;
+                    console.log("new user: ", req.session.user);
+                    res.json({
+                    	signup_rst: 'success',
+                    	user: newUser
+                    });
+                }
+            });
+        }
+    });
+}
+
+// Request: /editor/logout GET
+exports.logout = function(req, res, next) {
+    req.session.destroy();
+    res.json({
+    	logout: 'success'
+    });
+}
