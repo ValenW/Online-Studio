@@ -114,6 +114,7 @@ router.get('/music', musicDetail.showMusicDetail);
 router.post('/music/saveMusicToRepo', auth.isTempAuthenticated, musicDetail.saveMusicToRepo);
 router.post('/music/insertComment', auth.isTempAuthenticated, musicDetail.insertComment);
 router.post('/music/share', musicDetail.share);
+router.post('/music/listen', musicDetail.listen);
 
 // music_info
 router.get('/music_info', musicInfo.showMusicInfo);
