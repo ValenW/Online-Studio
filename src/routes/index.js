@@ -18,11 +18,6 @@ var debug       = require('../controllers/debug');
 
 var data = require('../data/data');
 
-var headUploader = uploadImg('head/', function(req, file) {
-  console.log(file);
-  return req.session.user._id + '_head';
-})
-
 /* GET home page. */
 // router.get('/', function(req, res, next) {
 //   // headPath: path to the headcut
@@ -103,15 +98,12 @@ router.get('/look_users', debug.lookUsers);
 router.get('/look_commments', debug.lookComments);
 router.get('/look_spectrums', debug.lookSpectrums);
 
-router.get('/uploads', auth.isAuthenticated, function(req, res, next) {
-  res.render('upload');
+var testUploader = uploadImg('test/', function(req, file) {
+  console.log(file);
+  return 'test';
 });
-
-router.post('/uploads', headUploader.single('image'), function(req, res, next) {
-  console.log(req.file);
-  username = req.session.user;
-  res.redirect('/');
-});
+router.get('/look_uploadImage', debug.lookUploadImg);
+router.post('/look_uploadImage', testUploader.single('image'), debug.uploadImg);
 
 // create data
 router.get('/create_data', data.createData);
