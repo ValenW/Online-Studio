@@ -24,7 +24,7 @@ block content
 						i.stop.icon
 			div.right.item
 				if user
-					div(id="username" style="width:80px; margin-left:15px") #{user.username}
+					div.ui.inverted.green.button(id="user" userid="#{user._id}" style="margin-left:15px") #{user.username}
 				else
 					div.ui.inverted.button(id="signin" style="width:80px; margin-left:15px") 登陆
 					div.ui.inverted.button(id="signup" style="width:80px; margin-left:15px") 注册
@@ -66,7 +66,8 @@ block content
 					ul.list
 						li #{error}
 		div.actions(style="text-align:center")
-			div.ui.green.button(id="signin-btn" style="width:30%") 登陆
+			div.ui.green.button(id="signin-btn" style="width:30%;") 登陆
+			a.jumpup(style="left:20px; position:relative") 注册
 
 	//- 注册框
 	div.ui.small.modal(id="signup-modal")
@@ -99,7 +100,28 @@ block content
 					ul.list
 						li #{error}
 		div.actions(style="text-align:center")
-			div.ui.green.button(id="signup-btn" style="width:30%") 注册
+			div.ui.green.button(id="signup-btn" style="width:30%;") 注册
+			a.jumpin(style="left:20px; position:relative") 登陆
+
+	//- 个人页面跳转提示框
+	div.ui.small.basic.modal(id="individual-modal")
+		div.ui.icon.header
+			i.warning.sign.icon
+			p 是否跳转至个人主页？
+		div.content(style="text-align:center")
+			h3 跳转会丢失编辑内容，请确保乐谱保存成功。
+		div.actions
+			div.ui.cancel.red.basic.inverted.button
+				i.remove.icon(style='display:inline-block')
+				p(style='display:inline-block') 否
+			div.ui.ok.green.basic.inverted.button
+				i.checkmark.icon(style='display:inline-block')
+				p(style='display:inline-block') 是
+
+	style.
+		p, .button {
+			font-family: "Microsoft YaHei", Arial, Helvetica, sans-serif;
+		}
 
 	script.
 		window.spectrum = !{JSON.stringify(spectrum)};

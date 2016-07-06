@@ -80,7 +80,7 @@ function init() {
 						$('#saving-modal').modal('hide');
 					}, 1000);
 				} else {
-					$('#signin-modal').show();
+					$('#signin-modal').modal('show');
 				}
 			},
 			error: function (XMLHttpRequest, textStatus, errorThrown) {
