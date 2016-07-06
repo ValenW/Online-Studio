@@ -83,7 +83,7 @@ router.get('/share', function(req, res, next) {
 
 // sign
 router.get('/login', sign.showLogin);
-router.post('/login', sign.showLogin);
+router.post('/login', sign.login);
 router.get('/signup', sign.showSignup);
 router.post('/signup', sign.signup);
 router.get('/wait', auth.isTempAuthenticated, sign.getWait);
