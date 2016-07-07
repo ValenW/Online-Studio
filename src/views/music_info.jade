@@ -51,42 +51,48 @@ block content
 				p 标签
 			div.rf
 				- for (var i = 0; i < tags.length; ++i)
-					div.ui.checkbox
+					div.ui.checkbox(class='#{tags[i]._id}')
 						input(type='checkbox' name='tag' value='#{tags[i]._id}')
 						label #{tags[i].tag_name}
+		div.ui.divider
+		//- 发布许可
+		div.item
+			div.lf
+				p 是否公布作品
+			div.rf
+				div.ui.radio.checkbox.public-yes
+					input(type='radio' name='is_music_public' value='1')
+					label 是
+				div.ui.radio.checkbox.public-no
+					input(type='radio' name='is_music_public' value='0')
+					label 否
 		div.ui.divider
 		//- 二次创作许可
 		div.item
 			div.lf
 				p 是否分享乐谱
 			div.rf
-				div.ui.checkbox.share-yes
-					input(type='checkbox' name='share' value='1')
+				div.ui.radio.checkbox.share-yes
+					input(type='radio' name='is_spectrum_public' value='1')
 					label 是
-				div.ui.checkbox.share-no
-					input(type='checkbox' name='share' value='0')
+				div.ui.radio.checkbox.share-no
+					input(type='radio' name='is_spectrum_public' value='0')
 					label 否
 		div.ui.divider
-		//- 发布
-
-		div(style='display:none')
-			if music.is_music_public
-				input.public-input(type='text' name='public' value='1')
-			else
-				input.public-input(type='text' name='public' value='0')
 
 		//- 错误信息提醒栏
-		div.ui.error.message(stylef"display:none; width:50%; margin:auto")
+		div.ui.error.message(style="display:none; width:50%; margin:auto")
 			ul.list
 				li.error-message
 
-		div.ui.button-groups
+		div(style='width:100%; text-align:center; margin-top:20px;')
 			div.ui.blue.button.save 保存
-			if music.is_music_public
-				div.ui.green.button.share 发布
-			else
-				div.ui.red.button.close-share 关闭发布
 
 	include footer
+
+	script.
+		window.musicTags = !{JSON.stringify(music.tags)};
+		window.isShare = !{JSON.stringify(music.is_spectrum_public)};
+		window.isPublic = !{JSON.stringify(music.is_music_public)};
 
 	script(src="/javascripts/music_info.js")

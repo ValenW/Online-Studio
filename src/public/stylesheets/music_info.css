@@ -5,7 +5,7 @@
 .ui.form {
 	width: 1000px;
 	min-height: 500px;
-	margin: 40px auto 50px auto;
+	margin: 40px auto 80px auto;
 }
 
 .form .item {
@@ -33,15 +33,8 @@
 	width: 100px;
 }
 
-.button-groups {
-	width: 400px;
-	margin: 0 auto 50px auto;
-}
-
-.button-groups .button {
-	display: inline-block;
-	width: 100px;
-	margin: 50px;
+.button {
+	width: 150px;
 	font-family: "Microsoft YaHei", Arial, Helvetica, sans-serif;
 }
 
