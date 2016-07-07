@@ -8,6 +8,7 @@ block content
 		//- 音乐id隐藏
 		div(style='display:none')
 			input(type='text' name='music_id' value='#{music._id}')
+			input.submit(type='submit')
 		div.ui.divider
 		//- 标题
 		div.item
@@ -59,7 +60,7 @@ block content
 			div.lf
 				p 是否分享乐谱
 			div.rf
-				div.ui.checked.checkbox.share-yes
+				div.ui.checkbox.share-yes
 					input(type='checkbox' name='share' value='1')
 					label 是
 				div.ui.checkbox.share-no
@@ -67,12 +68,15 @@ block content
 					label 否
 		div.ui.divider
 		//- 发布
-		div.ui.checkbox.public(style='display:none')
-			input(type='checkbox' name='public' value='1')
-			input.submit(type='submit')
+
+		div(style='display:none')
+			if music.is_music_public
+				input.public-input(type='text' name='public' value='1')
+			else
+				input.public-input(type='text' name='public' value='0')
 
 		//- 错误信息提醒栏
-		div.ui.error.message(style="display:none; width:50%;")
+		div.ui.error.message(stylef"display:none; width:50%; margin:auto")
 			ul.list
 				li.error-message
 

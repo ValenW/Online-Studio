@@ -76,7 +76,7 @@ exports.updateMusicInfo = function(req, res, next) {
 				tags: tags,	// Format of music.tags is [tag0_id, tag1_id, tag2_id]
 				is_spectrum_public: is_spectrum_public,
 				is_music_public: is_music_public,
-				cover: 'uploads/musicCover/' + music_id + '_cover'
+				// cover: 'musicCover/' + music_id + '_cover'
 			}, {}, function(err, info) {
 				if (err) {
 					console.log('Error in /update_music_info request.');
