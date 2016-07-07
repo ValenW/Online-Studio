@@ -11,7 +11,7 @@ exports.showMusicInfo = function(req, res, next) {
 		if (err) {
 			console.log ('Error in /music_info request.');
 		} else {
-			if (music.author !== user._id) {	// user is not music's author
+			if (music.author != user._id) {	// user is not music's author
 				console.log('User is not the author of the music.');
 				res.redirect('/');
 			} else {	// user is the author of the music.
@@ -35,6 +35,7 @@ exports.showMusicInfo = function(req, res, next) {
 
 // /update_music_info POST music
 exports.updateMusicInfo = function(req, res, next) {
+	console.log(1);
 	var music = req.body.music;
 	console.log (music.cover);
 	Music.update({
