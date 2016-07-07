@@ -67,11 +67,6 @@ var headUploader = multer({
 // });
 router.get('/', home.showHome);
 
-
-router.get('/music_info', function(req, res, next) {
-  res.render('music_info');
-});
-
 //调试
 router.get('/effect', function(req, res, next) {
   res.render('effect');
