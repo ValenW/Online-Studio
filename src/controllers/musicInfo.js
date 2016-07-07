@@ -1,5 +1,12 @@
 var Music 	= require('../models/Music');
 var Tag   	= require('../models/Tag');
+var uploadImg = require('../middlewares/uploadImg');
+
+// define music cover uploader
+var musicCoverUploader = uploadImg('musicCover/', function(req, file) {
+	return req.body.music_id + '_cover';
+});
+
 
 // /music_info?music_id=***
 exports.showMusicInfo = function(req, res, next) {
@@ -41,6 +48,7 @@ exports.showMusicInfo = function(req, res, next) {
 // param: tags
 // param: is_specturm_public
 // param: is_music_public
+// param: cover
 exports.updateMusicInfo = function(req, res, next) {
 	var music_id	= req.body.music_id;
 	var name 		= req.body.name;
@@ -48,21 +56,32 @@ exports.updateMusicInfo = function(req, res, next) {
 	var tags 		= req.body.tags;
 	var is_spectrum_public 	= req.body.is_spectrum_public;
 	var is_music_public		= req.body.is_music_public;
+	var cover 		= req.body.cover;
 
-	Music.update({
-		_id: music_id
-	}, {
-		name: name,
-		introduction: introduction,
-		tags: tags,	// Format of music.tags is [tag0_id, tag1_id, tag2_id]
-		is_spectrum_public: is_spectrum_public,
-		is_music_public: is_music_public
-	}, {}, function(err, info) {
+	var upload = musicCoverUploader.single('cover');
+	upload(req, res, function(err) {
 		if (err) {
-			console.log('Error in /update_music_info request.');
+			console.log ('Error in uploading Music Cover.');
 		} else {
-			console.log ('Update music(', music_id ,') info successfully.');
-			res.redirect('/individual');
+			console.log ('Uploading Muisc Cover ', music_id + '_cover',' for Music ', music_id, 'successfully.');
+			Music.update({
+				_id: music_id
+			}, {
+				name: name,
+				introduction: introduction,
+				tags: tags,	// Format of music.tags is [tag0_id, tag1_id, tag2_id]
+				is_spectrum_public: is_spectrum_public,
+				is_music_public: is_music_public,
+				cover: 'uploads/musicCover/' + music_id + '_cover'
+			}, {}, function(err, info) {
+				if (err) {
+					console.log('Error in /update_music_info request.');
+				} else {
+					console.log ('Update music(', music_id ,') info successfully.');
+					res.redirect('/individual');
+				}
+			});
 		}
 	});
+
 };

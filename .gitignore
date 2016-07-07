@@ -46,3 +46,7 @@ Temporary Items
 # Node Project
 /node_modules
 /bin
+
+# images under /src/public/uploads/ 
+/src/public/uploads/head/*
+/src/public/uploads/musicCover/*
