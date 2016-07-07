@@ -4,6 +4,7 @@ var uploadImg = require('../middlewares/uploadImg');
 
 // define music cover uploader
 var musicCoverUploader = uploadImg('musicCover/', function(req, file) {
+	console.log (req.body.music_id);
 	return req.body.music_id + '_cover';
 });
 
@@ -18,7 +19,9 @@ exports.showMusicInfo = function(req, res, next) {
 		if (err) {
 			console.log ('Error in /music_info request.');
 		} else {
-			if (music.author !== user._id) {	// user is not music's author
+			console.log ('music.author', music.author);
+			console.log ('user._id', user._id);
+			if (music.author != user._id) {	// user is not music's author
 				console.log('User is not the author of the music.');
 				res.redirect('/');
 			} else {	// user is the author of the music.
@@ -50,6 +53,7 @@ exports.showMusicInfo = function(req, res, next) {
 // param: is_music_public
 // param: cover
 exports.updateMusicInfo = function(req, res, next) {
+	console.log('in updateMusicInfo');
 	var music_id	= req.body.music_id;
 	var name 		= req.body.name;
 	var introduction= req.body.introduction;

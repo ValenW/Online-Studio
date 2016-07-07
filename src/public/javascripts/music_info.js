@@ -95,7 +95,7 @@ function setSaveHandler() {
             console.log(intro);
             console.log(tags);
             console.log(isShare);
-            $('form').submit();
+            $('.submit').click();
         } 
     })
 }
