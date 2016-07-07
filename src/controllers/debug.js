@@ -54,3 +54,12 @@ exports.lookSpectrums = function(req, res, next) {
 		res.send(spectrums);
 	});
 };
+
+exports.lookUploadImg = function(req, res, next) {
+  res.render('upload');
+};
+
+exports.uploadImg = function(req, res, next) {
+  console.log(req.file);
+  res.redirect('/');
+};
