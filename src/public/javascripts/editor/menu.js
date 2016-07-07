@@ -126,8 +126,6 @@ function validSignupFormHandler() {
 	var username = $('.signup-form .username-input').val();
 	var password = $('.signup-form .password-input').val();
 	var email = $('.signup-form .email-input').val();
-	console.log(username); 
-	console.log(email);
 	$.ajax({
 		url: 'editor/signup',
 		data: { 'username': username, 'password': password, 'email': email },

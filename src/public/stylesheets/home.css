@@ -177,6 +177,13 @@
 	display: inline-block;
 }
 
+.rank .item > .title {
+	width: 200px;
+	white-space: nowrap;
+	-o-text-overflow: ellipsis;
+	text-overflow: ellipsis;
+}
+
 /* Footer */
 .ui.footer .container {
 	margin: 4em 0 4em 0;
