@@ -81,14 +81,14 @@ router.get('/editor/logout', editor.logout);
 router.get('/category', category.showCategory);
 
 // individual
-router.get('/individual', auth.isTempAuthenticated, individual.showIndividual);
+router.get('/individual', auth.isAuthenticated, individual.showIndividual);
 
 // musicDetail
 router.get('/music', musicDetail.showMusicDetail);
-router.get('/music/saveMusicToRepo', auth.isTempAuthenticated, musicDetail.saveMusicToRepo);
+router.get('/music/saveMusicToRepo', auth.isAuthenticated, musicDetail.saveMusicToRepo);
 router.get('/music/share', musicDetail.share);
 router.get('/music/listen', musicDetail.listen);
-router.post('/music/insertComment', auth.isTempAuthenticated, musicDetail.insertComment);
+router.post('/music/insertComment', auth.isAuthenticated, musicDetail.insertComment);
 
 // music_info
 router.get('/music_info', auth.isTempAuthenticated, musicInfo.showMusicInfo);

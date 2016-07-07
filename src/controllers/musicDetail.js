@@ -15,7 +15,7 @@ exports.showMusicDetail = function(req, res, next) {
                 console.log("err when find music by ID: ", err);
                 throw err;
             } else {
-                if (music == null) console.log("no such music with ID: ", music_id);
+                if (music === null) console.log("no such music with ID: ", music_id);
                 else {
 
                     var opts = [{
@@ -51,7 +51,7 @@ exports.saveMusicToRepo = function(req, res, next) {
                 console.log("err when find user by ID: ", err);
                 throw err;
             } else {
-                if (user == null) console.log("no such user with ID: ", user_id);
+                if (user === null) console.log("no such user with ID: ", user_id);
                 else {
                     Music.findOne({_id: music_id})
                          .exec(function(err, music) {
@@ -59,7 +59,7 @@ exports.saveMusicToRepo = function(req, res, next) {
                                 console.log("err when find music by ID: ", err);
                                 throw err;
                             } else {
-                                if (music == null) console.log("no such music with ID: ", music_id);
+                                if (music === null) console.log("no such music with ID: ", music_id);
                                 else {
                                     if (music_id in user.collected_musics) {
                                         music.collectN-=1;
@@ -89,7 +89,7 @@ exports.saveMusicToRepo = function(req, res, next) {
 exports.insertComment = function(req, res, next) {
     var user_id = req.session.user._id;
 
-    if(user_id == undefined) {
+    if(user_id === undefined) {
         res.redirect('/login');
     }
     var music_id = req.body.music_id;
@@ -104,7 +104,7 @@ exports.insertComment = function(req, res, next) {
                 console.log("err when find user by ID: ", err);
                 throw err;
             } else {
-                if (user == null) console.log("no such user with ID: ", user_id);
+                if (user === null) console.log("no such user with ID: ", user_id);
                 else {
                     Music
                         .findOne({_id: music_id})
@@ -114,7 +114,7 @@ exports.insertComment = function(req, res, next) {
                                 console.log("err when find music by ID: ", err);
                                 throw err;
                             } else {
-                                if (music == null) console.log("no such music with ID: ", music_id);
+                                if (music === null) console.log("no such music with ID: ", music_id);
                                 else {
                                     var comment = new Comment({
                                         comment_userId: user_id,
@@ -146,7 +146,7 @@ exports.share = function(req, res, next) {
                 console.log("err when find music by ID: ", err);
                 throw err;
             } else {
-                if (music == null) console.log("no such music with ID: ", music_id);
+                if (music === null) console.log("no such music with ID: ", music_id);
                 else {
                     music.shareN+=1;
                     music.save();
@@ -169,7 +169,7 @@ exports.listen = function(req, res, next) {
                 console.log("err when find music by ID: ", err);
                 throw err;
             } else {
-                if (music == null) console.log("no such music with ID: ", music_id);
+                if (music === null) console.log("no such music with ID: ", music_id);
                 else {
                     music.listenN+=1;
                     music.save();
