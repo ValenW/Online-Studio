@@ -1,4 +1,5 @@
-var Music = require('../models/Music');
+var Music 	= require('../models/Music');
+var Tag   	= require('../models/Tag');
 
 // /music_info?music_id=***
 exports.showMusicInfo = function(req, res, next) {
@@ -18,8 +19,11 @@ exports.showMusicInfo = function(req, res, next) {
 					console.log('User is not the author of the music.');
 					res.redirect('/');
 				} else {	// user is the author of the music.
-					res.render('music_info', {
-						music: music
+					Tag.findByDefaultTagName(null, function(err, tags) {
+						res.render('music_info', {
+							music: music,
+							tags: tags
+						});
 					});	
 				}
 			}
@@ -34,7 +38,12 @@ exports.updateMusicInfo = function(req, res, next) {
 	var music = req.body.music;
 	Music.update({
 		_id: music._id
-	}, music, {}, function(err, info) {
+	}, {
+		name: music.name,
+		cover: music.cover,
+		introduction: music.introduction,
+		tags: music.tags	// Format of music.tags is [tag0_id, tag1_id, tag2_id]
+	}, {}, function(err, info) {
 		if (err) {
 			console.log('Error in /update_music_info request.');
 		} else {

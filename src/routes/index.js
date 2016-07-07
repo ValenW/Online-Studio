@@ -118,7 +118,7 @@ router.post('/music/insertComment', auth.isTempAuthenticated, musicDetail.insert
 
 // music_info
 router.get('/music_info', musicInfo.showMusicInfo);
-router.get('/update_music_info', musicInfo.updateMusicInfo);
+router.post('/update_music_info', musicInfo.updateMusicInfo);
 
 // debug
 router.get('/create_tags', debug.createTags);
