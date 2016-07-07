@@ -68,14 +68,15 @@ block content
 					label 否
 		div.ui.divider
 		//- 发布
+
 		div(style='display:none')
 			if music.is_music_public
 				input.public-input(type='text' name='public' value='1')
 			else
 				input.public-input(type='text' name='public' value='0')
-			
+
 		//- 错误信息提醒栏
-		div.ui.error.message(style="display:none; width:50%; margin:auto")
+		div.ui.error.message(stylef"display:none; width:50%; margin:auto")
 			ul.list
 				li.error-message
 
