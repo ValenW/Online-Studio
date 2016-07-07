@@ -4,49 +4,57 @@ block content
 	link(rel='stylesheet', href='/stylesheets/music_info.css')
 	include header
 
-	div.ui.form
+	div.ui.form(method='post' action='/update_music_info' onSubmit='return false;')
+		//- 音乐id隐藏
+		div(style='display:none')
+			input(type='text' name='music_id' value='#{music._id}')
 		div.ui.divider
+		//- 标题
 		div.item
 			div.lf
 				p 标题
 			div.rf
-				input.title-input(type='text' placeholder='1~32个字符')
-				//- input.title-input(type='text' placeholder='#{music.name}')
+				if music.name
+					input.title-input(type='text' name='name' placeholder='1~32个字符' value='#{music.name}')
+				else
+					input.title-input(type='text' name='name' placeholder='1~32个字符')
 		div.ui.divider
+		//- 封面
 		div.item
 			div.lf
 				p 上传封面
 			div.rf
 				div.rlf
-					input.cover-input(id='up' type='file')
+					input.cover-input(id='up' type='file' name='cover')
 					p(style='margin-top:20px') 图片格式: gif, jpeg, jpg, bmp, png
 				div.rrf
 					div
-						img(id='cover' width='160' height='100' src='')
-						//- img(id='cover' width='160' height='100' src='#{music.cover}')
+						if music.cover
+							img(id='cover' width='160' height='100' src='#{music.cover}')
+						else
+							img(id='cover' width='160' height='100' src='resources/images/default_cover.png')
 		div.ui.divider
+		//- 介绍
 		div.item
 			div.lf
 				p 作品说明
 			div.rf
-				textarea.intro-input(placeholder='1~200个字符')
+				if music.introduction
+					textarea.intro-input(name='introduction' placeholder='1~200个字符') #{music.introduction}
+				else
+					textarea.intro-input(name='introduction' placeholder='1~200个字符')
 		div.ui.divider
+		//- 标签
 		div.item
 			div.lf
 				p 标签
 			div.rf
-				div.ui.checkbox
-					input(type='checkbox' name='tag')
-					label 苹果
-				div.ui.checkbox
-					input(type='checkbox' name='tag')
-					label 香蕉
-				//- -for (var i = 0; i < tags.length; ++i)
-				//- 	div.ui.checkbox
-				//- 		input(type='checkbox' tabindex='#{i}')
-				//- 		label #{tags[i].tag_name}
-
+				- for (var i = 0; i < tags.length; ++i)
+					div.ui.checkbox
+						input(type='checkbox' name='tags' value='#{tags[i].tag_id}')
+						label #{tags[i].tag_name}
 		div.ui.divider
+		//- 二次创作许可
 		div.item
 			div.lf
 				p 是否分享乐谱
@@ -58,16 +66,21 @@ block content
 					input(type='checkbox' name='share' value='0')
 					label 否
 		div.ui.divider
-		div.ui.error.message(style="display:none")
+		//- 发布
+		div.ui.checkbox.public(style='display:none')
+			input(type='checkbox' name='public' value='1')
+
+		//- 错误信息提醒栏
+		div.ui.error.message(style="display:none; width:50%;")
 			ul.list
 				li.error-message
+
 		div.ui.button-groups
 			div.ui.blue.button.save 保存
-			div.ui.green.button.share 发布
-			//- if music.is_music_public
-			//- 	div.ui.green.button 发布
-			//- else
-			//- 	div.ui.red.button 关闭发布
+			if music.is_music_public
+				div.ui.green.button.share 发布
+			else
+				div.ui.red.button.close-share 关闭发布
 
 	include footer
 
