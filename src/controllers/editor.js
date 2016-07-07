@@ -3,6 +3,7 @@ var Music = require('../models/Music');
 var User = require('../models/User');
 var Tag = require('../models/Tag');
 var Comment = require('../models/Comment');
+var MailSender = require('../middlewares/mail.js');
 
 // interface : /editor?spectrum_id=***  or  /editor
 exports.showEditor = function(req, res, next) {
@@ -12,6 +13,7 @@ exports.showEditor = function(req, res, next) {
 		res.render('editor', {
 			spectrum: null,
 			user: req.session.user === undefined ? null : {
+				_id: req.session.user._id,
 				username: req.session.user.username,
 				profile: req.session.user.profiles
 			}
@@ -28,6 +30,7 @@ exports.showEditor = function(req, res, next) {
 				res.render('editor', {
 					spectrum: spectrums[0],
 					user: req.session.user === undefined ? null : {
+						_id: req.session.user._id,
 						username: req.session.user.username,
 						profile: req.session.user.profiles
 					}
@@ -85,7 +88,7 @@ exports.saveSpectrum = function(req, res, next) {
 				var music = new Music({
 					based_on: null,
 					spectrum: spectrum,
-					name: date,
+					name: date.toLocaleString(),
 					author: user,
 					cover: 'default_cover.png',
 					date: date,
@@ -169,7 +172,7 @@ exports.saveSpectrum = function(req, res, next) {
 								Music.create({
 									based_on: based_on,
 									spectrum: spectrum,
-									name: date,
+									name: date.toLocaleString(),
 									author: user,
 									cover: 'default_cover.png',
 									date: date,
@@ -238,15 +241,19 @@ exports.login = function(req, res, next) {
             console.log(err);
         } else {
             if (user === null) {
-                req.flash('error', 'The username or password is not correct');
                 res.json({
-                	login_rst: 'fail'
+                	login_rst: 'fail',
+                	message: 'The username or password is not correct'
                 });
             } else {
                 req.session.user = user;
                 res.json({
                 	login_rst: 'success',
-                	user: user
+                	user: {
+						_id: req.session.user._id,
+						username: req.session.user.username,
+						profile: req.session.user.profiles
+                	}
                 })
             }
         }
@@ -261,14 +268,15 @@ exports.signup = function(req, res, next) {
 
     User.find({$or: [ {'username': username}, {'email': email} ]}, function(err, users) {
         if (users.length > 0) {
+        	var message = '';
             if (users[0].confed) {
-                console.log(users[0].confed);
-                req.flash('error', 'The username or email has been used');
+                message = 'The username or email has been used';
             } else {
-                req.flash('error', 'The username hasn\'t been confired');
+                message = 'The username hasn\'t been confired';
             }
             res.json({
-            	signup_rst: 'fail'
+            	signup_rst: 'fail',
+            	message: message
             });
         } else {
             var date = new Date();
@@ -295,12 +303,15 @@ exports.signup = function(req, res, next) {
                             console.log('Account Confer email sent');
                         }
                     });
-                    req.flash('error', 'The account confiring email has been send.');
                     req.session.user = newUser;
                     console.log("new user: ", req.session.user);
                     res.json({
                     	signup_rst: 'success',
-                    	user: newUser
+                    	user: {
+							_id: req.session.user._id,
+							username: req.session.user.username,
+							profile: req.session.user.profiles
+						}
                     });
                 }
             });
