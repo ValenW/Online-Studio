@@ -42,56 +42,33 @@ function init() {
     // 扩展读片预览功能
     extendJQ();
     $('#up').uploadPreview({ img: 'cover', width: 160, height: 100 });
-    
-    // 分享音乐选择设置
-    setShareCheckbox();
 
     // 设置保存按钮
-    setSaveHandler();
+    $('.save.button').click(postForm);
 
-    // 设置发布按钮
-    setShareHandler();
+    // 预填标签选项
+    for (var i = 0; i < musicTags.length; ++i) {
+        $('.'+musicTags[i]).checkbox('set checked');
+    }
 
+    // 预填公布选项
+    if (isPublic)
+        $('.public-yes').checkbox('set checked');
+    else
+        $('.public-no').checkbox('set checked');
+
+    // 预填分享选项
+    if (isShare)
+        $('.share-yes').checkbox('set checked');
+    else
+        $('.share-no').checkbox('set checked');
+
+    // 取消回车事件
     document.onkeypress = function(){
         if(event.keyCode == 13) {
             return false;
         }
     }
-}
-
-function setShareCheckbox() {
-    $('.share-yes').checkbox('set checked');
-    $('.share-yes').checkbox({
-        onChecked: function() {
-            $('.share-no').checkbox('set unchecked');
-        },
-        onUnchecked: function() {
-            $('.share-yes').checkbox('set checked');
-        }
-    });
-    $('.share-no').checkbox({
-        onChecked: function() {
-            $('.share-yes').checkbox('set unchecked');
-        },
-        onUnchecked: function() {
-            $('.share-no').checkbox('set checked');
-        }
-    });
-}
-
-function setSaveHandler() {
-    $('.save.button').click(postForm);
-}
-
-function setShareHandler() {
-    $('.share.button').click(function() {
-        $('.public-input').val(1);
-        postForm();
-    });
-    $('.close-share.button').click(function() {
-        $('.public-input').val(0);
-        postForm();
-    });
 }
 
 function showError(message) {
@@ -104,8 +81,6 @@ function postForm() {
     var cover = $('.cover-input').val();
     var intro = $('.intro-input').val();
     var tags = $("input:checkbox[name='tag']:checked");
-    var isShare = $("input:checkbox[name='share']:checked").val();
-    var isPublic = $('.public-input').val();
     if (title.length < 1 || title.title > 32) {
         showError('标题：字符数限制1~32个');
     }
@@ -120,12 +95,6 @@ function postForm() {
     }
     else {
         $('.error.message').css('display', 'none');
-        console.log(title);
-        console.log(cover);
-        console.log(intro);
-        console.log(tags);
-        console.log(isShare);
-        console.log(isPublic);
         $('.submit').click();
     }
 }
