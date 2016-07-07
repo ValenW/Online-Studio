@@ -51,6 +51,12 @@ function init() {
 
     // 设置发布按钮
     setShareHandler();
+
+    document.onkeypress = function(){
+        if(event.keyCode == 13) {
+            return false;
+        }
+    }
 }
 
 function setShareCheckbox() {
@@ -74,44 +80,52 @@ function setShareCheckbox() {
 }
 
 function setSaveHandler() {
-    $('.save.button').click(function() {
-        var title = $('.title-input').val();
-        var intro = $('.intro-input').val();
-        var tags = $("input:checkbox[name='tag']:checked");
-        var isShare = $("input:checkbox[name='share']:checked").val();
-        if (title.length < 1 || title.title > 32) {
-            showError('标题：字符数限制1~32个');
-        }
-        else if (intro.length < 1 || intro.length > 200) {
-            showError('作品说明：字符数限制1~200个');
-        }
-        else if (tags.length < 1) {
-            showError('标签：作品应至少包含1个标签');
-        }
-        else {
-            $('.error.message').css('display', 'none');
-            alert('submit');
-            console.log(title);
-            console.log(intro);
-            console.log(tags);
-            console.log(isShare);
-            $('form').submit();
-        } 
-    })
+    $('.save.button').click(postForm);
 }
 
 function setShareHandler() {
     $('.share.button').click(function() {
-        $('.public').checkbox('set checked');
-        $('.save.button').click();
+        $('.public-input').val(1);
+        postForm();
     });
     $('.close-share.button').click(function() {
-        $('.public').checkbox('set unchecked');
-        $('.save.button').click();
+        $('.public-input').val(0);
+        postForm();
     });
 }
 
 function showError(message) {
     $('.error-message').text(message);
     $('.error.message').css('display', 'block');
+}
+
+function postForm() {
+    var title = $('.title-input').val();
+    var cover = $('.cover-input').val();
+    var intro = $('.intro-input').val();
+    var tags = $("input:checkbox[name='tag']:checked");
+    var isShare = $("input:checkbox[name='share']:checked").val();
+    var isPublic = $('.public-input').val();
+    if (title.length < 1 || title.title > 32) {
+        showError('标题：字符数限制1~32个');
+    }
+    else if (cover.length < 1) {
+        showError('上传封面：封面未上传');
+    }
+    else if (intro.length < 1 || intro.length > 200) {
+        showError('作品说明：字符数限制1~200个');
+    }
+    else if (tags.length < 1) {
+        showError('标签：作品应至少包含1个标签');
+    }
+    else {
+        $('.error.message').css('display', 'none');
+        console.log(title);
+        console.log(cover);
+        console.log(intro);
+        console.log(tags);
+        console.log(isShare);
+        console.log(isPublic);
+        $('.submit').click();
+    }
 }
