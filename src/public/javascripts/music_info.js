@@ -90,18 +90,23 @@ function setSaveHandler() {
         }
         else {
             $('.error.message').css('display', 'none');
-            
+            alert('submit');
+            console.log(title);
+            console.log(intro);
+            console.log(tags);
+            console.log(isShare);
+            $('form').submit();
         } 
     })
 }
 
 function setShareHandler() {
     $('.share.button').click(function() {
-        // do something
+        $('.public').checkbox('set checked');
         $('.save.button').click();
     });
     $('.close-share.button').click(function() {
-        // do something
+        $('.public').checkbox('set unchecked');
         $('.save.button').click();
     });
 }
