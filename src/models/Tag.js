@@ -9,4 +9,13 @@ TagSchema.static('findByTagName', function(tag_name, callback) {
   return this.find({tag_name: tag_name}, callback);
 });
 
+TagSchema.static('findByDefaultTagNameList', function(tag_name, callback) {	// tag_name is not used
+	var tag_name_list = new Array('抒情', '恐怖', '空灵', '浪漫');
+	return 	this.find({
+				tag_name: {
+					$in: tag_name_list
+				}
+			}, callback);
+});
+
 module.exports = mongoose.model('Tag', TagSchema);
