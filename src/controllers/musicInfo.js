@@ -34,21 +34,34 @@ exports.showMusicInfo = function(req, res, next) {
 
 
 // /update_music_info POST music
+// Request: /update_music_info
+// param: music_id
+// param: name
+// param: introduction
+// param: tags
+// param: is_specturm_public
+// param: is_music_public
 exports.updateMusicInfo = function(req, res, next) {
-	var music = req.body.music;
-	console.log (music.cover);
+	var music_id	= req.body.music_id;
+	var name 		= req.body.name;
+	var introduction= req.body.introduction;
+	var tags 		= req.body.tags;
+	var is_spectrum_public 	= req.body.is_spectrum_public;
+	var is_music_public		= req.body.is_music_public;
+
 	Music.update({
-		_id: music._id
+		_id: music_id
 	}, {
-		name: music.name,
-		cover: music.cover,
-		introduction: music.introduction,
-		tags: music.tags	// Format of music.tags is [tag0_id, tag1_id, tag2_id]
+		name: name,
+		introduction: introduction,
+		tags: tags,	// Format of music.tags is [tag0_id, tag1_id, tag2_id]
+		is_spectrum_public: is_spectrum_public,
+		is_music_public: is_music_public
 	}, {}, function(err, info) {
 		if (err) {
 			console.log('Error in /update_music_info request.');
 		} else {
-			console.log ('Update music(', music._id ,') info successfully.');
+			console.log ('Update music(', music_id ,') info successfully.');
 			res.redirect('/individual');
 		}
 	});
