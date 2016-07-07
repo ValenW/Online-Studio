@@ -67,11 +67,6 @@ var headUploader = multer({
 // });
 router.get('/', home.showHome);
 
-
-router.get('/music_info', function(req, res, next) {
-  res.render('music_info');
-});
-
 //调试
 router.get('/effect', function(req, res, next) {
   res.render('effect');
@@ -117,8 +112,8 @@ router.get('/music/listen', musicDetail.listen);
 router.post('/music/insertComment', auth.isTempAuthenticated, musicDetail.insertComment);
 
 // music_info
-router.get('/music_info', musicInfo.showMusicInfo);
-router.post('/update_music_info', musicInfo.updateMusicInfo);
+router.get('/music_info', auth.isTempAuthenticated, musicInfo.showMusicInfo);
+router.post('/update_music_info', auth.isTempAuthenticated, musicInfo.updateMusicInfo);
 
 // debug
 router.get('/create_tags', debug.createTags);
