@@ -5,28 +5,25 @@ block content
     include header
     include top_button
     link(rel='stylesheet', href='/stylesheets/music_detail.css')
-    script(src="/javascripts/music_detail.js")
     div.page-content
         div.top_view
             div.music_poster
-                img.ui.fluid.image.myimage(src='/resources/images/#{music.cover}')
+                img.ui.fluid.image.myimage(src='/resources/images/music_background.jpg')
             div.music_detail
                 div.evaluate
                     div.ui.star.rating(data-rating="4")
                 div.music_message
                     p 歌曲名字: #{music.name}
-                    p 歌曲作者: #{music.author.username}
+                    p 歌曲作者: #{music.author}
                     p 歌曲标签: 
-                        each tag in music.tags
-                            span #{tag.tag_name}
+                    each tag in music.tags
+                        #{tag.tag_name}
                     p 发行时间: #{music.date}
-                div.right_message(style="padding-top:10px;")
+                div.right_message
                     button.circular.ui.icon.button.right_button
                         i.share.icon
-                        分享
-                    button.circular.ui.icon.button.right_button(style="margin-left:10px;")
+                    button.circular.ui.icon.button.right_button
                         i.save.icon
-                        保存
         div.middle_view
             div.ui.labeled.button(tabindex="0")
                 div.ui.red.button
@@ -49,39 +46,33 @@ block content
             div.send_comment
                 div.comment_head
                     img.ui.circular.image.pos(src='/resources/images/default_head.jpg')
-                textarea.submit-textarea(id="content",rows="3" cols="20")
-                button.submit-button(id = "submit_button",style="background-color:#00b5e5") 发表评论
+                textarea.submit-textarea(rows="3" cols="20")
+                button.submit-button(style="background-color:#00b5e5") 发表评论
             div.ui.dividing.header.divideline
             div.my_comment
-                if music.commentN >= 10 
-                -    var commentnum = 10
-                if music.commentN < 10
-                -    var commentnum = music.commentN
-                - for(var x = 0; x < commentnum; x++)
+                - for(var x = 0; x < 5; x++)
                     div.comment
                         div.comment_head
                             img.ui.circular.image.pos(src='/resources/images/default_head.jpg')
                         div.all_content
                             div.name
-                                p.description #{music.comments.comment_userId}
+                                p.description yonghuming
                             div.content
-                                p.description #{music.comments.comment_content}
+                                p.description 233333333333333
                             div.message
-                                - var high = music.commentN-x
-                                span.qua ##{high}
-                                span.qua #{music.comments.comment_date}
+                                span.qua #172
+                                span.qua x年x月x日
+                                span.qua ( 1 )赞
                         div.all
                             div.cha 查看全部
                     div.ui.dividing.header.divideline
             div.next_page
-                - var page_num = Math.ceil(music.commentN / 10)
-                span 共#{page_num}页
-                    - for (var x = 1; x <= page_num; x++)
-                        a(href='#') #{x}
+                span 共9页 
+                    - for (var x = 1; x < 3; x++)
+                        a(href='') #{x} 
                 span 下一页
 
 
-    script.
-        window.music = !{JSON.stringify(music)};
+
+
     include footer
-    include music_player

@@ -10,12 +10,10 @@ var home        = require('../controllers/home');
 var editor      = require('../controllers/editor');
 var category    = require('../controllers/category');
 var individual  = require('../controllers/individual');
-var musicDetail = require('../controllers/musicDetail');
-var musicInfo   = require('../controllers/musicInfo');
-
 
 var debug       = require('../controllers/debug');
 
+var musicDetail = require('../controllers/musicDetail');
 
 var data = require('../data/data');
 
@@ -85,13 +83,42 @@ router.get('/share', function(req, res, next) {
 
 // sign
 router.get('/login', sign.showLogin);
-router.post('/login', sign.login);
-router.get('/signup', sign.showSignup);
+
+router.post('/login', function(req, res, next) {
+  User.findOne({
+    'username': req.body.username,
+    'password': req.body.password
+  }, function(err, user) {
+    if (err) {
+      console.log('error');
+    } else {
+      if (user === null) {
+        req.flash('error', 'The username or password is not correct');
+        res.redirect('/login');
+      } else {
+        req.session.user = user;
+        res.redirect('/');
+      }
+    }
+  });
+});
+
+router.get('/signup', function(req, res, next) {
+  res.render('signup', {error: req.flash('error').toString()});
+});
+
 router.post('/signup', sign.signup);
+
 router.get('/wait', auth.isTempAuthenticated, sign.getWait);
+
 router.get('/sendagain', auth.isTempAuthenticated, sign.getSendAgain);
+
 router.get('/conf', sign.getConf);
-router.get('/logout', sign.logout);
+
+router.get('/logout', function(req, res, next) {
+  req.session.destroy();
+  res.redirect('/');
+});
 
 // home
 router.get('/home', home.showHome);
@@ -99,26 +126,15 @@ router.get('/home', home.showHome);
 // editor
 router.get('/editor', editor.showEditor);
 router.post('/editor/save', editor.saveSpectrum);
-router.post('/editor/login', editor.login);
-router.post('/editor/sign', editor.signup);
-router.get('/editor/logout', editor.logout);
 
 // category
 router.get('/category', category.showCategory);
 
 // individual
-router.get('/individual', auth.isAuthenticated, individual.showIndividual);
+router.get('/individual', auth.isTempAuthenticated, individual.showIndividual);
 
 // musicDetail
 router.get('/music', musicDetail.showMusicDetail);
-router.get('/music/saveMusicToRepo', auth.isAuthenticated, musicDetail.saveMusicToRepo);
-router.get('/music/share', musicDetail.share);
-router.get('/music/listen', musicDetail.listen);
-router.post('/music/insertComment', auth.isAuthenticated, musicDetail.insertComment);
-
-// music_info
-router.get('/music_info', musicInfo.showMusicInfo);
-router.get('/update_music_info', musicInfo.updateMusicInfo);
 
 // debug
 router.get('/create_tags', debug.createTags);

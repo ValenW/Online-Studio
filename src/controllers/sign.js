@@ -23,9 +23,8 @@ exports.login = function(req, res, next) {
                 req.flash('error', 'The username or password is not correct');
                 res.redirect('/login');
             } else {
-                var fromUrl = req.query.url || '/';
                 req.session.user = user;
-                res.redirect(fromUrl);
+                res.redirect('/');
             }
         }
     });

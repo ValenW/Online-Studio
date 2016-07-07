@@ -9,6 +9,7 @@ exports.showCategory = function(req, res, next) {
 	var newest_count = 20;
 	var hotest_count = 20;
 	var page = req.query.page == undefined ? 0 :  req.query.page - 1;
+	var tag_name_list = new Array('抒情', '恐怖', '空灵', '浪漫');
 	var sorted = req.query.sorted;
 
 	// finding tag3 begin
@@ -28,7 +29,11 @@ exports.showCategory = function(req, res, next) {
 
 				if (req.query.page == undefined) {	// page request
 
-					Tag.findByDefaultTagNameList(null, function(err, tags) {
+					Tag.find({
+						tag_name: {
+							$in: tag_name_list
+						}
+					}, function(err, tags) {
 						if (err) {
 							console.log ('Error in /category of Tag.find action.');
 						} else {
@@ -39,9 +44,9 @@ exports.showCategory = function(req, res, next) {
 								music_list: music_list_pu,
 								tot_count: tag_music_list.length,
 								sorted: sorted,
-								user: req.session.user == undefined ? null : {
-									username: req.session.user.username,
-									profile: req.session.user.profiles
+								user: {
+									username: req.session.user == undefined ? null : req.session.user.username,
+									profile: req.session.user == undefined ? null : req.session.user.profiles
 								}
 							});
 							// render end.
