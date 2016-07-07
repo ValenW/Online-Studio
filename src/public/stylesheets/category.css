@@ -61,24 +61,29 @@ li .item .card {
 
 .l-r {
 	float: left;
-	width: 240px;
+	width: 300px;
 }
 
 .title {
 	color: #222;
-	max-height: 40px;
-	word-wrap: break-word;
-	word-break: break-all;
+	height: 20px;
+	overflow: hidden;
+	white-space: nowrap;
+	text-overflow: ellipsis;
+}
+
+.title:hover {
+	cursor: pointer;
+	color: #00a1d6;
 }
 
 .v-desc {
-	min-height: 40px;
+	height: 60px;
 	color: #99a2aa;
-	word-wrap: break-word;
-	word-break: break-all;
 	margin: 14px 0 14px 0;
 	overflow: hidden;
-	clear: both;
+	word-break: normal;
+	text-overflow: ellipsis;
 }
 
 .v-info {
@@ -100,7 +105,7 @@ li .item .card {
 	text-overflow: ellipsis;
 }
 
-a {
+a, .title {
 	transition: color .2s;
 	-moz-transition: color .2s;
 	-webkit-transition: color .2s;
