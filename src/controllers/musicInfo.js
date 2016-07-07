@@ -3,7 +3,7 @@ var Music = require('../models/Music');
 // /music_info?music_id=***
 exports.showMusicInfo = function(req, res, next) {
 	user = req.session.user;
-	if (user == undefined) {	// user does not login in.
+	if (user === undefined) {	// user does not login in.
 		console.log ('Uesr hasn\'t login in.');
 		res.redirect('/login');
 	} else {
@@ -14,7 +14,7 @@ exports.showMusicInfo = function(req, res, next) {
 			if (err) {
 				console.log ('Error in /music_info request.');
 			} else {
-				if (music.author != user._id) {	// user is not music's author
+				if (music.author !== user._id) {	// user is not music's author
 					console.log('User is not the author of the music.');
 					res.redirect('/');
 				} else {	// user is the author of the music.

@@ -7,11 +7,11 @@ var Comment = require('../models/Comment');
 // interface : /editor?spectrum_id=***  or  /editor
 exports.showEditor = function(req, res, next) {
 
-	if (req.query.spectrum_id == undefined) {
+	if (req.query.spectrum_id === undefined) {
 		// first time create Spectrum
 		res.render('editor', {
 			spectrum: null,
-			user: req.session.user == undefined ? null : {
+			user: req.session.user === undefined ? null : {
 				username: req.session.user.username,
 				profile: req.session.user.profiles
 			}
@@ -27,7 +27,7 @@ exports.showEditor = function(req, res, next) {
 			} else {
 				res.render('editor', {
 					spectrum: spectrums[0],
-					user: req.session.user == undefined ? null : {
+					user: req.session.user === undefined ? null : {
 						username: req.session.user.username,
 						profile: req.session.user.profiles
 					}
@@ -45,7 +45,7 @@ exports.saveSpectrum = function(req, res, next) {
 
 	// user not login, need to notice it
 	var user = req.session.user;
-	if (user == undefined) {	// user not login
+	if (user === undefined) {	// user not login
 		res.json({
 			is_login: false
 		});
@@ -55,7 +55,7 @@ exports.saveSpectrum = function(req, res, next) {
 	// user login, continue to create or save spectrum
 	spectrum_param = JSON.parse(req.body.spectrum);
 
-	if (spectrum_param._id == undefined) {	// create Spectrum document
+	if (spectrum_param._id === undefined) {	// create Spectrum document
 		// create Music document and set relationship between User and Music
 		// create Spectrum
 		var date = new Date();
@@ -142,13 +142,13 @@ exports.saveSpectrum = function(req, res, next) {
 					var based_on = null;
 					for (var cm_i in user.collected_musics) {
 						var c_music = user.collected_musics[cm_i];
-						if (c_music.spectrum == spectrum_param._id) {
+						if (c_music.spectrum === spectrum_param._id) {
 							based_on = c_music._id;
 							break;
 						}
 					}
 
-					if (based_on != null) {	// act when in
+					if (based_on !== null) {	// act when in
 						// create a new Spectrum the same as the spectrum_param
 						// create Spectrum begin.
 						var date = new Date();
