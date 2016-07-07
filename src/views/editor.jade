@@ -24,10 +24,12 @@ block content
 						i.stop.icon
 			div.right.item
 				if user
-					div.ui.inverted.green.button(id="user" userid="#{user._id}" style="margin-left:15px") #{user.username}
+					div.ui.inverted.orange.button(id="user" userid="#{user._id}" style="margin-left:15px") #{user.username}
 				else
 					div.ui.inverted.button(id="signin" style="width:80px; margin-left:15px") 登陆
 					div.ui.inverted.button(id="signup" style="width:80px; margin-left:15px") 注册
+				div.ui.inverted.icon.button(id="home" style="margin-left:15px")
+					i.ui.home.icon
 				div.ui.inverted.button(id="save" style="width:80px; margin-left:15px") 保存
 		//- 编辑网格
 		canvas(id="canvas")
@@ -49,22 +51,20 @@ block content
 	div.ui.small.modal(id="signin-modal")
 		div.header
 		div.content(style="width:300px; margin:auto")
-			form(class="ui form login-form")
+			form(class="ui form login-form" onSubmit="signin(); return false;")
 				div(class="field")
 					label Username
 					div(class="ui left icon input")
-						input(type="text" name="username" placeholder="Username")
+						input.username-input(type="text" name="username" placeholder="Username")
 						i(class="user icon")
 				div(class="field")
 					label Password
 					div(class="ui left icon input")
-						input(type="password" name="password" placeholder="Password")
+						input.password-input(type="password" name="password" placeholder="Password")
 						i(class="lock icon")
-				div.ui.signin.submit.button(style="display:none")
-			if error
-				div#error-message-block(class="ui error message")
-					ul.list
-						li #{error}
+			div(class="ui error message" style="display:none")
+				ul.list
+					li.error-message
 		div.actions(style="text-align:center")
 			div.ui.green.button(id="signin-btn" style="width:30%;") 登陆
 			a.jumpup(style="left:20px; position:relative") 注册
@@ -73,41 +73,39 @@ block content
 	div.ui.small.modal(id="signup-modal")
 		div.header
 		div.content(style="width:300px; margin:auto")
-			form(class="ui form signup-form")
+			form(class="ui form signup-form" onSubmit="signup(); return false;")
 				div(class="field")
 					label Username
 					div(class="ui left icon input")
-						input(type="text" placeholder="Username" name="username")
+						input.username-input(type="text" placeholder="Username" name="username")
 						i(class="user icon")
 				div(class="field")
 					label Email
 					div(class="ui left icon input")
-						input(type="text" placeholder="Email" name="email")
+						input.email-input(type="text" placeholder="Email" name="email")
 						i(class="mail icon")
 				div(class="field")
 					label Password
 					div(class="ui left icon input")
-						input(type="password" name="password" placeholder="Password")
+						input.password-input(type="password" name="password2" placeholder="Password")
 						i(class="lock icon")
 				div(class="field")
 					label Confirm Password
 					div(class="ui left icon input")
-						input(type="password" placeholder="Password" name="confirm_password")
+						input.confirm-input(type="password" placeholder="Password" name="confirm_password")
 						i(class="lock icon")
-				div.ui.signup.submit.button(style="display:none")
-			if error
-				div#error-message-block(class="ui error message")
-					ul.list
-						li #{error}
+			div(class="ui error message" style="display:none")
+				ul.list
+					li.error-message
 		div.actions(style="text-align:center")
 			div.ui.green.button(id="signup-btn" style="width:30%;") 注册
 			a.jumpin(style="left:20px; position:relative") 登陆
 
-	//- 个人页面跳转提示框
-	div.ui.small.basic.modal(id="individual-modal")
+	//- 页面跳转提示框
+	div.ui.small.basic.modal(id="jump-modal")
 		div.ui.icon.header
 			i.warning.sign.icon
-			p 是否跳转至个人主页？
+			p.msg 是否跳转至个人主页？
 		div.content(style="text-align:center")
 			h3 跳转会丢失编辑内容，请确保乐谱保存成功。
 		div.actions
@@ -131,4 +129,3 @@ block content
 	script(src="javascripts/editor/music.js")
 	script(src="javascripts/editor/data.js")
 	script(src="javascripts/editor/canvas.js")
-	script(src="/javascripts/form.js" defer)
