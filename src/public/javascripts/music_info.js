@@ -39,6 +39,74 @@ function extendJQ() {
 window.addEventListener("load", init, false);
 
 function init() {
+    // 扩展读片预览功能
     extendJQ();
-    $("#up").uploadPreview({ img: "cover", width: 160, height: 100 });
+    $('#up').uploadPreview({ img: 'cover', width: 160, height: 100 });
+    
+    // 分享音乐选择设置
+    setShareCheckbox();
+
+    // 设置保存按钮
+    setSaveHandler();
+
+    // 设置发布按钮
+    setShareHandler();
+}
+
+function setShareCheckbox() {
+    $('.share-yes').checkbox('set checked');
+    $('.share-yes').checkbox({
+        onChecked: function() {
+            $('.share-no').checkbox('set unchecked');
+        },
+        onUnchecked: function() {
+            $('.share-yes').checkbox('set checked');
+        }
+    });
+    $('.share-no').checkbox({
+        onChecked: function() {
+            $('.share-yes').checkbox('set unchecked');
+        },
+        onUnchecked: function() {
+            $('.share-no').checkbox('set checked');
+        }
+    });
+}
+
+function setSaveHandler() {
+    $('.save.button').click(function() {
+        var title = $('.title-input').val();
+        var intro = $('.intro-input').val();
+        var tags = $("input:checkbox[name='tag']:checked");
+        var isShare = $("input:checkbox[name='share']:checked").val();
+        if (title.length < 1 || title.title > 32) {
+            showError('标题：字符数限制1~32个');
+        }
+        else if (intro.length < 1 || intro.length > 200) {
+            showError('作品说明：字符数限制1~200个');
+        }
+        else if (tags.length < 1) {
+            showError('标签：作品应至少包含1个标签');
+        }
+        else {
+            $('.error.message').css('display', 'none');
+            
+        } 
+    })
+}
+
+function setShareHandler() {
+    $('.share.button').click(function() {
+        // do something
+        $('.save.button').click();
+    });
+    $('.close-share.button').click(function() {
+        // do something
+        $('.save.button').click();
+    });
+}
+
+function showError(message) {
+    $('.error-message').text(message);
+    $('.error.message').css('display', 'block');
 }

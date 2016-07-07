@@ -4,6 +4,7 @@
 .image.small-item > img {
 	width: 160px;
 	height: 100px;
+	overflow: hidden;
 }
 
 .ui.card {
