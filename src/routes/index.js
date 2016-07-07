@@ -18,11 +18,6 @@ var debug       = require('../controllers/debug');
 
 var data = require('../data/data');
 
-var headUploader = uploadImg('head/', function(req, file) {
-  console.log(file);
-  return req.session.user._id + '_head';
-})
-
 /* GET home page. */
 // router.get('/', function(req, res, next) {
 //   // headPath: path to the headcut
@@ -81,14 +76,14 @@ router.get('/editor/logout', editor.logout);
 router.get('/category', category.showCategory);
 
 // individual
-router.get('/individual', auth.isTempAuthenticated, individual.showIndividual);
+router.get('/individual', auth.isAuthenticated, individual.showIndividual);
 
 // musicDetail
 router.get('/music', musicDetail.showMusicDetail);
-router.get('/music/saveMusicToRepo', auth.isTempAuthenticated, musicDetail.saveMusicToRepo);
+router.get('/music/saveMusicToRepo', auth.isAuthenticated, musicDetail.saveMusicToRepo);
 router.get('/music/share', musicDetail.share);
 router.get('/music/listen', musicDetail.listen);
-router.post('/music/insertComment', auth.isTempAuthenticated, musicDetail.insertComment);
+router.post('/music/insertComment', auth.isAuthenticated, musicDetail.insertComment);
 
 // music_info
 router.get('/music_info', auth.isTempAuthenticated, musicInfo.showMusicInfo);
@@ -103,15 +98,12 @@ router.get('/look_users', debug.lookUsers);
 router.get('/look_commments', debug.lookComments);
 router.get('/look_spectrums', debug.lookSpectrums);
 
-router.get('/uploads', auth.isAuthenticated, function(req, res, next) {
-  res.render('upload');
+var testUploader = uploadImg('test/', function(req, file) {
+  console.log(file);
+  return 'test';
 });
-
-router.post('/uploads', headUploader.single('image'), function(req, res, next) {
-  console.log(req.file);
-  username = req.session.user;
-  res.redirect('/');
-});
+router.get('/look_uploadImage', debug.lookUploadImg);
+router.post('/look_uploadImage', testUploader.single('image'), debug.uploadImg);
 
 // create data
 router.get('/create_data', data.createData);

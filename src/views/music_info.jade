@@ -10,44 +10,64 @@ block content
 			div.lf
 				p 标题
 			div.rf
-				input.title-input(type='text' placeholder='')
+				input.title-input(type='text' placeholder='1~32个字符')
+				//- input.title-input(type='text' placeholder='#{music.name}')
 		div.ui.divider
 		div.item
 			div.lf
-				p 上传图片
+				p 上传封面
 			div.rf
 				div.rlf
 					input.cover-input(id='up' type='file')
+					p(style='margin-top:20px') 图片格式: gif, jpeg, jpg, bmp, png
 				div.rrf
 					div
-						img(id='cover' width='160' height='100' src='/resources/images/default_cover.png')
+						img(id='cover' width='160' height='100' src='')
+						//- img(id='cover' width='160' height='100' src='#{music.cover}')
 		div.ui.divider
 		div.item
 			div.lf
 				p 作品说明
 			div.rf
-				textarea.intro-input
+				textarea.intro-input(placeholder='1~200个字符')
 		div.ui.divider
 		div.item
 			div.lf
 				p 标签
 			div.rf
 				div.ui.checkbox
-					input(type='checkbox' tabindex='0')
-					label 抒情
+					input(type='checkbox' name='tag')
+					label 苹果
 				div.ui.checkbox
-					input(type='checkbox' tabindex='1')
-					label 恐怖
-				div.ui.checkbox
-					input(type='checkbox' tabindex='2')
-					label 空灵
-				div.ui.checkbox
-					input(type='checkbox' tabindex='3')
-					label 浪漫
+					input(type='checkbox' name='tag')
+					label 香蕉
+				//- -for (var i = 0; i < tags.length; ++i)
+				//- 	div.ui.checkbox
+				//- 		input(type='checkbox' tabindex='#{i}')
+				//- 		label #{tags[i].tag_name}
+
 		div.ui.divider
+		div.item
+			div.lf
+				p 是否分享乐谱
+			div.rf
+				div.ui.checked.checkbox.share-yes
+					input(type='checkbox' name='share' value='1')
+					label 是
+				div.ui.checkbox.share-no
+					input(type='checkbox' name='share' value='0')
+					label 否
+		div.ui.divider
+		div.ui.error.message(style="display:none")
+			ul.list
+				li.error-message
 		div.ui.button-groups
-			div.ui.button 保存
-			div.ui.button 发布
+			div.ui.blue.button.save 保存
+			div.ui.green.button.share 发布
+			//- if music.is_music_public
+			//- 	div.ui.green.button 发布
+			//- else
+			//- 	div.ui.red.button 关闭发布
 
 	include footer
 

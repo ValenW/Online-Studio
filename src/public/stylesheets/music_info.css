@@ -13,6 +13,7 @@
 }
 
 .lf {
+	float: left;
 	width: 300px;
 	padding-left: 100px;
 }
@@ -23,6 +24,7 @@
 }
 
 .rlf {
+	float: left;
 	width: 300px;
 }
 
@@ -45,4 +47,9 @@
 
 img {
 	border-radius: 5px;
+	outline: none;
+	border-color: #222;
+	box-shadow: 0 0 20px #222;
+	-moz-box-shadow: 0 0 20px #222;
+	-webkit-box-shadow: 0 0 20px #222;
 }
