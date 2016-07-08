@@ -1,15 +1,16 @@
 music_player
     link(rel='stylesheet', href='/stylesheets/music_player.css')
+    script(src="libs/createjs/createjs-2015.11.26.min.js")
     div.music-player
         div.left_button(style="padding-top:64px;")
-            button.circular.ui.icon.button(style="margin-left:20px;")
+            button.circular.ui.icon.button(id="pause",style="margin-left:20px;")
                 i.pause.icon
-            button.circular.ui.icon.button(style="margin-left:20px;")
+            button.circular.ui.icon.button(id="play",style="margin-left:20px;")
                 i.play.icon
-            button.circular.ui.icon.button(style="margin-left:20px;")
+            button.circular.ui.icon.button(id="stop",style="margin-left:20px;")
                 i.repeat.icon
         div.middle
-            canvas.music-canvas
+            canvas.music-canvas(id="canvas")
         div.volume(style="padding-top:64px;")
             button.circular.ui.icon.button(style="margin-left:10px;vertical-align: top;")
                 i.music.icon
