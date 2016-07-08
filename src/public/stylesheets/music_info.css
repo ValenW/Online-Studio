@@ -5,7 +5,7 @@
 .ui.form {
 	width: 1000px;
 	min-height: 500px;
-	margin: 40px auto 50px auto;
+	margin: 40px auto 80px auto;
 }
 
 .form .item {
@@ -13,6 +13,7 @@
 }
 
 .lf {
+	float: left;
 	width: 300px;
 	padding-left: 100px;
 }
@@ -23,6 +24,7 @@
 }
 
 .rlf {
+	float: left;
 	width: 300px;
 }
 
@@ -31,18 +33,16 @@
 	width: 100px;
 }
 
-.button-groups {
-	width: 400px;
-	margin: 0 auto 50px auto;
-}
-
-.button-groups .button {
-	display: inline-block;
-	width: 100px;
-	margin: 50px;
+.button {
+	width: 150px;
 	font-family: "Microsoft YaHei", Arial, Helvetica, sans-serif;
 }
 
 img {
 	border-radius: 5px;
+	outline: none;
+	border-color: #222;
+	box-shadow: 0 0 20px #222;
+	-moz-box-shadow: 0 0 20px #222;
+	-webkit-box-shadow: 0 0 20px #222;
 }

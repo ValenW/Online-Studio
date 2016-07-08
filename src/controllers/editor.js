@@ -3,15 +3,17 @@ var Music = require('../models/Music');
 var User = require('../models/User');
 var Tag = require('../models/Tag');
 var Comment = require('../models/Comment');
+var MailSender = require('../middlewares/mail.js');
 
 // interface : /editor?spectrum_id=***  or  /editor
 exports.showEditor = function(req, res, next) {
 
-	if (req.query.spectrum_id == undefined) {
+	if (req.query.spectrum_id === undefined) {
 		// first time create Spectrum
 		res.render('editor', {
 			spectrum: null,
-			user: req.session.user == undefined ? null : {
+			user: req.session.user === undefined ? null : {
+				_id: req.session.user._id,
 				username: req.session.user.username,
 				profile: req.session.user.profiles
 			}
@@ -27,7 +29,8 @@ exports.showEditor = function(req, res, next) {
 			} else {
 				res.render('editor', {
 					spectrum: spectrums[0],
-					user: req.session.user == undefined ? null : {
+					user: req.session.user === undefined ? null : {
+						_id: req.session.user._id,
 						username: req.session.user.username,
 						profile: req.session.user.profiles
 					}
@@ -45,7 +48,7 @@ exports.saveSpectrum = function(req, res, next) {
 
 	// user not login, need to notice it
 	var user = req.session.user;
-	if (user == undefined) {	// user not login
+	if (user === undefined) {	// user not login
 		res.json({
 			is_login: false
 		});
@@ -55,7 +58,7 @@ exports.saveSpectrum = function(req, res, next) {
 	// user login, continue to create or save spectrum
 	spectrum_param = JSON.parse(req.body.spectrum);
 
-	if (spectrum_param._id == undefined) {	// create Spectrum document
+	if (spectrum_param._id === undefined) {	// create Spectrum document
 		// create Music document and set relationship between User and Music
 		// create Spectrum
 		var date = new Date();
@@ -85,7 +88,7 @@ exports.saveSpectrum = function(req, res, next) {
 				var music = new Music({
 					based_on: null,
 					spectrum: spectrum,
-					name: date,
+					name: date.toLocaleString(),
 					author: user,
 					cover: 'default_cover.png',
 					date: date,
@@ -142,13 +145,13 @@ exports.saveSpectrum = function(req, res, next) {
 					var based_on = null;
 					for (var cm_i in user.collected_musics) {
 						var c_music = user.collected_musics[cm_i];
-						if (c_music.spectrum == spectrum_param._id) {
+						if (c_music.spectrum === spectrum_param._id) {
 							based_on = c_music._id;
 							break;
 						}
 					}
 
-					if (based_on != null) {	// act when in
+					if (based_on !== null) {	// act when in
 						// create a new Spectrum the same as the spectrum_param
 						// create Spectrum begin.
 						var date = new Date();
@@ -169,7 +172,7 @@ exports.saveSpectrum = function(req, res, next) {
 								Music.create({
 									based_on: based_on,
 									spectrum: spectrum,
-									name: date,
+									name: date.toLocaleString(),
 									author: user,
 									cover: 'default_cover.png',
 									date: date,
@@ -238,15 +241,19 @@ exports.login = function(req, res, next) {
             console.log(err);
         } else {
             if (user === null) {
-                req.flash('error', 'The username or password is not correct');
                 res.json({
-                	login_rst: 'fail'
+                	login_rst: 'fail',
+                	message: 'The username or password is not correct'
                 });
             } else {
                 req.session.user = user;
                 res.json({
                 	login_rst: 'success',
-                	user: user
+                	user: {
+						_id: req.session.user._id,
+						username: req.session.user.username,
+						profile: req.session.user.profiles
+                	}
                 })
             }
         }
@@ -261,14 +268,15 @@ exports.signup = function(req, res, next) {
 
     User.find({$or: [ {'username': username}, {'email': email} ]}, function(err, users) {
         if (users.length > 0) {
+        	var message = '';
             if (users[0].confed) {
-                console.log(users[0].confed);
-                req.flash('error', 'The username or email has been used');
+                message = 'The username or email has been used';
             } else {
-                req.flash('error', 'The username hasn\'t been confired');
+                message = 'The username hasn\'t been confired';
             }
             res.json({
-            	signup_rst: 'fail'
+            	signup_rst: 'fail',
+            	message: message
             });
         } else {
             var date = new Date();
@@ -295,12 +303,15 @@ exports.signup = function(req, res, next) {
                             console.log('Account Confer email sent');
                         }
                     });
-                    req.flash('error', 'The account confiring email has been send.');
                     req.session.user = newUser;
                     console.log("new user: ", req.session.user);
                     res.json({
                     	signup_rst: 'success',
-                    	user: newUser
+                    	user: {
+							_id: req.session.user._id,
+							username: req.session.user.username,
+							profile: req.session.user.profiles
+						}
                     });
                 }
             });

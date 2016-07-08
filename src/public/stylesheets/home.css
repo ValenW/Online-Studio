@@ -4,6 +4,7 @@
 .image.small-item > img {
 	width: 160px;
 	height: 100px;
+	overflow: hidden;
 }
 
 .ui.card {
@@ -29,6 +30,10 @@
 }
 
 /* Page Content */
+.page-content {
+	min-height: 300px;
+}
+
 .container {
 	width: 1160px;
 	margin: auto;
@@ -171,6 +176,13 @@
 .rank .item > .label,
 .rank .item > .title {
 	display: inline-block;
+}
+
+.rank .item > .title {
+	width: 200px;
+	white-space: nowrap;
+	-o-text-overflow: ellipsis;
+	text-overflow: ellipsis;
 }
 
 /* Footer */
