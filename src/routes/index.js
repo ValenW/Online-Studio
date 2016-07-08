@@ -1,7 +1,6 @@
-var express = require('express');
-var router  = express.Router();
-
-var fs      = require('fs');
+var express     = require('express');
+var router      = express.Router();
+var fs          = require('fs');
 
 var auth        = require('../middlewares/auth');
 var uploadImg   = require('../middlewares/uploadImg');
@@ -86,8 +85,8 @@ router.get('/music/listen', musicDetail.listen);
 router.post('/music/insertComment', auth.isAuthenticated, musicDetail.insertComment);
 
 // music_info
-router.get('/music_info', auth.isTempAuthenticated, musicInfo.showMusicInfo);
-router.post('/update_music_info', auth.isTempAuthenticated, musicInfo.updateMusicInfo);
+router.get('/music_info', auth.isAuthenticated, musicInfo.showMusicInfo);
+router.post('/update_music_info', auth.isAuthenticated, musicInfo.updateMusicInfo);
 
 // debug
 router.get('/create_tags', debug.createTags);
