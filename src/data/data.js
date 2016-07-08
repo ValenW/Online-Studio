@@ -57,31 +57,57 @@ exports.createData = function(req, res, next) {
                 is_music_pubic: true,
                 is_spectrum_pubic: true,
                 introduction: "这是一首好听的歌"
-            }, function(err, music) {
+            }, function(err, music1) {
                 if (err) {
                     console.log("发生了错误！！！！！！！");
                 }
-                console.log(music);
+                console.log(music1);
                 Tag.create({
                     tag_name: "流行",
-                    music_list: [music._id]
+                    music_list: [music1._id]
                 }, function(err, tag) {
-                    music.update({$push: {tags: tag._id}}, function(err) {
-                        User.create({
-                            username: "linytsysu",
-                            email: "linytsysu@163.com",
-                            password: "password",
-                            confed: true,
-                            profile: "linytsysu.png",
-                            introduction: "hello world",
-                            musics: [music._id],
-                            createData: user_create_date
-                        }, function(err, user) {
-                            console.log(user);
-                            music.update( {$set: {author: user._id}}, function(err) {
-                                 res.redirect('/');
+                    music1.update({$push: {tags: tag._id}}, function(err) {
+                        Music.create({
+                            spectrum: [spectrum._id],
+                            name: "悲伤的歌",
+                            author: null,
+                            cover: "sad_song.png",
+                            date: music_create_date,
+                            tags: [],
+                            ranks: [4.5],
+                            comments: [comment._id],
+                            listenN: 10,
+                            collectN: 2,
+                            commentN: 2,
+                            shareN: 1,
+                            is_music_pubic: true,
+                            is_spectrum_pubic: true,
+                            introduction: "这是一首悲伤的歌"
+                        }, function(err, music2) {
+                            tag.update({$push: {music_list: music2._id}}, function(err) {
+                                User.create({
+                                    username: "linytsysu",
+                                    email: "linytsysu@163.com",
+                                    password: "password",
+                                    confed: true,
+                                    profile: "linytsysu.png",
+                                    introduction: "hello world",
+                                    musics: [music1._id],
+                                    original_musics: [music1._id],
+                                    collected_musics: [music1._id, music2._id],
+                                    derivative_musics: [],
+                                    createData: user_create_date
+                                }, function(err, user) {
+                                    console.log(user);
+                                    music1.update( {$set: {author: user._id}}, function(err) {
+                                        music2.update( {$set: {author: user._id}}, function(err) {
+                                            res.redirect('/');
+                                        });
+                                    });
+                                });
                             });
                         });
+                        
                     });
                 });
             });
