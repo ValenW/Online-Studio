@@ -6,6 +6,7 @@ block content
     include top_button
     link(rel='stylesheet', href='/stylesheets/music_detail.css')
     script(src="/javascripts/music_detail.js")
+    script(src="/javascripts/music_detail_play.js")
     div.page-content
         div.top_view
             div.music_poster
@@ -83,5 +84,6 @@ block content
 
     script.
         window.music = !{JSON.stringify(music)};
+
     include footer
     include music_player

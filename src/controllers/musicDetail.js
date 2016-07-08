@@ -9,7 +9,7 @@ exports.showMusicDetail = function(req, res, next) {
 
     Music
         .findOne({_id: music_id})
-        .populate('author tags comments')
+        .populate('author tags comments spectrum')
         .exec(function(err, music) {
             if (err) {
                 console.log("err when find music by ID: ", err);
@@ -119,7 +119,9 @@ exports.insertComment = function(req, res, next) {
                                     music.comments.push(comment._id);
                                     music.commentN+=1;
                                     music.save();
+                                    console.log(12);
                                     res.send(Comment.findByMusicId(music_id));
+                                    console.log(123);
                                 }
                             }
                         });
