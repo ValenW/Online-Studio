@@ -47,6 +47,7 @@ function initPrint(){
     analyser = context.createAnalyser();
     array = new Uint8Array(analyser.frequencyBinCount);
     step = Math.round(array.length/draw_num);
+    window.requestAnimationFrame(draw);
 }
 
 function initAnimationFrame(){
@@ -213,20 +214,20 @@ window.playMusic = function(){
             window.playNote(window.music.spectrum.channels[x][y]);
         }
     }
-    animation_id = window.requestAnimationFrame(draw);
-    console.log("play music");
-    console.log(animation_id);
+    // animation_id = window.requestAnimationFrame(draw);
+    // console.log("play music");
+    // console.log(animation_id);
 }
 
 window.stopMusic = function(){
-    console.log("stop music");
-    console.log(animation_id);
-    if(animation_id == null){
-        return;
-    }else{
-        window.cancelAnimationFrame(animation_id);
-        animation_id = null;
-    }
+    // console.log("stop music");
+    // console.log(animation_id);
+    // if(animation_id == null){
+    //     return;
+    // }else{
+    //     window.cancelAnimationFrame(animation_id);
+    //     animation_id = null;
+    // }
 }
 
 window.setTempo = function(_tempo) {

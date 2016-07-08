@@ -4,6 +4,7 @@ block content
     - var categories = ['自制音乐', '改编音乐', '收藏音乐']
     - var num = [1,2,100]
     link(rel='stylesheet', href='/stylesheets/individual.css')
+    script(src='/javascripts/individual.js')
     include top_marked
     include header
     include top_button
@@ -46,7 +47,8 @@ block content
                                                     img(src='#')
                                             p 作品名称可以很长很长很长很长的喔
 
-
-
+    
+    script.
+        window.user = !{JSON.stringify(user)};
 
     include footer
