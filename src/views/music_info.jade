@@ -4,7 +4,7 @@ block content
 	link(rel='stylesheet', href='/stylesheets/music_info.css')
 	include header
 
-	form.ui.form(method='post' action='/update_music_info')
+	form.ui.form(method='post' action='/update_music_info' enctype='multipart/form-data')
 		//- 音乐id隐藏
 		div(style='display:none')
 			input(type='text' name='music_id' value='#{music._id}')
@@ -26,14 +26,14 @@ block content
 				p 上传封面
 			div.rf
 				div.rlf
-					input.cover-input(id='up' type='file' name='cover')
+					input.cover-input(id='up' type='file' accept='image/*' name='cover')
 					p(style='margin-top:20px') 图片格式: gif, jpeg, jpg, bmp, png
 				div.rrf
 					div
 						if music.cover
-							img(id='cover' width='160' height='100' src='#{music.cover}')
+							img(id='cover' width='160' height='100' src='/uploads/' + '#{music.cover}')
 						else
-							img(id='cover' width='160' height='100' src='resources/images/default_cover.png')
+							img(id='cover' width='160' height='100' src='/resources/images/default_cover.png')
 		div.ui.divider
 		//- 介绍
 		div.item
