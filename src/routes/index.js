@@ -58,11 +58,11 @@ router.get('/individual', individual.showIndividual);
 
 // musicDetail
 router.get('/music', musicDetail.showMusicDetail);
-router.get('/music/saveMusicToRepo', auth.isTempAuthenticated, musicDetail.saveMusicToRepo);
+router.get('/music/saveMusicToRepo',  musicDetail.saveMusicToRepo);
 router.get('/music/share', musicDetail.share);
 router.get('/music/listen', musicDetail.listen);
-router.get('/music/isCollect', auth.isTempAuthenticated, musicDetail.is_collect);
-router.post('/music/insertComment',  auth.isTempAuthenticated, musicDetail.insertComment);
+router.get('/music/isCollect',  musicDetail.is_collect);
+router.post('/music/insertComment',   musicDetail.insertComment);
 
 // music_info
 router.get('/music_info', auth.isTempAuthenticated, musicInfo.showMusicInfo);
