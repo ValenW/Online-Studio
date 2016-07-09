@@ -28,6 +28,16 @@ function init() {
     initNavigator();
     initAnimationFrame();
     initPrint();
+    initProgress();
+}
+
+function progress_increment(){
+    $('#myProgress').progress('increment');
+}
+
+function initProgress(){
+    $('#myProgress').progress({total: 2});
+    $('#myProgress').progress({percent: 0});
 }
 
 function initPrint(){
@@ -68,23 +78,38 @@ function initNavigator(){
 }
 
 function initButtons() {
+    //播放按钮，按下之后不能再次按
     $("#play").click(function() {
         window.playMusic();
+        window.listenIncrement();
         $("#play").addClass("active");
         $("#pause").removeClass("active");
         $("#stop").removeClass("active");
+        $("#play").attr('disabled',true);
+        $("#pause").removeAttr('disabled');
+        //$("#stop").removeAttr('disabled');
+        //$("#pause").disabled = 'disabled';
+        //$("#stop").disabled = 'disabled';
     });
+    //按下之后不能再按
     $("#pause").click(function() {
-        window.pauseBuoy();
+        progress_increment();
         $("#play").removeClass("active");
         $("#pause").addClass("active");
         $("#stop").removeClass("active");
+        $("#pause").attr('disabled',true);
+        $("#play").removeAttr('disabled');
+        //$("#stop").removeAttr('disabled');
     });
+    //重头播放，可以不停的按
     $("#stop").click(function() {
         window.stopMusic();
         $("#play").removeClass("active");
         $("#pause").removeClass("active");
         $("#stop").addClass("active");
+        //$("#stop").attr('disabled',true);
+        $("#pause").removeAttr('disabled');
+        $("#play").removeAttr('disabled');
     });
     $('#channel').dropdown({
         onChange: function(val) {
@@ -207,6 +232,7 @@ window.playNote = function(note) {
 }
 
 window.playMusic = function(){
+    console.log(window.music);
     for (var x in window.music.spectrum.channels){
         //console.log(window.music.spectrum.channels[x]);
         for(var y in window.music.spectrum.channels[x]){
@@ -214,6 +240,7 @@ window.playMusic = function(){
             window.playNote(window.music.spectrum.channels[x][y]);
         }
     }
+    initProgress();
     // animation_id = window.requestAnimationFrame(draw);
     // console.log("play music");
     // console.log(animation_id);
