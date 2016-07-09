@@ -12,7 +12,8 @@ var headUploader = uploadImg('heads/', function(req, file) {
 
 // request: /individual
 exports.showIndividual = function(req, res, next) {
-	var user_id = req.query.user_id;
+	var user_id = req.session.user._id;     // ??
+	console.log(user_id);
 	User.findOne({_id: user_id}, '-password')
 	    .populate('musics original_musics collected_musics derivative_musics')
 	    .exec(function(err, user) {
@@ -20,10 +21,10 @@ exports.showIndividual = function(req, res, next) {
 			console.log ('Error in /individual interface...');
 		} else {
 			if (user === null) {
-				req.fresh('error', 'User not exist!');
+				console.log("no such user with ID: ", user_id);
 			}
 			console.log (user);
-			headPath = './bin/public/uploads/heads/' + user._id + '_head';
+			headPath = './bin/public/uploads/heads/' + user_id + '_head';
 			try {
 			  fs.accessSync(headPath, fs.R_OK);
 			  console.log("ok: " + headPath);
@@ -31,20 +32,9 @@ exports.showIndividual = function(req, res, next) {
 			  headPath = './bin/public/uploads/heads/guest';
 			}
 
-			var postUser = {
-				username:			user.username,
-				email:				user.email,
-				profile:			user.profile,
-				introduction:		user.introduction,
-				musics: 			user.musics,
-				original_musics: 	user.original_musics,
-				collected_musics: 	user.collected_musics,
-				derivative_musics: 	user.derivative_musics,
-				createDate: 		user.createDate,
-				headPath: 			headPath
-			}
+			user.headPath = headPath;
 			res.render('individual', {
-				user: postUser
+				user: user
 			});
 		}
 	});
@@ -62,7 +52,7 @@ exports.updateIndividual = function(req, res, next) {
 			var profile		 = req.body.profile;
 			var introduction = req.body.introduction;
 			User.update({
-				_id: user._id;
+				_id: user._id
 			}, {
 				username: username,
 				password: password,

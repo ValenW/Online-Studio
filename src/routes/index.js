@@ -54,7 +54,7 @@ router.get('/editor/logout', editor.logout);
 router.get('/category', category.showCategory);
 
 // individual
-router.get('/user', individual.showIndividual);
+router.get('/individual', individual.showIndividual);
 
 // musicDetail
 router.get('/music', musicDetail.showMusicDetail);
@@ -62,7 +62,7 @@ router.get('/music/saveMusicToRepo', auth.isAuthenticated, musicDetail.saveMusic
 router.get('/music/share', musicDetail.share);
 router.get('/music/listen', musicDetail.listen);
 router.get('/music/isCollect', auth.isAuthenticated, musicDetail.is_collect);
-router.post('/music/insertComment', auth.isAuthenticated, musicDetail.insertComment);
+router.post('/music/insertComment',  auth.isAuthenticated, musicDetail.insertComment);
 
 // music_info
 router.get('/music_info', auth.isAuthenticated, musicInfo.showMusicInfo);
