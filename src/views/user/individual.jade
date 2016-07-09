@@ -2,7 +2,8 @@ extends ../layout
 
 block content
     - var categories = ['自制音乐', '改编音乐', '收藏音乐']
-    - var num = [1,2,100]
+    - var num = [user.original_musics.length,user.derivative_musics.length,user.collected_musics.length]
+    - var e_cate = ['original_musics','derivative_musics','collected_musics']
     link(rel='stylesheet', href='/stylesheets/individual.css')
     script(src='/javascripts/individual.js')
     include ../top_marked
@@ -39,16 +40,24 @@ block content
                                     div.item
                                         div.ui.basic.button 下一页
                             div.content-wrapper
-                                ul
-                                    - for (var j = 0; j < 10; ++j)
+                                ul  
+                                    if num[i] < 10
+                                        -var i_num = num[i]
+                                    if num[i] >= 10
+                                        -var i_num = 10
+                                    - for (var j = 0; j < i_num; ++j)
                                         li
                                             div.ui.card.small-item
                                                 div.image.small-item
-                                                    img(src='#')
-                                            p 作品名称可以很长很长很长很长的喔
+                                                    img(src="#{user[e_cate[i]][j]['cover']}")
+                                            p(align="center") #{user[e_cate[i]][j]['name']}
 
     
     script.
         window.user = !{JSON.stringify(user)};
+        //console.log(user['collected_musics'])
+        //console.log(user['collected_musics'][0])
+        //console.log(user['collected_musics'][0]['cover'])
+        //console.log(user['collected_musics'][0]['name'])
 
     include ../footer
