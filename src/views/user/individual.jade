@@ -1,13 +1,13 @@
-extends layout
+extends ../layout
 
 block content
     - var categories = ['自制音乐', '改编音乐', '收藏音乐']
     - var num = [1,2,100]
     link(rel='stylesheet', href='/stylesheets/individual.css')
     script(src='/javascripts/individual.js')
-    include top_marked
-    include header
-    include top_button
+    include ../top_marked
+    include ../header
+    include ../top_button
 
     div.category-menu
         div.container
@@ -51,4 +51,4 @@ block content
     script.
         window.user = !{JSON.stringify(user)};
 
-    include footer
+    include ../footer
