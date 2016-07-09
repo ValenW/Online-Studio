@@ -29,7 +29,7 @@ exports.showMusicDetail = function(req, res, next) {
                         } else {
                             res.render('music_detail', {
                                 music: populatedMusic,
-                                user: User.findOne({_id: req.session.user._id}, '-password');
+                                user: User.findOne({_id: req.session.user._id}, '-password')
                             });
                         }
                     });
@@ -208,7 +208,7 @@ exports.is_collect = function(req, res, next) {
                                 else {
 
                                     res.json({
-                                        is_collect: music_id in user.collected_musics;
+                                        is_collect: music_id in user.collected_musics
                                     });
 
                                 }

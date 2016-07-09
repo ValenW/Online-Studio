@@ -62,7 +62,7 @@ exports.updateIndividual = function(req, res, next) {
 			var profile		 = req.body.profile;
 			var introduction = req.body.introduction;
 			User.update({
-				_id: user._id;
+				_id: user._id
 			}, {
 				username: username,
 				password: password,

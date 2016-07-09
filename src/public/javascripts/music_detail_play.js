@@ -31,6 +31,11 @@ function init() {
     initProgress();
 }
 
+function test(){
+    progress_increment();
+    animation_id = window.requestAnimationFrame(test);
+}
+
 function progress_increment(){
     $('#myProgress').progress('increment');
 }
@@ -93,7 +98,7 @@ function initButtons() {
     });
     //按下之后不能再按
     $("#pause").click(function() {
-        progress_increment();
+        test();
         $("#play").removeClass("active");
         $("#pause").addClass("active");
         $("#stop").removeClass("active");
@@ -106,7 +111,7 @@ function initButtons() {
         window.stopMusic();
         $("#play").removeClass("active");
         $("#pause").removeClass("active");
-        $("#stop").addClass("active");
+        //$("#stop").addClass("active");
         //$("#stop").attr('disabled',true);
         $("#pause").removeAttr('disabled');
         $("#play").removeAttr('disabled');
@@ -255,6 +260,7 @@ window.stopMusic = function(){
     //     window.cancelAnimationFrame(animation_id);
     //     animation_id = null;
     // }
+    window.cancelAnimationFrame(animation_id);
 }
 
 window.setTempo = function(_tempo) {
