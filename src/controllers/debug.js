@@ -1,8 +1,9 @@
-var Spectrum = require('../models/Spectrum');
-var Music = require('../models/Music');
-var User = require('../models/User');
-var Tag = require('../models/Tag');
-var Comment = require('../models/Comment');
+var Spectrum    = require('../models/Spectrum');
+var Music       = require('../models/Music');
+var User        = require('../models/User');
+var Tag         = require('../models/Tag');
+var Comment     = require('../models/Comment');
+var uploadImg   = require('../middlewares/uploadImg');
 
 exports.createTags = function(req, res, next) {
 	var tag_name_list = [ {tag_name :'抒情'}, { tag_name: '恐怖'}, {tag_name: '空灵'}, {tag_name: '浪漫'}];
@@ -56,10 +57,19 @@ exports.lookSpectrums = function(req, res, next) {
 };
 
 exports.lookUploadImg = function(req, res, next) {
-  res.render('upload');
+    res.render('upload');
 };
 
 exports.uploadImg = function(req, res, next) {
-  console.log(req.file);
-  res.redirect('/');
+    var upload = uploadImg('test/', function(req, file) {
+        console.log(file);
+        return 'test';
+    }).single('image');
+    
+    upload(req, res, function(err) {
+        if (err) {
+            console.log('err when test upload img:\n', err);
+        }
+        res.redirect('/');
+    });
 };

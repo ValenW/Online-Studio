@@ -25,25 +25,31 @@ block content
                     button.circular.ui.icon.button.right_button
                         i.share.icon
                         分享
-                    button.circular.ui.icon.button.right_button(style="margin-left:10px;")
-                        i.save.icon
-                        保存
+                    if music.author._id == user._id    
+                        button.circular.ui.icon.button.right_button(style="margin-left:10px;")
+                            i.paint.brush.icon
+                            编辑音乐信息
         div.middle_view
             div.ui.labeled.button(tabindex="0")
                 div.ui.red.button
                     i.heart.icon
                     span 试听
-                a.ui.basic.left.pointing.label #{music.listenN}
-            div.ui.labeled.button(tabindex="0")
+                a.ui.basic.left.pointing.label(id="listenN") #{music.listenN}
+            div.ui.labeled.button(tabindex="0",id="collect")
                 div.ui.red.button
                     i.save.icon
                     span 收藏
-                a.ui.basic.left.pointing.label #{music.collectN}
+                a.ui.basic.left.pointing.label(id="collectN") #{music.collectN}
             div.ui.labeled.button(tabindex="0")
                 div.ui.red.button
                     i.comments.icon
                     span 评论
-                a.ui.basic.left.pointing.label #{music.commentN}
+                a.ui.basic.left.pointing.label(id="commentN") #{music.commentN}
+            if is_spectrum_public == true
+                div.ui.labeled.button(tabindex="0")
+                    div.ui.red.button
+                        i.heart.icon
+                        a(href="") 编辑
         div.bottom_view
             div.ui.comments
                 h3.ui.dividing.header #{music.commentN}评论
@@ -72,7 +78,7 @@ block content
                                 span.qua ##{high}
                                 span.qua #{music.comments.comment_date}
                         div.all
-                            div.cha 查看全部
+                            //div.cha 查看全部
                     div.ui.dividing.header.divideline
             div.next_page
                 - var page_num = Math.ceil(music.commentN / 10)

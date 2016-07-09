@@ -17,27 +17,6 @@ var debug       = require('../controllers/debug');
 
 var data = require('../data/data');
 
-/* GET home page. */
-// router.get('/', function(req, res, next) {
-//   // headPath: path to the headcut
-//   path = 'uploads/head/';
-//   headPath = "";
-//   if (req.session.user) {
-//     uid = req.session.user._id;
-//     fileName = uid + "_head";
-//     try {
-//       headPath = path + fileName;
-//       console.log("ok?: " + headPath);
-//       fs.accessSync('./bin/public/' + headPath, fs.R_OK);
-//       console.log("ok: " + headPath);
-//     } catch (e) {
-//       headPath = path + 'ghost';
-//     }
-//   } else {
-//     headPath = path + 'ghost';
-//   }
-//   res.render('home');
-// });
 router.get('/', home.showHome);
 
 //调试
@@ -75,18 +54,19 @@ router.get('/editor/logout', editor.logout);
 router.get('/category', category.showCategory);
 
 // individual
-router.get('/individual', auth.isAuthenticated, individual.showIndividual);
+router.get('/individual', individual.showIndividual);
 
 // musicDetail
 router.get('/music', musicDetail.showMusicDetail);
-router.get('/music/saveMusicToRepo', auth.isAuthenticated, musicDetail.saveMusicToRepo);
+router.get('/music/saveMusicToRepo',  musicDetail.saveMusicToRepo);
 router.get('/music/share', musicDetail.share);
 router.get('/music/listen', musicDetail.listen);
-router.post('/music/insertComment', auth.isAuthenticated, musicDetail.insertComment);
+router.get('/music/isCollect',  musicDetail.is_collect);
+router.post('/music/insertComment',   musicDetail.insertComment);
 
 // music_info
-router.get('/music_info', auth.isAuthenticated, musicInfo.showMusicInfo);
-router.post('/update_music_info', auth.isAuthenticated, musicInfo.updateMusicInfo);
+router.get('/music_info', auth.isTempAuthenticated, musicInfo.showMusicInfo);
+router.post('/update_music_info', auth.isTempAuthenticated, musicInfo.updateMusicInfo);
 
 // debug
 router.get('/create_tags', debug.createTags);
@@ -96,13 +76,8 @@ router.get('/look_musics', debug.lookMusics);
 router.get('/look_users', debug.lookUsers);
 router.get('/look_commments', debug.lookComments);
 router.get('/look_spectrums', debug.lookSpectrums);
-
-var testUploader = uploadImg('test/', function(req, file) {
-  console.log(file);
-  return 'test';
-});
 router.get('/look_uploadImage', debug.lookUploadImg);
-router.post('/look_uploadImage', testUploader.single('image'), debug.uploadImg);
+router.post('/look_uploadImage', debug.uploadImg);
 
 // create data
 router.get('/create_data', data.createData);

@@ -90,7 +90,7 @@ exports.saveSpectrum = function(req, res, next) {
 					spectrum: spectrum,
 					name: date.toLocaleString(),
 					author: user,
-					cover: 'default_cover.png',
+					cover: 'musicCovers/default_cover.png',
 					date: date,
 					tags: [tag],	// for debug
 					// tags: [],	// release version
@@ -174,7 +174,7 @@ exports.saveSpectrum = function(req, res, next) {
 									spectrum: spectrum,
 									name: date.toLocaleString(),
 									author: user,
-									cover: 'default_cover.png',
+									cover: 'musicCovers/default_cover.png',
 									date: date,
 									// tags: [],	// release version
 									ranks: [],

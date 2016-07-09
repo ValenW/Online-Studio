@@ -62,6 +62,7 @@ exports.showHome = function(req, res, next) {
 									tot_hotest_music: tot_hotest_music_pu,
 									tags: ret_tags,
 									user: req.session.user === undefined ? null : {
+										_id: req.session.user._id,
 										username: req.session.user.username,
 										profile: req.session.user.profiles
 									}
