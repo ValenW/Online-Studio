@@ -42,6 +42,7 @@ exports.createData = function(req, res, next) {
             console.log(comment);
             console.log(spectrum);
             Music.create({
+                based_on: null,
                 spectrum: [spectrum._id],
                 name: "好听的歌",
                 author: null,
@@ -68,6 +69,7 @@ exports.createData = function(req, res, next) {
                 }, function(err, tag) {
                     music1.update({$push: {tags: tag._id}}, function(err) {
                         Music.create({
+                            based_on: music1._id,
                             spectrum: [spectrum._id],
                             name: "悲伤的歌",
                             author: null,

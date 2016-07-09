@@ -41,7 +41,7 @@ exports.showIndividual = function(req, res, next) {
 			}
 
 			user.headPath = headPath;
-			res.render('individual', {
+			res.render('user/individual', {
 				user: user
 			});
 		}

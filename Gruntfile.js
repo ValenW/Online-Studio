@@ -28,7 +28,9 @@ module.exports = function (grunt) {
     },
     clean: {
       build: {
-        src: ["bin"]
+        src: ["bin/bin/**", "bin/controllers/**", "bin/data/**",
+        "bin/middlewares/**", "bin/models/**", "bin/public/**",
+        "bin/routes/**", "bin/views/**", "bin/app.js"]
       }
     },
     concat: {

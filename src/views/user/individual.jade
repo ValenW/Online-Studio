@@ -1,4 +1,4 @@
-extends layout
+extends ../layout
 
 block content
     - var categories = ['自制音乐', '改编音乐', '收藏音乐']
@@ -6,9 +6,9 @@ block content
     - var e_cate = ['original_musics','derivative_musics','collected_musics']
     link(rel='stylesheet', href='/stylesheets/individual.css')
     script(src='/javascripts/individual.js')
-    include top_marked
-    include header
-    include top_button
+    include ../top_marked
+    include ../header
+    include ../top_button
 
     div.category-menu
         div.container
@@ -60,4 +60,4 @@ block content
         //console.log(user['collected_musics'][0]['cover'])
         //console.log(user['collected_musics'][0]['name'])
 
-    include footer
+    include ../footer
