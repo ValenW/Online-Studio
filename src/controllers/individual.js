@@ -27,9 +27,21 @@ exports.showIndividual = function(req, res, next) {
 			} catch (e) {
 			  headPath = './bin/public/uploads/heads/guest';
 			}
-			user.headPath = headPath;
+
+			var postUser = {
+				username:			user.username,
+				email:				user.email,
+				profile:			user.profile,
+				introduction:		user.introduction,
+				musics: 			user.musics,
+				original_musics: 	user.original_musics,
+				collected_musics: 	user.collected_musics,
+				derivative_musics: 	user.derivative_musics,
+				createDate: 		user.createDate,
+				headPath: 			headPath
+			}
 			res.render('individual', {
-				user: user
+				user: postUser
 			});
 		}
 	});
