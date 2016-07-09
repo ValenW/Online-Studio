@@ -17,27 +17,6 @@ var debug       = require('../controllers/debug');
 
 var data = require('../data/data');
 
-/* GET home page. */
-// router.get('/', function(req, res, next) {
-//   // headPath: path to the headcut
-//   path = 'uploads/head/';
-//   headPath = "";
-//   if (req.session.user) {
-//     uid = req.session.user._id;
-//     fileName = uid + "_head";
-//     try {
-//       headPath = path + fileName;
-//       console.log("ok?: " + headPath);
-//       fs.accessSync('./bin/public/' + headPath, fs.R_OK);
-//       console.log("ok: " + headPath);
-//     } catch (e) {
-//       headPath = path + 'ghost';
-//     }
-//   } else {
-//     headPath = path + 'ghost';
-//   }
-//   res.render('home');
-// });
 router.get('/', home.showHome);
 
 //调试
@@ -96,13 +75,8 @@ router.get('/look_musics', debug.lookMusics);
 router.get('/look_users', debug.lookUsers);
 router.get('/look_commments', debug.lookComments);
 router.get('/look_spectrums', debug.lookSpectrums);
-
-var testUploader = uploadImg('test/', function(req, file) {
-  console.log(file);
-  return 'test';
-});
 router.get('/look_uploadImage', debug.lookUploadImg);
-router.post('/look_uploadImage', testUploader.single('image'), debug.uploadImg);
+router.post('/look_uploadImage', debug.uploadImg);
 
 // create data
 router.get('/create_data', data.createData);
