@@ -54,7 +54,7 @@ router.get('/editor/logout', editor.logout);
 router.get('/category', category.showCategory);
 
 // individual
-router.get('/individual', individual.showIndividual);
+router.get('/user', individual.showIndividual);
 
 // musicDetail
 router.get('/music', musicDetail.showMusicDetail);
