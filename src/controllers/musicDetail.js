@@ -27,9 +27,13 @@ exports.showMusicDetail = function(req, res, next) {
                         if (err) {
                             console.log("err when loading music with ID: "+music_id);
                         } else {
+
                             res.render('music_detail', {
                                 music: populatedMusic,
-                                user: User.findOne({_id: req.session.user._id}, '-password')
+                                user: req.session.user == undefined ? null : {
+                                    username: req.session.user.username,
+                                    profile: req.session.user.profiles
+                                }
                             });
                         }
                     });
@@ -130,7 +134,7 @@ exports.insertComment = function(req, res, next) {
                                     //res.send(Comment.findByMusicId(music_id));
                                     console.log(music.comments);
                                     res.json({
-                                        comment_list: "music.comments"
+                                        comment_list: music.comments
                                     });
                                 }
                             }
