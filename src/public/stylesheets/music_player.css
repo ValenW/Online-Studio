@@ -23,6 +23,7 @@
 /**/
 .middle{
     width: 70%;
+    height: 100%;
     display: inline-block;
     vertical-align: top;
 }
@@ -30,7 +31,7 @@
 /*波动*/
 .music-canvas{
     width: 100%;
-    height: 100%;
+    height: 130px;
     background-color: rgb(143,143,143);
 }
 
@@ -41,5 +42,10 @@
     height: 100%;
     vertical-align: top;
     background-color: rgb(128,128,128);
+}
+
+.myProgress{
+    width: 100%;
+    height: 10px;
 }
 
