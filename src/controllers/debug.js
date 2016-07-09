@@ -56,7 +56,7 @@ exports.lookSpectrums = function(req, res, next) {
 };
 
 exports.lookUploadImg = function(req, res, next) {
-	res.render('upload');
+  res.render('upload');
 };
 
 exports.uploadImg = function(req, res, next) {
