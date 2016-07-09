@@ -2,7 +2,10 @@ var User = require('../models/User');
 
 // request: /individual
 exports.showIndividual = function(req, res, next) {
-	User.findOne({_id: req.session.user._id}).populate('musics').exec(function(err, user) {
+	var user_id = req.query.user_id;
+	User.findOne({_id: user_id}, '-password')
+	    .populate('musics original_musics collected_musics derivative_musics')
+	    .exec(function(err, user) {
 		if (err) {
 			console.log ('Error in /individual interface...');
 		} else {

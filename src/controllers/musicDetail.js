@@ -29,7 +29,7 @@ exports.showMusicDetail = function(req, res, next) {
                         } else {
                             res.render('music_detail', {
                                 music: populatedMusic,
-                                user: req.session.user
+                                user: User.findOne({_id: req.session.user._id}, '-password');
                             });
                         }
                     });
@@ -121,13 +121,13 @@ exports.insertComment = function(req, res, next) {
                                         comment_content: comment_string
                                     });
                                     comment.save();
-                                    music.comments.push(comment._id);
+                                    music.comments.push(comment);
                                     music.commentN+=1;
                                     music.save();
 
-                                    res.send(Comment.findByMusicId(music_id));
+                                    //res.send(Comment.findByMusicId(music_id));
                                     res.json({
-                                        comment_list: Comment.findByMusicId(music_id)
+                                        comment_list: music.comments
                                     });
                                 }
                             }
@@ -179,6 +179,42 @@ exports.listen = function(req, res, next) {
                 res.json({
                     listenN: music.listenN
                 });
+            }
+        });
+}
+
+/*Url get /music/isCollect?music_id=123  */
+exports.is_collect = function(req, res, next) {
+    var user_id = req.session.user._id;
+    var music_id = req.query.music_id;
+    console.log("user ID:", user_id);
+
+    User
+        .findOne({_id: user_id})
+        .exec(function(err, user) {
+            if (err) {
+                console.log("err when find user by ID: ", err);
+                throw err;
+            } else {
+                if (user === null) console.log("no such user with ID: ", user_id);
+                else {
+                    Music.findOne({_id: music_id})
+                         .exec(function(err, music) {
+                            if (err) {
+                                console.log("err when find music by ID: ", err);
+                                throw err;
+                            } else {
+                                if (music === null) console.log("no such music with ID: ", music_id);
+                                else {
+
+                                    res.json({
+                                        is_collect: music_id in user.collected_musics;
+                                    });
+
+                                }
+                            }
+                         });
+                }
             }
         });
 }
