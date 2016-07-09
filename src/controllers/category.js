@@ -39,7 +39,8 @@ exports.showCategory = function(req, res, next) {
 								music_list: music_list_pu,
 								tot_count: tag_music_list.length,
 								sorted: sorted,
-								user: req.session.user == undefined ? null : {
+								user: req.session.user === undefined ? null : {
+									_id: req.session.user._id,
 									username: req.session.user.username,
 									profile: req.session.user.profiles
 								}
