@@ -54,19 +54,19 @@ router.get('/editor/logout', editor.logout);
 router.get('/category', category.showCategory);
 
 // individual
-router.get('/user', individual.showIndividual);
+router.get('/individual', individual.showIndividual);
 
 // musicDetail
 router.get('/music', musicDetail.showMusicDetail);
-router.get('/music/saveMusicToRepo', auth.isAuthenticated, musicDetail.saveMusicToRepo);
+router.get('/music/saveMusicToRepo',  musicDetail.saveMusicToRepo);
 router.get('/music/share', musicDetail.share);
 router.get('/music/listen', musicDetail.listen);
-router.get('/music/isCollect', auth.isAuthenticated, musicDetail.is_collect);
-router.post('/music/insertComment', auth.isAuthenticated, musicDetail.insertComment);
+router.get('/music/isCollect',  musicDetail.is_collect);
+router.post('/music/insertComment',   musicDetail.insertComment);
 
 // music_info
-router.get('/music_info', auth.isAuthenticated, musicInfo.showMusicInfo);
-router.post('/update_music_info', auth.isAuthenticated, musicInfo.updateMusicInfo);
+router.get('/music_info', auth.isTempAuthenticated, musicInfo.showMusicInfo);
+router.post('/update_music_info', auth.isTempAuthenticated, musicInfo.updateMusicInfo);
 
 // debug
 router.get('/create_tags', debug.createTags);

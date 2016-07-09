@@ -34,7 +34,7 @@ exports.showMusicInfo = function(req, res, next) {
 							profile: req.session.user.profiles
 						}
 					});
-				});	
+				});
 			}
 		}
 	});
@@ -53,8 +53,6 @@ exports.showMusicInfo = function(req, res, next) {
 // param: cover
 exports.updateMusicInfo = function(req, res, next) {
 	console.log('in updateMusicInfo');
-
-	var upload = musicCoverUploader.single('cover');
 	upload(req, res, function(err) {
 		if (err) {
 			console.log ('Error in uploading Music Cover.\n', err);
