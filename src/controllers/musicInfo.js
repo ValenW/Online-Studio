@@ -18,6 +18,11 @@ exports.showMusicInfo = function(req, res, next) {
 		if (err) {
 			console.log ('Error in /music_info request.');
 		} else {
+			if (music == null) {
+				console.log ('music_id(', music_id, ') can\'t be found.');
+				res.send('Error');
+				return;
+			}
 			console.log ('music.author', music.author);
 			console.log ('user._id', user._id);
 			if (music.author != user._id) {	// user is not music's author
