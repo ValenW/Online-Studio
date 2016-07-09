@@ -10,12 +10,20 @@ var headUploader = uploadImg('heads/', function(req, file) {
 	return req.session.user._id + '_head';
 });
 
-// request: /individual
+// request: /user
 exports.showIndividual = function(req, res, next) {
-	var user_id = req.session.user._id;     // ??
+	var user_id = req.session.user._id;    
 	console.log(user_id);
+
+	var isUser = {};
+	if (user_id != req.session.user._id) {   // should be !=
+		isUser.is_music_public = true;
+	}
 	User.findOne({_id: user_id}, '-password')
-	    .populate('musics original_musics collected_musics derivative_musics')
+	    .populate({path: 'musics', match: isUser, select: '_id name cover'})
+	    .populate({path: 'original_musics', match: isUser, select: '_id name cover'})
+	    .populate({path: 'collected_musics', match: isUser, select: '_id name cover'})
+	    .populate({path: 'derivative_musics', match: isUser, select: '_id name cover'})
 	    .exec(function(err, user) {
 		if (err) {
 			console.log ('Error in /individual interface...');

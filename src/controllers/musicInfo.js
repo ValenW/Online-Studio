@@ -18,6 +18,11 @@ exports.showMusicInfo = function(req, res, next) {
 		if (err) {
 			console.log ('Error in /music_info request.');
 		} else {
+			if (music == null) {
+				console.log ('music_id(', music_id, ') can\'t be found.');
+				res.send('Error');
+				return;
+			}
 			console.log ('music.author', music.author);
 			console.log ('user._id', user._id);
 			if (music.author != user._id) {	// user is not music's author
@@ -53,38 +58,58 @@ exports.showMusicInfo = function(req, res, next) {
 // param: cover
 exports.updateMusicInfo = function(req, res, next) {
 	console.log('in updateMusicInfo');
-	upload(req, res, function(err) {
-		if (err) {
-			console.log ('Error in uploading Music Cover.\n', err);
-		} else {
-			var music_id			= req.body.music_id;
-			var name 				= req.body.name;
-			var introduction		= req.body.introduction;
-			var tags 				= req.body.tag;
-			var is_spectrum_public 	= req.body.is_spectrum_public;
-			var is_music_public		= req.body.is_music_public;
-			// var cover 			= req.body.cover;
+	var music_id			= req.body.music_id;
+	var name 				= req.body.name;
+	var introduction		= req.body.introduction;
+	var tags 				= req.body.tag;
+	var is_spectrum_public 	= req.body.is_spectrum_public;
+	var is_music_public		= req.body.is_music_public;
 
-			console.log ('Uploading Muisc Cover ', music_id + '_cover',' for Music ', music_id, 'successfully.');
-			Music.update({
-				_id: music_id
-			}, {
-				name: name,
-				introduction: introduction,
-				tags: tags,	// Format of music.tags is [tag0_id, tag1_id, tag2_id]
-				is_spectrum_public: is_spectrum_public,
-				is_music_public: is_music_public,
-				cover: 'musicCovers/' + music_id + '_cover'
-			}, {}, function(err, info) {
-				if (err) {
-					console.log('Error in /update_music_info request.\n', err);
-				} else {
-					console.log ('Update music(', music_id ,') info successfully.');
-					console.log(info);
-					res.redirect('/individual');
-				}
-			});
-		}
-	});
+	if (req.body.cover == null) {	// secondary change music information without cover uploaded
+		Music.update({
+			_id: music_id
+		}, {
+			name: name,
+			introduction: introduction,
+			tags: tags,	// Format of music.tags is [tag0_id, tag1_id, tag2_id]
+			is_spectrum_public: is_spectrum_public,
+			is_music_public: is_music_public
+		}, {}, function(err, info) {
+			if (err) {
+				console.log('Error in /update_music_info request.\n', err);
+			} else {
+				console.log ('Update music(', music_id ,') info successfully.');
+				console.log(info);
+				res.redirect('/individual');
+			}
+		});
+	} else {	// change music information with cover uploaded
+		var upload = musicCoverUploader.single('cover');
+		upload(req, res, function(err) {
+			if (err) {
+				console.log ('Error in uploading Music Cover.\n', err);
+			} else {
 
+				console.log ('Uploading Muisc Cover ', music_id + '_cover',' for Music ', music_id, 'successfully.');
+				Music.update({
+					_id: music_id
+				}, {
+					name: name,
+					introduction: introduction,
+					tags: tags,	// Format of music.tags is [tag0_id, tag1_id, tag2_id]
+					is_spectrum_public: is_spectrum_public,
+					is_music_public: is_music_public,
+					cover: 'musicCovers/' + music_id + '_cover'
+				}, {}, function(err, info) {
+					if (err) {
+						console.log('Error in /update_music_info request.\n', err);
+					} else {
+						console.log ('Update music(', music_id ,') info successfully.');
+						console.log(info);
+						res.redirect('/individual');
+					}
+				});
+			}
+		});
+	}
 };
