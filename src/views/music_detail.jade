@@ -52,14 +52,14 @@ block content
                         a(href="") 编辑
         div.bottom_view
             div.ui.comments
-                h3.ui.dividing.header #{music.commentN}评论
+                h3.ui.dividing.header(id="commentN2") #{music.commentN}评论
             div.send_comment
                 div.comment_head
                     img.ui.circular.image.pos(src='/resources/images/default_head.jpg')
                 textarea.submit-textarea(id="content",rows="3" cols="20")
                 button.submit-button(id = "submit_button",style="background-color:#00b5e5") 发表评论
             div.ui.dividing.header.divideline
-            div.my_comment
+            div.my_comment(id = "comment_all")
                 if music.commentN >= 10 
                 -    var commentnum = 10
                 if music.commentN < 10

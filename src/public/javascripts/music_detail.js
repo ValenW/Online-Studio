@@ -14,8 +14,10 @@ $(function(){
              data: {music_id:music._id, comment_string:$("#content").val()},
              dataType: "json",
              success: function(data){
-                         $('#content').html("");
-                         console.log(data);
+                         $('#content').val("");
+                         console.log();
+                         console.log(data.comment_list);
+                         updateCommentN(data.comment_list.length);
                       },
              error: function(XMLHttpRequest, textStatus, errorThrown){
                 console.log("comment error");
@@ -25,6 +27,8 @@ $(function(){
          });
     });
 });
+
+
 
 //收藏按钮事件
 $(function(){
@@ -62,6 +66,18 @@ window.updateCollectN = function(num){
 window.updateListenN = function(num){
     isListened = true;
     $("#listenN").html(num);
+}
+
+//更新评论数字
+window.updateCommentN = function(num){
+    $("#commentN").html(num);
+    $("#commentN2").html(num+"评论");
+}
+
+//更新下方评论
+window.updateComment = function(){
+    //for()
+    $("#comment_all").html();
 }
 
 //听音乐增加音乐的试听次数

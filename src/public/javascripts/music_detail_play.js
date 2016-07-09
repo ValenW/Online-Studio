@@ -237,7 +237,7 @@ window.playNote = function(note) {
 }
 
 window.playMusic = function(){
-    console.log(window.music);
+    //console.log(window.music);
     for (var x in window.music.spectrum.channels){
         //console.log(window.music.spectrum.channels[x]);
         for(var y in window.music.spectrum.channels[x]){
