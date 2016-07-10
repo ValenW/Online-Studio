@@ -2,6 +2,15 @@
 var isListened = false;
 var isCollected = false;
 
+//处理未登录
+window.isLogin = function(){
+    //未登陆
+    if(user == undefined || user == null){
+        return;
+    }
+}
+
+
 //submit按钮事件
 $(function(){
     $('#submit_button').click(function(){
@@ -81,7 +90,8 @@ window.updateComment = function(data,page_num){
     var p = data.length/10 + 1;
     $("#comment_all").html("");
     for(var i = 0; i <= 9; i++){
-        window.createComment(data[(page_num-1)*10+i],(page_num-1)*10+i+1);
+        if(data.length-((page_num-1)*10+i < 0)){return;}
+        window.createComment(data[data.length-((page_num-1)*10+i)],data.length-((page_num-1)*10+i));
         $("#comment_all").append(comment);
     }
     //for()
