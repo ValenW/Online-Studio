@@ -28,14 +28,37 @@ exports.showMusicDetail = function(req, res, next) {
                             console.log("err when loading music with ID: "+music_id);
                         } else {
 
-                            res.render('music_detail', {
-                                music: populatedMusic,
-                                user: req.session.user == undefined ? null : {
-                                    username: req.session.user.username,
-                                    profile: req.session.user.profile,
-                                    is_collect: music_id in User.findOne({_id: req.session.user._id}).collected_musics
-                                }
-                            });
+                            if (req.session.user != undefined) {
+                                User.findOne({
+                                    _id : req.session.user._id
+                                }, function(err, user) {
+                                    if (err) {
+                                        console.log(err);
+                                    } else {
+                                        if (user === null) {
+                                            console.log("err in musicDetail");
+                                        } else {
+                                            req.session.user = user;
+
+                                            console.log(req.session.user);
+
+                                            res.render('music_detail', {
+                                                music: populatedMusic,
+                                                user:  {
+                                                    username: req.session.user.username,
+                                                    profile: req.session.user.profile,
+                                                    is_collect: music_id in user.collected_musics
+                                                }
+                                            });
+                                        }
+                                    }
+                                });
+                            } else {
+                                res.render('music_detail', {
+                                    music: populatedMusic,
+                                    user:  null
+                                });
+                            }
                         }
                     });
                 }
