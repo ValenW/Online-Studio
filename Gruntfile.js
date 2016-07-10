@@ -11,13 +11,27 @@ module.exports = function (grunt) {
       deploy: {
         options: {
           process: function(content, srcpath) {
+            var viewsPathReg = /src\/views\//;
+            if (!viewsPathReg.test(srcpath)) {
+              return content;
+            }
             var jsReg = /javascripts\/(?:(?:\w+)\/)*(\w+)\.js/g
             var cssReg = /stylesheets\/(?:(?:\w+)\/)*(\w+)\.css/g
-            console.log(content.match(jsReg));
-            console.log(content.match(cssReg));
-            // var jsResult = "javascripts/"+content.match(jsReg)[1]+"min"+".js";
-            // console.log(jsResult);
-            // content.replace(jsReg, jsResult);
+            var jsMatchResult = content.match(jsReg);
+            var cssMatchResult =  content.match(cssReg);
+            if (jsMatchResult !== null) {
+              jsMatchResult.forEach(function(jsString) {
+                var targetJsString = jsString.replace('.js', '.min.js');
+                content = content.replace(jsString, targetJsString);
+              });
+            }
+            if (cssMatchResult !== null) {
+              cssMatchResult.forEach(function(cssString) {
+                var targetCssString = cssString.replace('.css', '.min.css');
+                content = content.replace(cssString, targetCssString);
+              });
+            }
+            return content;
           }
         },
         expand: true,
