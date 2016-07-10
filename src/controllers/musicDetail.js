@@ -32,8 +32,8 @@ exports.showMusicDetail = function(req, res, next) {
                                 music: populatedMusic,
                                 user: req.session.user == undefined ? null : {
                                     username: req.session.user.username,
-                                    profile: req.session.user.profiles,
-                                    is_collect: music_id in req.session.user.collected_musics
+                                    profile: req.session.user.profile,
+                                    is_collect: music_id in User.findOne({_id: req.session.user._id}).collected_musics
                                 }
                             });
                         }
