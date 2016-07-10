@@ -39,7 +39,7 @@ block content
                             div.detail_message #{userInfo.introduction}
                             if user
                                 if user._id == userInfo._id
-                                    button.ui.green.button 修改个人信息
+                                    button.ui.green.button(id='edit') 修改个人信息
 
 
         div.music_repository
@@ -53,26 +53,26 @@ block content
                                     h2 #{categories[i]} ( #{userInfo[(e_cate[i])].length} )
                                 div.right.menu
                                     div.item
-                                        div.ui.basic.button(style="margin-right:15px;") 上一页
-                                        div.ui.basic.button 下一页
+                                        div.ui.basic.button(id="#{e_cate[i]}_left_button",style="margin-right:15px;") 上一页
+                                        div.ui.basic.button(id="#{e_cate[i]}_right_button") 下一页
                             div.content-wrapper
-                                ul  
+                                ul(id = "#{e_cate[i]}")
                                     if userInfo[(e_cate[i])].length < 10
                                         -var i_num = userInfo[(e_cate[i])].length
                                     if userInfo[(e_cate[i])].length >= 10
                                         -var i_num = 10
-                                    - for (var j = 0; j < i_num; ++j)
+                                    - for (var j = 1; j <= i_num; ++j)
                                         li
                                             div.ui.card.small-item
                                                 div.image.small-item
-                                                    img(src="#{userInfo[(e_cate[i])][j]['cover']}")
-                                            p(align="center") #{userInfo[(e_cate[i])][j]['name']}
+                                                    img(src="#{userInfo[(e_cate[i])][userInfo[(e_cate[i])].length-j]['cover']}")
+                                            p(align="center") #{userInfo[(e_cate[i])][userInfo[(e_cate[i])].length-j]['name']}
 
 
     
     script.
         window.user = !{JSON.stringify(userInfo)};
-        console.log(userInfo);
+        console.log(user);
         //console.log(user['collected_musics'][0])
         //console.log(user['collected_musics'][0]['cover'])
         //console.log(user['collected_musics'][0]['name'])

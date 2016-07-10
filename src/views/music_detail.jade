@@ -48,13 +48,13 @@ block content
                     div.ui.labeled.button(tabindex="0",id="collect")
                         div.ui.red.button
                             i.save.icon
-                            span 已收藏
+                            span(id="collect_message") 已收藏
                         a.ui.basic.left.pointing.label(id="collectN") #{music.collectN}
                 else
                     div.ui.labeled.button(tabindex="0",id="collect")
                         div.ui.red.button
                             i.save.icon
-                            span 收藏
+                            span(id="collect_message") 收藏
                         a.ui.basic.left.pointing.label(id="collectN") #{music.collectN}
             div.ui.labeled.button(tabindex="0")
                 div.ui.red.button
