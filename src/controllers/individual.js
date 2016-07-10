@@ -12,11 +12,11 @@ var headUploader = uploadImg('heads/', function(req, file) {
 
 // request: /user
 exports.showIndividual = function(req, res, next) {
-	var user_id = req.session.user._id;    
+	var user_id = req.query.user_id;    
 	console.log(user_id);
 
 	var isUser = {};
-	if (user_id != req.session.user._id) {   // should be !=
+	if (req.session.user == undefined || user_id != req.session.user._id) {   // should be !=
 		isUser.is_music_public = true;
 	}
 	User.findOne({_id: user_id}, '-password')
@@ -42,7 +42,12 @@ exports.showIndividual = function(req, res, next) {
 
 			user.headPath = headPath;
 			res.render('user/individual', {
-				user: user
+				user:  req.session.user == undefined ? null : {
+                        username: req.session.user.username,
+                        profile: req.session.user.profiles,
+                        is_collect: music_id in req.session.user.collected_musics
+                    }
+				userInfo: user
 			});
 		}
 	});

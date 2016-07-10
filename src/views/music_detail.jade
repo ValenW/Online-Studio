@@ -70,21 +70,21 @@ block content
                             img.ui.circular.image.pos(src='/resources/images/default_head.jpg')
                         div.all_content
                             div.name
-                                p.description #{music.comments.comment_userId}
+                                p.description #{music.comments[x].comment_userId}
                             div.content
-                                p.description #{music.comments.comment_content}
+                                p.description #{music.comments[x].comment_content}
                             div.message
-                                - var high = music.commentN-x
+                                - var high = x
                                 span.qua ##{high}
-                                span.qua #{music.comments.comment_date}
+                                span.qua #{music.comments[x].comment_date}
                         div.all
                             //div.cha 查看全部
                     div.ui.dividing.header.divideline
-            div.next_page
+            div.next_page(id="next_page")
                 - var page_num = Math.ceil(music.commentN / 10)
                 span 共#{page_num}页
                     - for (var x = 1; x <= page_num; x++)
-                        a(href='#') #{x}
+                        span.qua #{x}
                 span 下一页
 
 

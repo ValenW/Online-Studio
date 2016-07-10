@@ -20,7 +20,7 @@ exports.showMusicDetail = function(req, res, next) {
 
                     var opts = [{
                         path: "comments.comment_userId",
-                        select: "profile",
+                        select: "profile username",
                         model: 'User'
                     }];
                     Music.populate(music, opts, function(err, populatedMusic) {
@@ -132,11 +132,28 @@ exports.insertComment = function(req, res, next) {
                                     music.commentN+=1;
                                     music.save();
 
-                                    //res.send(Comment.findByMusicId(music_id));
-                                    console.log(music.comments);
-                                    res.json({
-                                        comment_list: music.comments
+                                    //music.comments.populate('comment_userId', 'username profile');
+                                    var opts = [{
+                                        path: "comments.comment_userId",
+                                        select: "profile username",
+                                        model: 'User'
+                                    }];
+                                    Music.populate(music, opts, function(err, populatedMusic) {
+                                        if (err) {
+                                            console.log("err when loading music with ID: "+music_id);
+                                        } else {
+                                            console.log(music.comments);
+                                            res.json({
+                                                comment_list: populatedMusic.comments
+                                            });
+                                        }
                                     });
+
+                                    //res.send(Comment.findByMusicId(music_id));
+                                    // console.log(music.comments);
+                                    // res.json({
+                                    //     comment_list: music.comments
+                                    // });
                                 }
                             }
                         });
