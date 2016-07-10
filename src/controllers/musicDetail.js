@@ -54,6 +54,7 @@ exports.showMusicDetail = function(req, res, next) {
                                             res.render('music_detail', {
                                                 music: populatedMusic,
                                                 user:  {
+                                                    _id: req.session.user._id,
                                                     username: req.session.user.username,
                                                     profile: req.session.user.profile,
                                                     is_collect: isHaving
@@ -101,18 +102,18 @@ exports.saveMusicToRepo = function(req, res, next) {
                                 else {
 
 
-                                    var isHaving = false;
+                                    var isHad = false;
                                     for (var i = 0; i < user.collected_musics.length; i++) {
                                         if (music_id == user.collected_musics[i]) {
                                             user.collected_musics.splice(i, 1);
                                             music.collectN-=1;
-                                            isHaving = true;
+                                            isHad = true;
                                             break;
                                         }
                                     }
-                                    console.log(isHaving);
+                                    console.log(isHad);
 
-                                    if (!isHaving) {
+                                    if (!isHad) {
                                         music.collectN+=1;
                                         user.collected_musics.push(music_id);
                                     }
@@ -121,7 +122,8 @@ exports.saveMusicToRepo = function(req, res, next) {
                                     user.save();
 
                                     res.json({
-                                        collectN: music.collectN
+                                        collectN: music.collectN,
+                                        is_collect: !isHad
                                     });
 
                                 }

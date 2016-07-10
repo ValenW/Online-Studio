@@ -44,6 +44,7 @@ exports.showIndividual = function(req, res, next) {
 			res.render('user/individual', {
 				userInfo: user,
 				user:  req.session.user == undefined ? null : {
+					    _id: req.session.user._id,
                         username: req.session.user.username,
                         profile: req.session.user.profile
                     }
