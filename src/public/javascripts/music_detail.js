@@ -157,6 +157,7 @@ window.createComment = function(data,num){
     all = document.createElement('div');
     all.className = "all";
     comment.appendChild(all);
+    window.createDivideLine();
 }
 
 //创建一条分割线

@@ -33,7 +33,7 @@ function init() {
 
 function test(){
     progress_increment();
-    animation_id = window.requestAnimationFrame(test);
+    //animation_id = window.requestAnimationFrame(test);
 }
 
 function progress_increment(){
@@ -41,8 +41,12 @@ function progress_increment(){
 }
 
 function initProgress(){
-    $('#myProgress').progress({total: 1000});
-    $('#myProgress').progress({percent: 0});
+    //$('#myProgress').progress({total: 1000});
+    $('#myProgress').progress('reset');
+    $('#myProgress').progress({
+        duration : 200,
+        total    : 1000
+    });
 }
 
 function initPrint(){
@@ -102,8 +106,8 @@ function initButtons() {
         $("#play").removeClass("active");
         $("#pause").addClass("active");
         $("#stop").removeClass("active");
-        $("#pause").attr('disabled',true);
-        $("#play").removeAttr('disabled');
+        //$("#pause").attr('disabled',true);
+        //$("#play").removeAttr('disabled');
         //$("#stop").removeAttr('disabled');
     });
     //重头播放，可以不停的按
@@ -233,7 +237,7 @@ function playSound(buffer, head, tail) {
 window.playNote = function(note) {
     //console.log(bufferList);
     if (note)
-        playSound(bufferList[note.key], 0, note.tail - note.head + 1);
+        playSound(bufferList[note.key], note.head, note.tail);
 }
 
 window.playMusic = function(){
