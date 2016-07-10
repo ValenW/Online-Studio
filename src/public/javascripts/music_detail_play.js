@@ -41,7 +41,7 @@ function progress_increment(){
 }
 
 function initProgress(){
-    $('#myProgress').progress({total: 2});
+    $('#myProgress').progress({total: 1000});
     $('#myProgress').progress({percent: 0});
 }
 

@@ -13,11 +13,11 @@ window.isLogin = function(){
 }
 
 window.onload = function(){
-    console.log("start");
+    //console.log("start");
     comment_data = music.comments;
-    var p = parseInt(comment_data.length/10) + 1;
-    console.log(p);
-    window.updatePage(2);
+    var p = parseInt(comment_data.length/10);
+    //console.log(p);
+    window.updatePage(p);
 }
 
 //submit按钮事件
@@ -38,6 +38,8 @@ $(function(){
                          comment_data = data.comment_list;
                          window.updateCommentN(data.comment_list.length);
                          window.updateComment(data.comment_list,1);
+                         var p = parseInt(comment_data.length/10);
+                         window.updatePage(p);
                       },
              error: function(XMLHttpRequest, textStatus, errorThrown){
                 console.log("comment error");
