@@ -11,9 +11,9 @@ block content
     - var page_num = Math.ceil(music.commentN / 10)
     - var commentnum = 10
     if music.commentN >= 10 
-    -    commentnum = 10
+        -commentnum = 10
     if music.commentN < 10
-    -    commentnum = music.commentN
+        -commentnum = music.commentN
     div.page-content
         div.top_view
             div.music_poster
@@ -43,17 +43,25 @@ block content
                     i.heart.icon
                     span 试听
                 a.ui.basic.left.pointing.label(id="listenN") #{music.listenN}
-            div.ui.labeled.button(tabindex="0",id="collect")
-                div.ui.red.button
-                    i.save.icon
-                    span 收藏
-                a.ui.basic.left.pointing.label(id="collectN") #{music.collectN}
+            if user
+                if user.is_collect
+                    div.ui.labeled.button(tabindex="0")
+                        div.ui.red.button
+                            i.save.icon
+                            span 已收藏
+                        a.ui.basic.left.pointing.label #{music.collectN}
+                else
+                    div.ui.labeled.button(tabindex="0",id="collect")
+                        div.ui.red.button
+                            i.save.icon
+                            span 收藏
+                        a.ui.basic.left.pointing.label(id="collectN") #{music.collectN}
             div.ui.labeled.button(tabindex="0")
                 div.ui.red.button
                     i.comments.icon
                     span 评论
                 a.ui.basic.left.pointing.label(id="commentN") #{music.commentN}
-            if is_spectrum_public == true
+            if music.is_spectrum_public == true
                 div.ui.labeled.button(tabindex="0")
                     div.ui.red.button
                         i.heart.icon
@@ -85,11 +93,11 @@ block content
                             //div.cha 查看全部
                     div.ui.dividing.header.divideline
             div.next_page(id="next_page")
-                span 共#{page_num}页
-                    - for (var x = 1; x <= page_num; x++)
-                        //span.qua(style="color:blue;") #{x}
-                        a #{x}
-                span 下一页
+                //span 共#{page_num}页
+                //    - for (var x = 1; x <= page_num; x++)
+                //        //span.qua(style="color:blue;") #{x}
+                //        a #{x}
+                //span 下一页
 
 
     script.
