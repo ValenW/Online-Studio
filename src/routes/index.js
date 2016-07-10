@@ -55,6 +55,7 @@ router.get('/category', category.showCategory);
 
 // individual
 router.get('/user', individual.showIndividual);
+router.get('/user/update/:user_id', individual.showUserUpdate);
 
 // musicDetail
 router.get('/music', musicDetail.showMusicDetail);

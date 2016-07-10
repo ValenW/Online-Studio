@@ -1,0 +1,50 @@
+extends ../layout
+
+block content
+
+    include ../header
+
+    link(href="/stylesheets/user_update.css", rel="stylesheet")
+
+    #update-container
+        .information-block
+            span.item-label 头像
+            .item-content
+                img.ui.circular.image.avator-image(src="/heads/linytsysu.png")
+            .clear
+        .information-block
+            span.item-label 用户名
+            .item-content
+                .static-content
+                    p.item-content linytsysu
+                    i.edit.icon.edit-icon#username-edit-icon
+                        span 修改
+                .edit-content
+                    .ui.input
+                        input(name="username" value="linytsysu")
+                    .button-container
+                        button.ui.primary.button 保存
+                        button.ui.button.cancel-btn 取消
+            .clear
+        .information-block
+            span.item-label 邮箱
+            .item-content
+                .static-content
+                    p.item-content linytsysu@163.com
+            .clear
+        .information-block
+            span.item-label 自我介绍
+            .item-content
+                .static-content
+                    p.item-content 一个有趣的人
+                    i.edit.icon.edit-icon#introduction-edit-icon
+                        span 修改
+                .edit-content
+                    .ui.input
+                        input(name="introduction" value="一个有趣的人")
+                    .button-container
+                        button.ui.primary.button 保存
+                        button.ui.button.cancel-btn 取消
+            .clear
+    include ../footer
+    script(src="/javascripts/user_update.js")
