@@ -42,7 +42,12 @@ exports.showIndividual = function(req, res, next) {
 
 			user.headPath = headPath;
 			res.render('user/individual', {
-				user: user
+				user:  req.session.user == undefined ? null : {
+                        username: req.session.user.username,
+                        profile: req.session.user.profiles,
+                        is_collect: music_id in req.session.user.collected_musics
+                    }
+				userInfo: user
 			});
 		}
 	});
