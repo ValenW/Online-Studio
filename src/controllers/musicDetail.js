@@ -28,14 +28,47 @@ exports.showMusicDetail = function(req, res, next) {
                             console.log("err when loading music with ID: "+music_id);
                         } else {
 
-                            res.render('music_detail', {
-                                music: populatedMusic,
-                                user: req.session.user == undefined ? null : {
-                                    username: req.session.user.username,
-                                    profile: req.session.user.profiles,
-                                    is_collect: music_id in req.session.user.collected_musics
-                                }
-                            });
+                            if (req.session.user != undefined) {
+                                User.findOne({
+                                    _id : req.session.user._id
+                                }, function(err, user) {
+                                    if (err) {
+                                        console.log(err);
+                                    } else {
+                                        if (user === null) {
+                                            console.log("err in musicDetail");
+                                        } else {
+                                            req.session.user = user;
+
+                                            console.log(req.session.user);
+
+                                            var isHaving = false;
+                                            for (var i = 0; i < user.collected_musics.length; i++) {
+                                                if (music_id == user.collected_musics[i]) {
+                                                    isHaving = true;
+                                                    break;
+                                                }
+                                            }
+                                            console.log(isHaving);
+
+                                            res.render('music_detail', {
+                                                music: populatedMusic,
+                                                user:  {
+                                                    _id: req.session.user._id,
+                                                    username: req.session.user.username,
+                                                    profile: req.session.user.profile,
+                                                    is_collect: isHaving
+                                                }
+                                            });
+                                        }
+                                    }
+                                });
+                            } else {
+                                res.render('music_detail', {
+                                    music: populatedMusic,
+                                    user:  null
+                                });
+                            }
                         }
                     });
                 }
@@ -64,12 +97,23 @@ exports.saveMusicToRepo = function(req, res, next) {
                                 console.log("err when find music by ID: "+ err);
                                 throw err;
                             } else {
+                                
                                 if (music === null) console.log("no such music with ID: "+ music_id);
                                 else {
-                                    if (music_id in user.collected_musics) {
-                                        music.collectN-=1;
-                                        delete user.collected_musics[user.collected_musics.indexOf(music_id)];
-                                    } else {
+
+
+                                    var isHad = false;
+                                    for (var i = 0; i < user.collected_musics.length; i++) {
+                                        if (music_id == user.collected_musics[i]) {
+                                            user.collected_musics.splice(i, 1);
+                                            music.collectN-=1;
+                                            isHad = true;
+                                            break;
+                                        }
+                                    }
+                                    console.log(isHad);
+
+                                    if (!isHad) {
                                         music.collectN+=1;
                                         user.collected_musics.push(music_id);
                                     }
@@ -78,7 +122,8 @@ exports.saveMusicToRepo = function(req, res, next) {
                                     user.save();
 
                                     res.json({
-                                        collectN: music.collectN
+                                        collectN: music.collectN,
+                                        is_collect: !isHad
                                     });
 
                                 }

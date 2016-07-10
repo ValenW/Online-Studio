@@ -39,18 +39,17 @@ exports.showIndividual = function(req, res, next) {
             } catch (e) {
               headPath = './bin/public/uploads/heads/guest';
             }
-
             user.headPath = headPath;
             res.render('user/individual', {
+                userInfo: user,
                 user:  req.session.user == undefined ? null : {
+                        _id: req.session.user._id,
                         username: req.session.user.username,
-                        profile: req.session.user.profiles,
-                        is_collect: music_id in req.session.user.collected_musics
-                    },
-                userInfo: user
-            });
-        }
-    });
+                        profile: req.session.user.profile
+                    }
+			});
+		}
+	});
 };
 
 exports.updateIndividual = function(req, res, next) {

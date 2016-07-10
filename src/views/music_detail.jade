@@ -7,6 +7,13 @@ block content
     link(rel='stylesheet', href='/stylesheets/music_detail.css')
     script(src="/javascripts/music_detail.js")
     script(src="/javascripts/music_detail_play.js")
+    - var len = music.comments.length
+    - var page_num = Math.ceil(music.commentN / 10)
+    - var commentnum = 10
+    if music.commentN >= 10 
+        -commentnum = 10
+    if music.commentN < 10
+        -commentnum = music.commentN
     div.page-content
         div.top_view
             div.music_poster
@@ -25,27 +32,36 @@ block content
                     button.circular.ui.icon.button.right_button
                         i.share.icon
                         分享
-                    if music.author._id == user._id    
-                        button.circular.ui.icon.button.right_button(style="margin-left:10px;")
-                            i.paint.brush.icon
-                            编辑音乐信息
+                    if user
+                        if music.author._id == user._id    
+                            button.circular.ui.icon.button.right_button(style="margin-left:10px;")
+                                i.paint.brush.icon
+                                编辑音乐信息
         div.middle_view
             div.ui.labeled.button(tabindex="0")
                 div.ui.red.button
                     i.heart.icon
                     span 试听
                 a.ui.basic.left.pointing.label(id="listenN") #{music.listenN}
-            div.ui.labeled.button(tabindex="0",id="collect")
-                div.ui.red.button
-                    i.save.icon
-                    span 收藏
-                a.ui.basic.left.pointing.label(id="collectN") #{music.collectN}
+            if user
+                if user.is_collect
+                    div.ui.labeled.button(tabindex="0")
+                        div.ui.red.button
+                            i.save.icon
+                            span 已收藏
+                        a.ui.basic.left.pointing.label #{music.collectN}
+                else
+                    div.ui.labeled.button(tabindex="0",id="collect")
+                        div.ui.red.button
+                            i.save.icon
+                            span 收藏
+                        a.ui.basic.left.pointing.label(id="collectN") #{music.collectN}
             div.ui.labeled.button(tabindex="0")
                 div.ui.red.button
                     i.comments.icon
                     span 评论
                 a.ui.basic.left.pointing.label(id="commentN") #{music.commentN}
-            if is_spectrum_public == true
+            if music.is_spectrum_public == true
                 div.ui.labeled.button(tabindex="0")
                     div.ui.red.button
                         i.heart.icon
@@ -60,36 +76,35 @@ block content
                 button.submit-button(id = "submit_button",style="background-color:#00b5e5") 发表评论
             div.ui.dividing.header.divideline
             div.my_comment(id = "comment_all")
-                if music.commentN >= 10 
-                -    var commentnum = 10
-                if music.commentN < 10
-                -    var commentnum = music.commentN
-                - for(var x = 0; x < commentnum; x++)
+                - for(var x = 1; x <= commentnum; x++)
                     div.comment
                         div.comment_head
                             img.ui.circular.image.pos(src='/resources/images/default_head.jpg')
                         div.all_content
                             div.name
-                                p.description #{music.comments[x].comment_userId}
+                                p.description #{music.comments[len-x].comment_userId.username}
                             div.content
-                                p.description #{music.comments[x].comment_content}
+                                p.description #{music.comments[len-x].comment_content}
                             div.message
-                                - var high = x
+                                - var high = len-x+1
                                 span.qua ##{high}
-                                span.qua #{music.comments[x].comment_date}
+                                span.qua #{music.comments[len-x].comment_date}
                         div.all
                             //div.cha 查看全部
                     div.ui.dividing.header.divideline
             div.next_page(id="next_page")
-                - var page_num = Math.ceil(music.commentN / 10)
-                span 共#{page_num}页
-                    - for (var x = 1; x <= page_num; x++)
-                        span.qua #{x}
-                span 下一页
+                //span 共#{page_num}页
+                //    - for (var x = 1; x <= page_num; x++)
+                //        //span.qua(style="color:blue;") #{x}
+                //        a #{x}
+                //span 下一页
 
 
     script.
         window.music = !{JSON.stringify(music)};
+        window.user = !{JSON.stringify(user)};
+        console.log(music);
+        console.log(user);
 
     include footer
     include music_player

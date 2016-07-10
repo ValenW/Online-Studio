@@ -1,6 +1,24 @@
 //记录是否听过
 var isListened = false;
 var isCollected = false;
+var comment_data;
+
+
+//处理未登录
+window.isLogin = function(){
+    //未登陆
+    if(user == undefined || user == null){
+        return;
+    }
+}
+
+window.onload = function(){
+    //console.log("start");
+    comment_data = music.comments;
+    var p = parseInt(comment_data.length/10);
+    //console.log(p);
+    window.updatePage(p);
+}
 
 //submit按钮事件
 $(function(){
@@ -17,8 +35,11 @@ $(function(){
              success: function(data){
                          $('#content').val("");
                          console.log(data.comment_list);
+                         comment_data = data.comment_list;
                          window.updateCommentN(data.comment_list.length);
                          window.updateComment(data.comment_list,1);
+                         var p = parseInt(comment_data.length/10);
+                         window.updatePage(p);
                       },
              error: function(XMLHttpRequest, textStatus, errorThrown){
                 console.log("comment error");
@@ -77,14 +98,19 @@ window.updateCommentN = function(num){
 
 //更新下方评论
 window.updateComment = function(data,page_num){
+    now_page = page_num;
     //页数
-    var p = data.length/10 + 1;
+    //var p = data.length/10 + 1;
     $("#comment_all").html("");
     for(var i = 0; i <= 9; i++){
-        window.createComment(data[(page_num-1)*10+i],(page_num-1)*10+i+1);
+        if((data.length-(page_num-1)*10+i-1) < 0){return;}
+        //console.log(data);
+        //console.log(data.length-((page_num-1)*10+i)-1);
+        //console.log(data[data.length-((page_num-1)*10+i)-1]);
+        window.createComment(data[data.length-((page_num-1)*10+i)-1],data.length-((page_num-1)*10+i));
         $("#comment_all").append(comment);
+        $("#comment_all").append(divideLine);
     }
-    //for()
     
 }
 
@@ -106,7 +132,7 @@ window.createComment = function(data,num){
     name.className = "name";
     var p_user = document.createElement('p');
     p_user.className = "description";
-    p_user.innerHTML = data._id;
+    p_user.innerHTML = data.comment_userId.username;
     name.appendChild(p_user);
     all_content.appendChild(name);
     var content = document.createElement('div');
@@ -140,9 +166,39 @@ window.createDivideLine = function(){
     divideLine.className = "ui dividing header divideline";
 }
 
-//更新下方页码
-window.updatePage = function(page_num){
+//创建页码
+var pagenum;
+window.createPageNum = function(page_num){
+    pagenum = document.createElement('a');
+    pagenum.innerHTML = page_num;
+    pagenum.href = "javascript:;";
+    pagenum.onclick = function(){
+        return window.updateComment(comment_data,page_num);
+    };
+}
 
+//更新下方页码
+var now_page = 1;
+window.updatePage = function(page_num){
+    now_page = 1;
+    $("#next_page").html("");
+    //总共多少页
+    var span1 = document.createElement('span');
+    span1.innerHTML = "共"+ page_num +"页";
+    $("#next_page").append(span1);
+    //上一页
+    //var span2 = document.createElement('span');
+    //span2.innerHTML = "共"+ page_num +"页";
+    //$("#next_page").append(span2);
+    //中间按钮
+    for(var i = 1;i <= page_num; i++){
+        createPageNum(i);
+        $("#next_page").append(pagenum);
+    }
+    //下一页
+    //var span3 = document.createElement('span');
+    //span3.innerHTML = "共"+ page_num +"页";
+    //$("#next_page").append(span3);
 }
 
 
@@ -167,24 +223,3 @@ window.listenIncrement = function(){
     });
 }
 
-// $(function(){
-//     $('#submit_button').click(function(){
-//          console.log(123);
-//          $.ajax({
-//              type: "GET",
-//              url: "test.json",
-//              data: {username:$("#username").val(), content:$("#content").val()},
-//              dataType: "json",
-//              success: function(data){
-//                          $('#resText').empty();   //清空resText里面的所有内容
-//                          var html = ''; 
-//                          $.each(data, function(commentIndex, comment){
-//                                html += '<div class="comment"><h6>' + comment['username']
-//                                          + ':</h6><p class="para"' + comment['content']
-//                                          + '</p></div>';
-//                          });
-//                          $('#resText').html(html);
-//                       }
-//          });
-//     });
-// });
