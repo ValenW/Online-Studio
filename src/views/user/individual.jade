@@ -62,10 +62,10 @@ block content
                                     if userInfo[(e_cate[i])].length >= 10
                                         -var i_num = 10
                                     - for (var j = 1; j <= i_num; ++j)
-                                        li
+                                        li(onclick="window.location.href=\"/music?music_id=#{userInfo[(e_cate[i])][userInfo[(e_cate[i])].length-j]['_id']}\"")
                                             div.ui.card.small-item
                                                 div.image.small-item
-                                                    img(src="#{userInfo[(e_cate[i])][userInfo[(e_cate[i])].length-j]['cover']}")
+                                                    img(src="/uploads/#{userInfo[(e_cate[i])][userInfo[(e_cate[i])].length-j]['cover']}")
                                             p(align="center") #{userInfo[(e_cate[i])][userInfo[(e_cate[i])].length-j]['name']}
 
 
