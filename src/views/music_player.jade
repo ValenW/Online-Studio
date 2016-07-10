@@ -10,8 +10,9 @@ div.music-player
             i.repeat.icon
     div.middle
         canvas.music-canvas(id="canvas")
-        div.ui.teal.tiny.progress.myProgress(id="myProgress")
+        div.ui.indicating.progress.myProgress(id="myProgress",data-value="0",data-total="200")
             div.bar
+                div.progress
     div.volume(style="padding-top:64px;")
         button.circular.ui.icon.button(style="margin-left:10px;vertical-align: top;")
             i.music.icon

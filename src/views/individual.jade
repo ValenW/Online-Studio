@@ -1,4 +1,4 @@
-extends ../layout
+extends layout
 
 block content
     - var categories = ['自制音乐', '改编音乐', '收藏音乐']
@@ -6,17 +6,15 @@ block content
     - var e_cate = ['original_musics','derivative_musics','collected_musics']
     link(rel='stylesheet', href='/stylesheets/individual.css')
     script(src='/javascripts/individual.js')
-
-    include ../top_marked
-    include ../header
-    include ../top_button
+    include top_marked
+    include header
+    include top_button
 
     div.category-menu
         div.container
             div.ui.large.secondary.pointing.menu
                 each category in categories
                     a.item(href='#'+'#{category}') #{category}
-
 
     div.page-content
         div.person_top
@@ -28,10 +26,6 @@ block content
                         div.message
                             div.name #{userInfo.username}
                             div.detail_message #{userInfo.introduction}
-                            if user
-                                if user._id == userInfo._id
-                                    button.ui.green.button 修改个人信息
-
 
         div.music_repository
             - for (var i = 0; i < 3; i++)
@@ -58,7 +52,6 @@ block content
                                                     img(src="#{userInfo[e_cate[i]][j]['cover']}")
                                             p(align="center") #{userInfo[e_cate[i]][j]['name']}
 
-
     
     script.
         window.user = !{JSON.stringify(userInfo)};
@@ -67,4 +60,4 @@ block content
         //console.log(user['collected_musics'][0]['cover'])
         //console.log(user['collected_musics'][0]['name'])
 
-    include ../footer
+    include footer
