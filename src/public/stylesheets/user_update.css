@@ -1,0 +1,57 @@
+#update-container {
+    width: 600px;
+    min-height: calc(100% - 219px - 212.453px);
+    margin: 0 auto;
+}
+#update-container .avator-image {
+    cursor: pointer;
+    width: 120px;
+    height: 120px;
+}
+#update-container .clear {
+    clear: both;
+}
+.information-block {
+    margin-top: 40px;
+}
+.information-block:last-child {
+    margin-bottom: 40px;
+}
+.item-label {
+    float: left;
+    width: 100px;
+    margin-right: 60px;
+    font-weight: bolder;
+    text-align: right;
+}
+.item-content {
+    float: left;
+}
+.item-content .static-content {
+    /*display: none;*/
+}
+.item-content .static-content i {
+    cursor: pointer;
+    width: 60px;
+    color: #698ebf;
+    margin-left: 20px;
+}
+.item-content .static-content i span {
+    margin-left: 5px;
+}
+.item-content .edit-content {
+    display: none;
+}
+input[name='username'] {
+    width: 200px;
+}
+input[name='introduction'] {
+    width: 350px;
+}
+.button-container {
+    margin-top: 20px;
+}
+.button-container button {
+    height: 32px !important;
+    margin-right: 20px !important;
+}
