@@ -46,7 +46,7 @@ exports.showIndividual = function(req, res, next) {
                         username: req.session.user.username,
                         profile: req.session.user.profiles,
                         is_collect: music_id in req.session.user.collected_musics
-                    }
+                    },
 				userInfo: user
 			});
 		}
