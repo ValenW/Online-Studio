@@ -42,12 +42,21 @@ exports.showMusicDetail = function(req, res, next) {
 
                                             console.log(req.session.user);
 
+                                            var isHaving = false;
+                                            for (var i = 0; i < user.collected_musics.length; i++) {
+                                                if (music_id == user.collected_musics[i]) {
+                                                    isHaving = true;
+                                                    break;
+                                                }
+                                            }
+                                            console.log(isHaving);
+
                                             res.render('music_detail', {
                                                 music: populatedMusic,
                                                 user:  {
                                                     username: req.session.user.username,
                                                     profile: req.session.user.profile,
-                                                    is_collect: music_id in user.collected_musics
+                                                    is_collect: isHaving
                                                 }
                                             });
                                         }
@@ -87,12 +96,23 @@ exports.saveMusicToRepo = function(req, res, next) {
                                 console.log("err when find music by ID: "+ err);
                                 throw err;
                             } else {
+                                
                                 if (music === null) console.log("no such music with ID: "+ music_id);
                                 else {
-                                    if (music_id in user.collected_musics) {
-                                        music.collectN-=1;
-                                        delete user.collected_musics[user.collected_musics.indexOf(music_id)];
-                                    } else {
+
+
+                                    var isHaving = false;
+                                    for (var i = 0; i < user.collected_musics.length; i++) {
+                                        if (music_id == user.collected_musics[i]) {
+                                            user.collected_musics.splice(i, 1);
+                                            music.collectN-=1;
+                                            isHaving = true;
+                                            break;
+                                        }
+                                    }
+                                    console.log(isHaving);
+
+                                    if (!isHaving) {
                                         music.collectN+=1;
                                         user.collected_musics.push(music_id);
                                     }
