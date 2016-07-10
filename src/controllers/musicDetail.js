@@ -20,7 +20,7 @@ exports.showMusicDetail = function(req, res, next) {
 
                     var opts = [{
                         path: "comments.comment_userId",
-                        select: "profile",
+                        select: "profile username",
                         model: 'User'
                     }];
                     Music.populate(music, opts, function(err, populatedMusic) {
@@ -131,6 +131,8 @@ exports.insertComment = function(req, res, next) {
                                     music.comments.push(comment);
                                     music.commentN+=1;
                                     music.save();
+
+                                    music.comments.populate('user_id', 'username profile');
 
                                     //res.send(Comment.findByMusicId(music_id));
                                     console.log(music.comments);
