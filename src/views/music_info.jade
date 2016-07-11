@@ -4,7 +4,7 @@ block content
 	link(rel='stylesheet', href='/stylesheets/music_info.css')
 	include header
 
-	form.ui.form(method='post' action='/update_music_info')
+	form.ui.form(method='post' action='/update_music_info' enctype='multipart/form-data')
 		//- 音乐id隐藏
 		div(style='display:none')
 			input(type='text' name='music_id' value='#{music._id}')
