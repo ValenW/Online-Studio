@@ -36,17 +36,33 @@
     color: #698ebf;
     margin-left: 20px;
 }
+.item-content .static-content .edit-password-icon {
+    width: 80px;
+    margin-left: 0;
+}
 .item-content .static-content i span {
     margin-left: 5px;
 }
 .item-content .edit-content {
     display: none;
 }
+.item-content .edit-content label {
+    margin-right: 20px;
+}
 input[name='username'] {
     width: 200px;
 }
 input[name='introduction'] {
     width: 350px;
+}
+input[type='password'] {
+    width: 200px;
+}
+#password-edit-content .input{
+    display: block !important;
+}
+#password-edit-content .input:not(:first-child) {
+    margin-top: 20px;
 }
 .button-container {
     margin-top: 20px;

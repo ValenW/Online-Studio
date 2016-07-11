@@ -19,7 +19,7 @@ var data = require('../data/data');
 
 router.get('/', home.showHome);
 
-//调试
+//debug
 router.get('/effect', function(req, res, next) {
   res.render('effect');
 });
@@ -55,7 +55,10 @@ router.get('/category', category.showCategory);
 
 // individual
 router.get('/user', individual.showIndividual);
-router.get('/user/update/:user_id', individual.showUserUpdate);
+router.get('/user/update/:user_id', auth.isAuthenticated, individual.showUserUpdate);
+router.post('/user/update/name/:user_id', auth.isAuthenticated, individual.updateUsername);
+router.post('/user/update/introduction/:user_id', auth.isAuthenticated, individual.updateIntroduction);
+router.post('/user/update/password/:user_id', auth.isAuthenticated, individual.updatePassword);
 
 // musicDetail
 router.get('/music', musicDetail.showMusicDetail);
@@ -66,8 +69,8 @@ router.get('/music/isCollect',  musicDetail.is_collect);
 router.post('/music/insertComment',   musicDetail.insertComment);
 
 // music_info
-router.get('/music_info', auth.isTempAuthenticated, musicInfo.showMusicInfo);
-router.post('/update_music_info', auth.isTempAuthenticated, musicInfo.updateMusicInfo);
+router.get('/music_info', auth.isAuthenticated, musicInfo.showMusicInfo);
+router.post('/update_music_info', auth.isAuthenticated, musicInfo.updateMusicInfo);
 
 // debug
 router.get('/create_tags', debug.createTags);

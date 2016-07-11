@@ -4,11 +4,10 @@ block content
 	link(rel='stylesheet', href='/stylesheets/music_info.css')
 	include header
 
-	form.ui.form(method='post' action='/update_music_info' enctype='multipart/form-data')
+	form.ui.form(method='post' action='/update_music_info')
 		//- 音乐id隐藏
 		div(style='display:none')
 			input(type='text' name='music_id' value='#{music._id}')
-			input.submit(type='submit')
 		div.ui.divider
 		//- 标题
 		div.item
@@ -31,9 +30,9 @@ block content
 				div.rrf
 					div
 						if music.cover
-							img(id='cover' width='160' height='100' src='/uploads/' + '#{music.cover}')
+							img(id='cover' width='160' height='100' src='/uploads/covers/' + '#{music.cover}')
 						else
-							img(id='cover' width='160' height='100' src='/resources/images/default_cover.png')
+							img(id='cover' width='160' height='100' src='uploads/covers/default_cover.png')
 		div.ui.divider
 		//- 介绍
 		div.item
@@ -79,6 +78,8 @@ block content
 					input(type='radio' name='is_spectrum_public' value='0')
 					label 否
 		div.ui.divider
+		div(style='display:none')
+			input.submit(type='submit')
 
 		//- 错误信息提醒栏
 		div.ui.error.message(style="display:none; width:50%; margin:auto")

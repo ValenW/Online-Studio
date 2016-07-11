@@ -4,12 +4,6 @@ var fs      = require('fs');
 
 var uploadImg   = require('../middlewares/uploadImg');
 
-// define music cover uploader
-var headUploader = uploadImg('heads/', function(req, file) {
-    console.log(file, '\n', req.session.user);
-    return req.session.user._id + '_head';
-});
-
 // request: /user
 exports.showIndividual = function(req, res, next) {
     var user_id = req.query.user_id;    
@@ -54,7 +48,7 @@ exports.showIndividual = function(req, res, next) {
 
 exports.updateIndividual = function(req, res, next) {
     var user = req.session.user;
-    var upload = headUploader.single('head');
+    var upload = uploadImg.headUploader.single('head');
     upload(req, res, function(err) {
         if (err) {
             console.log ('Error in upload individual:\n', err);
@@ -86,6 +80,65 @@ exports.showUserUpdate = function(req, res, next) {
     var user_id = req.params.user_id;
     User.findOne({_id: user_id}, function(err, user) {
         console.log(user);
-        res.render('user/userUpdate');
+        res.render('user/userUpdate', {
+            user_id: user._id,
+            username: user.username,
+            email: user.email,
+            introduction: user.introduction,
+            profile: user.profile
+        });
+    });
+}
+
+exports.updateUsername = function(req, res, next) {
+    var userId = req.body.id;
+    var username = req.body.username;
+    User.findOne({_id: userId}, function(err, user) {
+        user.update({$set: {username: username} }, function(err) {
+            res.json({"message": "success"});
+        });
+    });
+}
+
+exports.updateIntroduction = function(req, res, next) {
+    var userId = req.body.id;
+    var introduction = req.body.introduction;
+    User.findOne({_id: userId}, function(err, user) {
+        user.update({$set: {introduction: introduction}}, function(err) {
+            res.json({"message": "success"});
+        });
+    });
+}
+
+exports.updatePassword = function(req, res, next) {
+    var userId = req.body.id;
+    var password = req.body.password;
+    var newPassword = req.body.newPassword;
+    User.findOne({_id: userId}, function(err, user) {
+        if (user.password !== password) {
+            return res.json({"message": "password error"});
+        } else {
+            user.update({ $set: {password: newPassword} }, function(err) {
+                return res.json({"message": "success"});
+            });
+        }
+    });
+}
+
+exports.updateProfile = function(req, res, next) {
+    var userId = req.body.id;
+    var newProfile = userId+'_head';
+    var upload = uploadImg.headUploader.single('profile');
+    upload(req, res, function(err) {
+        if (err) {
+            console.log('Error in updateProfile.');
+        } else {
+            console.log('Update Porfile successfullt');
+            Uesr.findOne({_id: userId}, function(err, user) {
+                user.update({ $set: {profile: newProfile} }, function(err) {
+                    return res.json({"message": "success"});
+                });
+            });
+        }
     });
 }

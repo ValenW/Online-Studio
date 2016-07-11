@@ -72,64 +72,43 @@ exports.saveSpectrum = function(req, res, next) {
 		spectrum.save();
 		console.log ('Create Spectrum ', spectrum._id);
 
-		// cascaded in save method ?
 		// create Music info for Spectrum
-		var tag_name_list = new Array('抒情', '恐怖', '空灵', '浪漫');
-		var r = parseInt(Math.random() * 100 % tag_name_list.length);
+		var date = new Date();
+		var music = new Music({
+			based_on: null,
+			spectrum: spectrum,
+			name: date.toLocaleString(),
+			author: user,
+			cover: 'default_cover.png',
+			date: date,
+			tags: [],	// release version
+			ranks: [],
+			comments: [],
+			listenN: 0,
+			collectN: 0,
+			commentN: 0,
+			shareN: 0,
+			is_music_public: false,
+			is_spectrum_public: false,
+			introduction: 'I am a piece of music.'
+		});
+		music.save();
+		console.log ('Create Music ', music._id);
 
-		// find tag begin.
-		Tag.findOne({
-			tag_name: tag_name_list[r]
-		}, function(err, tag) {
+		// set relationship
+		user.original_musics.push(music);
+
+		User.update({_id: user._id}, user, {}, function(err, info) {
 			if (err) {
-				console.log ('Error in /editor/save interface in finding tag.');
-			} else {
-				var date = new Date();
-				var music = new Music({
-					based_on: null,
-					spectrum: spectrum,
-					name: date.toLocaleString(),
-					author: user,
-					cover: 'musicCovers/default_cover.png',
-					date: date,
-					tags: [tag],	// for debug
-					// tags: [],	// release version
-					ranks: [],
-					comments: [],
-					listenN: 0,
-					collectN: 0,
-					commentN: 0,
-					shareN: 0,
-					is_music_public: true,
-					is_spectrum_public: false,
-					introduction: 'I am a music.'
+				console.log ('Error in /editor/save updating User.');
+			}  else {
+				console.log('Update User ', user._id ,' with Music ', music._id,' successfully.');
+				res.json({
+					is_login: true,
+					_id: spectrum._id
 				});
-				music.save();
-				console.log ('Create Music ', music._id);
-
-				// Tag correlate with Music
-				tag.music_list.push(music);
-				tag.save();
-
-				// set relationship
-				user.original_musics.push(music);
-
-				User.update({_id: user._id}, user, {}, function(err, info) {
-					if (err) {
-						console.log ('Error in /editor/save updating User.');
-					}  else {
-						console.log('Update User ', user._id ,' with Music ', music._id,' successfully.');
-						res.json({
-							is_login: true,
-							_id: spectrum._id
-						});
-					}
-				});
-
 			}
 		});
-		// find tag end.
-		
 
 	} else {	// update Spectrum document
 		// if spectrum is in user's collected_musics list, <??remove it from user's collected_musics list and??> create a new Spectrum,a new Music and correlate with User's derivative_musics list.
@@ -143,7 +122,7 @@ exports.saveSpectrum = function(req, res, next) {
 				Music.populate(user, {path: 'collected_musics', select: 'spectrum'}, function(err, user) {
 					// judege whether spectrum is in user's collected_musics list
 					var based_on = null;
-					for (var cm_i in user.collected_musics) {
+					for (var cm_i = 0; cm_i < user.collected_musics.length; cm_i += 1) {
 						var c_music = user.collected_musics[cm_i];
 						if (c_music.spectrum === spectrum_param._id) {
 							based_on = c_music._id;
@@ -174,18 +153,18 @@ exports.saveSpectrum = function(req, res, next) {
 									spectrum: spectrum,
 									name: date.toLocaleString(),
 									author: user,
-									cover: 'musicCovers/default_cover.png',
+									cover: 'default_cover.png',
 									date: date,
-									// tags: [],	// release version
+									tags: [],	// release version
 									ranks: [],
 									comments: [],
 									listenN: 0,
 									collectN: 0,
 									commentN: 0,
 									shareN: 0,
-									is_music_public: true,
+									is_music_public: false,
 									is_spectrum_public: false,
-									introduction: 'I am a music.'
+									introduction: 'I am a piece of music.'
 								}, function(err, music) {
 									if (err) {
 										console.log ('Error in /save request, Music.create method.');

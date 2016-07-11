@@ -26,7 +26,6 @@ block content
                 each category in categories
                     a.item(href='#'+'#{category}') #{category}
 
-
     div.page-content
         div.person_top
             div.category
@@ -39,7 +38,7 @@ block content
                             div.detail_message #{userInfo.introduction}
                             if user
                                 if user._id == userInfo._id
-                                    button.ui.green.button(id='edit') 修改个人信息
+                                    a(href="/user/update/#{user._id}").ui.green.button 修改个人信息
 
 
         div.music_repository
