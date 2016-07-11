@@ -1,31 +1,20 @@
-extends ../layout
+extends layout
 
 block content
-    - var categories = []
+    - var categories = ['自制音乐', '改编音乐', '收藏音乐']
     - var num = [userInfo.original_musics.length,userInfo.derivative_musics.length,userInfo.collected_musics.length]
-    - var e_cate = []
-    if num[0] > 0
-        -e_cate.push('original_musics')
-        -categories.push('自制音乐');
-    if num[1] > 0
-        -e_cate.push('derivative_musics')
-        -categories.push('改编音乐');
-    if num[2] > 0
-        -e_cate.push('collected_musics')
-        -categories.push('收藏音乐');
+    - var e_cate = ['original_musics','derivative_musics','collected_musics']
     link(rel='stylesheet', href='/stylesheets/individual.css')
     script(src='/javascripts/individual.js')
-
-    include ../top_marked
-    include ../header
-    include ../top_button
+    include top_marked
+    include header
+    include top_button
 
     div.category-menu
         div.container
             div.ui.large.secondary.pointing.menu
                 each category in categories
                     a.item(href='#'+'#{category}') #{category}
-
 
     div.page-content
         div.person_top
@@ -37,44 +26,38 @@ block content
                         div.message
                             div.name #{userInfo.username}
                             div.detail_message #{userInfo.introduction}
-                            if user
-                                if user._id == userInfo._id
-                                    button.ui.green.button 修改个人信息
-
 
         div.music_repository
-            - for (var i = 0; i < categories.length; i++)
+            - for (var i = 0; i < 3; i++)
                 div.category
                     a.anchor(id='#{categories[i]}')
                     div.container
                         div.l-list
                             div.ui.secondary.menu
                                 div.item
-                                    h2 #{categories[i]} ( #{userInfo[(e_cate[i])].length} )
+                                    h2 #{categories[i]} ( #{num[i]} )
                                 div.right.menu
                                     div.item
-                                        div.ui.basic.button(style="margin-right:15px;") 上一页
                                         div.ui.basic.button 下一页
                             div.content-wrapper
                                 ul  
-                                    if userInfo[(e_cate[i])].length < 10
-                                        -var i_num = userInfo[(e_cate[i])].length
-                                    if userInfo[(e_cate[i])].length >= 10
+                                    if num[i] < 10
+                                        -var i_num = num[i]
+                                    if num[i] >= 10
                                         -var i_num = 10
                                     - for (var j = 0; j < i_num; ++j)
                                         li
                                             div.ui.card.small-item
                                                 div.image.small-item
-                                                    img(src="#{userInfo[(e_cate[i])][j]['cover']}")
-                                            p(align="center") #{userInfo[(e_cate[i])][j]['name']}
-
+                                                    img(src="#{userInfo[e_cate[i]][j]['cover']}")
+                                            p(align="center") #{userInfo[e_cate[i]][j]['name']}
 
     
     script.
         window.user = !{JSON.stringify(userInfo)};
-        console.log(userInfo);
+        //console.log(user['collected_musics'])
         //console.log(user['collected_musics'][0])
         //console.log(user['collected_musics'][0]['cover'])
         //console.log(user['collected_musics'][0]['name'])
 
-    include ../footer
+    include footer

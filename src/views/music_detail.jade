@@ -45,11 +45,11 @@ block content
                 a.ui.basic.left.pointing.label(id="listenN") #{music.listenN}
             if user
                 if user.is_collect
-                    div.ui.labeled.button(tabindex="0")
+                    div.ui.labeled.button(tabindex="0",id="collect")
                         div.ui.red.button
                             i.save.icon
                             span 已收藏
-                        a.ui.basic.left.pointing.label #{music.collectN}
+                        a.ui.basic.left.pointing.label(id="collectN") #{music.collectN}
                 else
                     div.ui.labeled.button(tabindex="0",id="collect")
                         div.ui.red.button
