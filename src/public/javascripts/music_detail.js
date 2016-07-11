@@ -15,7 +15,7 @@ window.isLogin = function(){
 window.onload = function(){
     //console.log("start");
     comment_data = music.comments;
-    var p = parseInt(comment_data.length/10);
+    var p = Math.ceil(comment_data.length/10);
     //console.log(p);
     window.updatePage(p);
 }
@@ -38,7 +38,7 @@ $(function(){
                          comment_data = data.comment_list;
                          window.updateCommentN(data.comment_list.length);
                          window.updateComment(data.comment_list,1);
-                         var p = parseInt(comment_data.length/10);
+                         var p = Math.ceil(comment_data.length/10);
                          window.updatePage(p);
                       },
              error: function(XMLHttpRequest, textStatus, errorThrown){
@@ -66,7 +66,7 @@ $(function(){
              success: function(data){
                          //$('#content').html("");
                          console.log(data);
-                         window.updateCollectN(data.collectN);
+                         window.updateCollectN(data);
                       },
              error: function(XMLHttpRequest, textStatus, errorThrown){
                 console.log("comment error");
@@ -77,10 +77,17 @@ $(function(){
     });
 });
 
-//更新页面的收藏次数
-window.updateCollectN = function(num){
+//更新页面的收藏
+window.updateCollectN = function(data){
     //isListened = true;
-    $("#collectN").html(num);
+    var str;
+    if(data.is_collect){
+        str = "已收藏";
+    }else{
+        str = "收藏";
+    }
+    $('#collect_message').html(str);
+    $("#collectN").html(data.collectN);
 }
 
 
@@ -103,7 +110,7 @@ window.updateComment = function(data,page_num){
     //var p = data.length/10 + 1;
     $("#comment_all").html("");
     for(var i = 0; i <= 9; i++){
-        if((data.length-(page_num-1)*10+i-1) < 0){return;}
+        if(data.length-((page_num-1)*10+i)-1 < 0){return;}
         //console.log(data);
         //console.log(data.length-((page_num-1)*10+i)-1);
         //console.log(data[data.length-((page_num-1)*10+i)-1]);

@@ -3,6 +3,7 @@ extends ../layout
 block content
     - var categories = []
     - var num = [userInfo.original_musics.length,userInfo.derivative_musics.length,userInfo.collected_musics.length]
+    - var message_categories = ['自制音乐','改编音乐','收藏音乐']
     - var e_cate = []
     if num[0] > 0
         -e_cate.push('original_musics')
@@ -32,13 +33,17 @@ block content
                 div.container
                     div.content-wrapper
                         div.left_head
-                            img.ui.medium.circular.image.myimage(src="/resources/images/default_head.jpg")
+                            img.ui.medium.circular.image.myimage(src='uploads/heads/#{userInfo.profile}')
                         div.message
                             div.name #{userInfo.username}
                             div.detail_message #{userInfo.introduction}
+                            div.ui.dividing.header
+                            div.detail_music 
+                                -for(var i = 0; i < 3; i++) 
+                                    span(style="font-weight:bold;") #{message_categories[i]} ( #{num[i]} ) 
                             if user
                                 if user._id == userInfo._id
-                                    a(href="/user/update/#{user._id}").ui.green.button 修改个人信息
+                                    a(href="/user/update/#{user._id}").ui.green.button(style="margin-top:10px;") 修改个人信息
 
 
         div.music_repository
@@ -52,26 +57,26 @@ block content
                                     h2 #{categories[i]} ( #{userInfo[(e_cate[i])].length} )
                                 div.right.menu
                                     div.item
-                                        div.ui.basic.button(style="margin-right:15px;") 上一页
-                                        div.ui.basic.button 下一页
+                                        div.ui.basic.button(id="#{e_cate[i]}_left_button",style="margin-right:15px;") 上一页
+                                        div.ui.basic.button(id="#{e_cate[i]}_right_button") 下一页
                             div.content-wrapper
-                                ul  
+                                ul(id = "#{e_cate[i]}")
                                     if userInfo[(e_cate[i])].length < 10
                                         -var i_num = userInfo[(e_cate[i])].length
                                     if userInfo[(e_cate[i])].length >= 10
                                         -var i_num = 10
-                                    - for (var j = 0; j < i_num; ++j)
-                                        li
+                                    - for (var j = 1; j <= i_num; ++j)
+                                        li(onclick="window.location.href=\"/music?music_id=#{userInfo[(e_cate[i])][userInfo[(e_cate[i])].length-j]['_id']}\"")
                                             div.ui.card.small-item
                                                 div.image.small-item
-                                                    img(src="#{userInfo[(e_cate[i])][j]['cover']}")
-                                            p(align="center") #{userInfo[(e_cate[i])][j]['name']}
+                                                    img(src="/uploads/#{userInfo[(e_cate[i])][userInfo[(e_cate[i])].length-j]['cover']}")
+                                            p(align="center") #{userInfo[(e_cate[i])][userInfo[(e_cate[i])].length-j]['name']}
 
 
     
     script.
         window.user = !{JSON.stringify(userInfo)};
-        console.log(userInfo);
+        console.log(user);
         //console.log(user['collected_musics'][0])
         //console.log(user['collected_musics'][0]['cover'])
         //console.log(user['collected_musics'][0]['name'])

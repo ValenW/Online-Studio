@@ -15,7 +15,7 @@ exports.showEditor = function(req, res, next) {
 			user: req.session.user === undefined ? null : {
 				_id: req.session.user._id,
 				username: req.session.user.username,
-				profile: req.session.user.profiles
+				profile: req.session.user.profile
 			}
 		});
 
@@ -32,7 +32,7 @@ exports.showEditor = function(req, res, next) {
 					user: req.session.user === undefined ? null : {
 						_id: req.session.user._id,
 						username: req.session.user.username,
-						profile: req.session.user.profiles
+						profile: req.session.user.profile
 					}
 				});
 			}
@@ -77,7 +77,7 @@ exports.saveSpectrum = function(req, res, next) {
 		var music = new Music({
 			based_on: null,
 			spectrum: spectrum,
-			name: date.toLocaleString(),
+			name: date.toString().substring(4, 24),
 			author: user,
 			cover: 'default_cover.png',
 			date: date,
@@ -151,7 +151,7 @@ exports.saveSpectrum = function(req, res, next) {
 								Music.create({
 									based_on: based_on,
 									spectrum: spectrum,
-									name: date.toLocaleString(),
+									name: date.toString().substring(4, 24),
 									author: user,
 									cover: 'default_cover.png',
 									date: date,
@@ -231,7 +231,7 @@ exports.login = function(req, res, next) {
                 	user: {
 						_id: req.session.user._id,
 						username: req.session.user.username,
-						profile: req.session.user.profiles
+						profile: req.session.user.profile
                 	}
                 })
             }
@@ -289,7 +289,7 @@ exports.signup = function(req, res, next) {
                     	user: {
 							_id: req.session.user._id,
 							username: req.session.user.username,
-							profile: req.session.user.profiles
+							profile: req.session.user.profile
 						}
                     });
                 }
