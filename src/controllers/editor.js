@@ -77,7 +77,7 @@ exports.saveSpectrum = function(req, res, next) {
 		var music = new Music({
 			based_on: null,
 			spectrum: spectrum,
-			name: date.toLocaleString(),
+			name: date.toString().substring(4, 24),
 			author: user,
 			cover: 'default_cover.png',
 			date: date,
@@ -151,7 +151,7 @@ exports.saveSpectrum = function(req, res, next) {
 								Music.create({
 									based_on: based_on,
 									spectrum: spectrum,
-									name: date.toLocaleString(),
+									name: date.toString().substring(4, 24),
 									author: user,
 									cover: 'default_cover.png',
 									date: date,
