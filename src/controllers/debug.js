@@ -7,14 +7,24 @@ var uploadImg   = require('../middlewares/uploadImg');
 
 exports.createTags = function(req, res, next) {
 	var tag_name_list = [ {tag_name :'抒情'}, { tag_name: '恐怖'}, {tag_name: '空灵'}, {tag_name: '浪漫'}];
-	Tag.create(tag_name_list, function(err, tags) {
-		if (err) {
-			console.log('Error in /editor/create_tags interface of creating tags.');
+	Tag.find({
+		$or: tag_name_list
+	}, function(err, tags) {
+		if (tags != undefined && tags.length > 0) {
+			console.log('Tags has been created.');
+			res.send('Tags has been created.');
 		} else {
-			console.log('Create tags successfully.');
-			res.send(tags);
+			Tag.create(tag_name_list, function(err, tags) {
+				if (err) {
+					console.log('Error in /editor/create_tags interface of creating tags.');
+				} else {
+					console.log('Create tags successfully.');
+					res.send(tags);
+				}
+			});
 		}
 	});
+	
 };
 
 exports.lookTags = function(req, res, next) {

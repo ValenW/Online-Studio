@@ -67,6 +67,45 @@ exports.updateMusicInfo = function(req, res, next) {
     var is_spectrum_public  = req.body.is_spectrum_public;
     var is_music_public     = req.body.is_music_public;
 
+    // remove the old relation between tag and music.
+    Music.findOne({_id: music_id}, function(err, music) {
+        Tag.find({
+            _id: {
+                $in: music.tags
+            }
+        }, function(err, n_tags) {
+            if (err) {
+                console.log('Error in /update_music_info.');
+            } else {
+                for (var t_i = 0; t_i < n_tags.length; t_i += 1) {
+                    var tag = n_tags[t_i];
+                    tag.removeMusicById(music._id);
+                    tag.save();
+                }
+
+                // add new relation between tag and music.
+                Tag.find({
+                    _id: {
+                        $in: tags
+                    }
+                }, function(err, n_tags) {
+                    if (err) {
+                        console.log ('Error in /update_music_info.');
+                    } else {
+                        for (var t_i = 0; t_i < n_tags.length; t_i += 1) {
+                            var tag = n_tags[t_i];
+                            tag.addMusicById(music_id);
+                            tag.save();
+                        }
+                    }
+                });
+                // add end.
+            }
+        })
+    });
+
+   
+
     if (req.body.cover == null) {   // secondary change music information without cover uploaded
         Music.update({
             _id: music_id
@@ -81,7 +120,7 @@ exports.updateMusicInfo = function(req, res, next) {
                 console.log('Error in /update_music_info request.\n', err);
             } else {
                 console.log ('Update music(', music_id ,') info successfully.');
-                console.log(info);
+
                 res.redirect('/user?user_id='+req.session.user._id);
             }
         });
@@ -107,7 +146,8 @@ exports.updateMusicInfo = function(req, res, next) {
                         console.log('Error in /update_music_info request.\n', err);
                     } else {
                         console.log ('Update music(', music_id ,') info successfully.');
-                        // console.log(info);
+                        
+
                         res.redirect('/user?user_id='+req.session.user._id);
                     }
                 });

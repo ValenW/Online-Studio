@@ -122,7 +122,7 @@ exports.saveSpectrum = function(req, res, next) {
 				Music.populate(user, {path: 'collected_musics', select: 'spectrum'}, function(err, user) {
 					// judege whether spectrum is in user's collected_musics list
 					var based_on = null;
-					for (var cm_i in user.collected_musics) {
+					for (var cm_i = 0; cm_i < user.collected_musics.length; cm_i += 1) {
 						var c_music = user.collected_musics[cm_i];
 						if (c_music.spectrum === spectrum_param._id) {
 							based_on = c_music._id;
