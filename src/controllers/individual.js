@@ -4,15 +4,23 @@ var fs      = require('fs');
 
 var uploadImg   = require('../middlewares/uploadImg');
 
-// request: /user
+/**
+ * showIndividual() returns the information needed by user detail's page.
+ * @method get
+ * @params user_id the id of user which details will be returned.
+ * @url /user
+ * example: /user?user_id=123
+ */
 exports.showIndividual = function(req, res, next) {
     var user_id = req.query.user_id;    
     console.log(user_id);
 
+    // set up a match mode if current user is not the same as the user of the page
     var isUser = {};
     if (req.session.user == undefined || user_id != req.session.user._id) {   // should be !=
         isUser.is_music_public = true;
     }
+    // find user with provided user_id and filter out the password
     User.findOne({_id: user_id}, '-password')
         .populate({path: 'musics', match: isUser, select: '_id name cover'})
         .populate({path: 'original_musics', match: isUser, select: '_id name cover'})
@@ -20,7 +28,7 @@ exports.showIndividual = function(req, res, next) {
         .populate({path: 'derivative_musics', match: isUser, select: '_id name cover'})
         .exec(function(err, user) {
         if (err) {
-            console.log ('Error in /individual interface...');
+            console.log ('Error in /user interface...');
         } else {
             if (user === null) {
                 console.log("no such user with ID: ", user_id);
@@ -51,7 +59,7 @@ exports.updateIndividual = function(req, res, next) {
     var upload = uploadImg.headUploader.single('head');
     upload(req, res, function(err) {
         if (err) {
-            console.log ('Error in upload individual:\n', err);
+            console.log ('Error in upload user:\n', err);
         } else {
             var username     = req.body.username;
             var password     = req.body.password;
@@ -66,10 +74,10 @@ exports.updateIndividual = function(req, res, next) {
                 introduction: introduction
             }, {}, function(err, info) {
                 if (err) {
-                    console.log('Error in update individual:\n', err);
+                    console.log('Error in update user:\n', err);
                 } else {
                     console.log(info);
-                    res.redirect('/individual');
+                    res.redirect('/user?user_id='+user._id);
                 }
             });
         }

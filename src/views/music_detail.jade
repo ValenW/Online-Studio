@@ -14,29 +14,40 @@ block content
         -commentnum = 10
     if music.commentN < 10
         -commentnum = music.commentN
+    -function prettyDate(dateString){
+        //if it's already a date object and not a string you don't need this line:
+        -var date = new Date(dateString);
+        -var d = date.getDate();
+        -var monthNames = [ "Jan", "Feb", "Mar", "Apr", "May", "Jun","Jul", "Aug", "Sep", "Oct", "Nov", "Dec" ];
+        -var m = monthNames[date.getMonth()];
+        -var y = date.getFullYear();
+        -return y+' '+m+' '+d;
+    -}
     div.page-content
         div.top_view
             div.music_poster
-                img.ui.fluid.image.myimage(src='/resources/images/#{music.cover}')
+                img.ui.fluid.image.myimage(src='/uploads/covers/#{music.cover}')
             div.music_detail
                 div.evaluate
                     div.ui.star.rating(data-rating="4")
                 div.music_message
                     p 歌曲名字: #{music.name}
-                    p 歌曲作者: #{music.author.username}
+                    p 歌曲作者: 
+                        a(href="/user?user_id=#{music.author._id}") #{music.author.username}
                     p 歌曲标签: 
                         each tag in music.tags
                             span #{tag.tag_name}
-                    p 发行时间: #{music.date}
+                    p 发行时间: #{prettyDate(music.date)}
                 div.right_message(style="padding-top:10px;")
-                    button.circular.ui.icon.button.right_button
-                        i.share.icon
-                        分享
+                    //- button.circular.ui.icon.button.right_button
+                    //-     i.share.icon
+                    //-     分享
                     if user
-                        if music.author._id == user._id    
-                            button.circular.ui.icon.button.right_button(style="margin-left:10px;")
+                        if music.author._id.toString() == user._id.toString()    
+                            button.circular.ui.icon.button.right_button(style="margin-left:10px;",id="editMusicInfo")
                                 i.paint.brush.icon
                                 编辑音乐信息
+                                //href="/music_info?music_id=#{music.spectrum._id}"
         div.middle_view
             div.ui.labeled.button(tabindex="0")
                 div.ui.red.button
@@ -44,42 +55,55 @@ block content
                     span 试听
                 a.ui.basic.left.pointing.label(id="listenN") #{music.listenN}
             if user
-                if user.is_collect
-                    div.ui.labeled.button(tabindex="0",id="collect")
-                        div.ui.red.button
-                            i.save.icon
-                            span(id="collect_message") 已收藏
-                        a.ui.basic.left.pointing.label(id="collectN") #{music.collectN}
-                else
-                    div.ui.labeled.button(tabindex="0",id="collect")
-                        div.ui.red.button
-                            i.save.icon
-                            span(id="collect_message") 收藏
-                        a.ui.basic.left.pointing.label(id="collectN") #{music.collectN}
+                if music.author._id.toString() != user._id.toString()
+                    if user.is_collect
+                        div.ui.labeled.button(tabindex="0",id="collect")
+                            div.ui.red.button
+                                i.save.icon
+                                span(id="collect_message") 已收藏
+                            a.ui.basic.left.pointing.label(id="collectN") #{music.collectN}
+                    else
+                        div.ui.labeled.button(tabindex="0",id="collect")
+                            div.ui.red.button
+                                i.save.icon
+                                span(id="collect_message") 收藏
+                            a.ui.basic.left.pointing.label(id="collectN") #{music.collectN}
             div.ui.labeled.button(tabindex="0")
                 div.ui.red.button
                     i.comments.icon
                     span 评论
                 a.ui.basic.left.pointing.label(id="commentN") #{music.commentN}
             if music.is_spectrum_public == true
-                div.ui.labeled.button(tabindex="0")
+                div.ui.labeled.button(tabindex="0",id="edit")
                     div.ui.red.button
                         i.heart.icon
-                        a(href="") 编辑
+                        //a(href="/editor?spectrum_id=#{music.spectrum._id}",style="color:white;") 编辑
+                        span 编辑
+            else
+                if user
+                    if music.author._id.toString() == user._id.toString()
+                        div.ui.labeled.button(tabindex="0",id="edit")
+                            div.ui.red.button
+                                i.heart.icon
+                                //a(href="/editor?spectrum_id=#{music.spectrum._id}",style="color:white;") 编辑
+                                span 编辑
         div.bottom_view
             div.ui.comments
                 h3.ui.dividing.header(id="commentN2") #{music.commentN}评论
             div.send_comment
                 div.comment_head
-                    img.ui.circular.image.pos(src='/resources/images/default_head.jpg')
-                textarea.submit-textarea(id="content",rows="3" cols="20")
+                    if user
+                        img.ui.circular.image.pos(src='/uploads/heads/#{user.profile}')
+                    else
+                        img.ui.circular.image.pos(src='/resources/images/default_head.jpg')
+                textarea.submit-textarea(id="content",rows="3" cols="20" maxlength="111")
                 button.submit-button(id = "submit_button",style="background-color:#00b5e5") 发表评论
             div.ui.dividing.header.divideline
             div.my_comment(id = "comment_all")
                 - for(var x = 1; x <= commentnum; x++)
                     div.comment
                         div.comment_head
-                            img.ui.circular.image.pos(src='/resources/images/default_head.jpg')
+                            img.ui.circular.image.pos(src='/uploads/heads/#{music.comments[len-x].comment_userId.profile}')
                         div.all_content
                             div.name
                                 p.description #{music.comments[len-x].comment_userId.username}
@@ -88,7 +112,7 @@ block content
                             div.message
                                 - var high = len-x+1
                                 span.qua ##{high}
-                                span.qua #{music.comments[len-x].comment_date}
+                                span.qua #{prettyDate(music.comments[len-x].comment_date)}
                         div.all
                             //div.cha 查看全部
                     div.ui.dividing.header.divideline

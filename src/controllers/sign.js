@@ -52,7 +52,8 @@ exports.signup = function(req, res, next) {
                 'password': password,
                 'email': email,
                 'confed': false,
-                'createDate': date
+                'createDate': date,
+                'profile': 'default_head.jpg'
             }, function(err, newUser) {
                 var id = newUser._id.toString();
                 if (err) {
