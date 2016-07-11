@@ -56,6 +56,16 @@ module.exports = function (grunt) {
         dest: 'bin/public/libs/lib.min.js'
       }
     },
+    uglify: {
+      target: {
+        files: [{
+          expand: true,
+          cwd: './bin/public/javascripts',
+          src: '**/*.js',
+          dest: './bin/public/javascripts'
+        }]
+      }
+    },
     express: {
       options: {
         port: 3000
@@ -84,6 +94,7 @@ module.exports = function (grunt) {
   grunt.loadNpmTasks('grunt-contrib-clean');
   grunt.loadNpmTasks('grunt-contrib-watch');
   grunt.loadNpmTasks('grunt-contrib-concat');
+  grunt.loadNpmTasks('grunt-contrib-uglify');
   grunt.loadNpmTasks('grunt-express-server');
 
   grunt.registerTask('build', ['clean', 'copy:main', 'concat:lib']);
