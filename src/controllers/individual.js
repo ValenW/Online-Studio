@@ -22,7 +22,6 @@ exports.showIndividual = function(req, res, next) {
     }
     // find user with provided user_id and filter out the password
     User.findOne({_id: user_id}, '-password')
-        .populate({path: 'musics', match: isUser, select: '_id name cover'})
         .populate({path: 'original_musics', match: isUser, select: '_id name cover'})
         .populate({path: 'collected_musics', match: isUser, select: '_id name cover'})
         .populate({path: 'derivative_musics', match: isUser, select: '_id name cover'})
