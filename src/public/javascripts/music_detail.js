@@ -23,6 +23,9 @@ window.onload = function(){
 //submit按钮事件
 $(function(){
     $('#submit_button').click(function(){
+         if(user == undefined || user == null){
+            return;
+         }
          console.log(window.music.comments);
          console.log(music._id)
          var t = $("#content").val();
@@ -50,7 +53,19 @@ $(function(){
     });
 });
 
+//编辑音乐信息按钮事件
+$(function(){
+    $('#editMusicInfo').click(function(){
+        window.location.href="/music_info?music_id=" + music._id;
+    });
+});
 
+//编辑按钮事件
+$(function(){
+    $('#edit').click(function(){
+        window.location.href="/editor?spectrum_id=" + music.spectrum._id;
+    });
+});
 
 //收藏按钮事件
 $(function(){
@@ -130,7 +145,7 @@ window.createComment = function(data,num){
     comment_head.className = "comment_head";
     var img = document.createElement('img');
     img.className = "ui circular image pos";
-    img.src = data.comment_userId.profile;
+    img.src = "/uploads/heads/"+data.comment_userId.profile;
     comment_head.appendChild(img);
     comment.appendChild(comment_head);
     var all_content = document.createElement('div');
@@ -156,7 +171,7 @@ window.createComment = function(data,num){
     span_high.innerHTML = "#"+num;
     var span_date = document.createElement('span');
     span_date.className = "qua";
-    span_date.innerHTML = data.comment_date;
+    span_date.innerHTML = prettyDate(data.comment_date);
     message.appendChild(span_high);
     message.appendChild(span_date);
     all_content.appendChild(message);
@@ -231,3 +246,13 @@ window.listenIncrement = function(){
     });
 }
 
+//日期转换函数
+function prettyDate(dateString){
+    //if it's already a date object and not a string you don't need this line:
+    var date = new Date(dateString);
+    var d = date.getDate();
+    var monthNames = [ "Jan", "Feb", "Mar", "Apr", "May", "Jun","Jul", "Aug", "Sep", "Oct", "Nov", "Dec" ];
+    var m = monthNames[date.getMonth()];
+    var y = date.getFullYear();
+    return y+' '+m+' '+d;
+}
