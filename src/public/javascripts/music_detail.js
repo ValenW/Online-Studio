@@ -130,7 +130,7 @@ window.createComment = function(data,num){
     comment_head.className = "comment_head";
     var img = document.createElement('img');
     img.className = "ui circular image pos";
-    img.src = data.comment_userId.profile;
+    img.src = "/uploads/heads/"+data.comment_userId.profile;
     comment_head.appendChild(img);
     comment.appendChild(comment_head);
     var all_content = document.createElement('div');

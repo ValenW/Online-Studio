@@ -18,7 +18,7 @@ var c_data;
  * initialize the data, data.length and onclick function in the page
  */
 function init(){
-    console.log(user);
+    //console.log(user);
     initData();
     initMessage();
     initButton();
@@ -152,7 +152,7 @@ var l;
  *          music detail page.
  *
  * @param <Element> data the element is a json that contain 
- *          the music cover,music name,music i
+ *                      the music cover,music name,music id
  */
 function createItem(data){
     l = document.createElement('li');
@@ -163,7 +163,7 @@ function createItem(data){
     d_img.className = "image small-item";
     card.appendChild(d_img);
     var img = document.createElement('img');
-    img.src = "/uploads/musicCovers" + data.cover;
+    img.src = "/uploads/musicCovers/" + data.cover;
     d_img.appendChild(img);
     var p = document.createElement('p');
     p.align = "center";

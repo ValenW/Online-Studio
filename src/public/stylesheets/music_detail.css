@@ -64,9 +64,9 @@
 }
 
 .comment_head{
-    width: 100px;
-    height: 100px;
-    margin-top: 5px;
+    width: 80px;
+    height: 80px;
+    margin-top: 0px;
     margin-right: 20px;
     display: inline-block !important;
     align-content: center !important; 
@@ -74,7 +74,7 @@
 }
 
 .comment .all_content{
-    width: 40%;
+    width: 65%;
     height: 80px;
     display: inline-block; 
     align-content: center !important;
@@ -89,6 +89,7 @@
 
 .comment .all_content .content{
     margin-bottom: 5px;
+    height:57px;
 }
 
 .comment .all_content .message{
@@ -102,6 +103,8 @@
 
 .ui .circular .image .pos{
     margin-left: 10px;
+    width:80px !important;
+    height: 80px !important;
 }
 
 .comment .all{

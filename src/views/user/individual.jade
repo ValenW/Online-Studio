@@ -69,14 +69,14 @@ block content
                                         li(onclick="window.location.href=\"/music?music_id=#{userInfo[(e_cate[i])][userInfo[(e_cate[i])].length-j]['_id']}\"")
                                             div.ui.card.small-item
                                                 div.image.small-item
-                                                    img(src="/uploads/#{userInfo[(e_cate[i])][userInfo[(e_cate[i])].length-j]['cover']}")
+                                                    img(src="/uploads/musicCovers/#{userInfo[(e_cate[i])][userInfo[(e_cate[i])].length-j]['cover']}")
                                             p(align="center") #{userInfo[(e_cate[i])][userInfo[(e_cate[i])].length-j]['name']}
 
 
     
     script.
         window.user = !{JSON.stringify(userInfo)};
-        console.log(user);
+        //console.log(user);
         //console.log(user['collected_musics'][0])
         //console.log(user['collected_musics'][0]['cover'])
         //console.log(user['collected_musics'][0]['name'])

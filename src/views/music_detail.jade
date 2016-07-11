@@ -17,13 +17,14 @@ block content
     div.page-content
         div.top_view
             div.music_poster
-                img.ui.fluid.image.myimage(src='/resources/images/#{music.cover}')
+                img.ui.fluid.image.myimage(src='/uploads/musicCovers/#{music.cover}')
             div.music_detail
                 div.evaluate
                     div.ui.star.rating(data-rating="4")
                 div.music_message
                     p 歌曲名字: #{music.name}
-                    p 歌曲作者: #{music.author.username}
+                    p 歌曲作者: 
+                        a(href="/user?user_id=#{music.author._id}") #{music.author.username}
                     p 歌曲标签: 
                         each tag in music.tags
                             span #{tag.tag_name}
@@ -71,15 +72,18 @@ block content
                 h3.ui.dividing.header(id="commentN2") #{music.commentN}评论
             div.send_comment
                 div.comment_head
-                    img.ui.circular.image.pos(src='/resources/images/default_head.jpg')
-                textarea.submit-textarea(id="content",rows="3" cols="20")
+                    if user
+                        img.ui.circular.image.pos(src='/uploads/heads/#{user.profile}')
+                    else
+                        img.ui.circular.image.pos(src='/resources/images/default_head.jpg')
+                textarea.submit-textarea(id="content",rows="3" cols="20" maxlength="111")
                 button.submit-button(id = "submit_button",style="background-color:#00b5e5") 发表评论
             div.ui.dividing.header.divideline
             div.my_comment(id = "comment_all")
                 - for(var x = 1; x <= commentnum; x++)
                     div.comment
                         div.comment_head
-                            img.ui.circular.image.pos(src='/resources/images/default_head.jpg')
+                            img.ui.circular.image.pos(src='/uploads/heads/#{music.comments[len-x].comment_userId.profile}')
                         div.all_content
                             div.name
                                 p.description #{music.comments[len-x].comment_userId.username}
