@@ -104,8 +104,6 @@ exports.updateMusicInfo = function(req, res, next) {
         })
     });
 
-   
-
     if (req.body.cover == null) {   // secondary change music information without cover uploaded
         Music.update({
             _id: music_id
