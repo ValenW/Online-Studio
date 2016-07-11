@@ -84,7 +84,7 @@ function postForm() {
     if (title.length < 1 || title.title > 32) {
         showError('标题：字符数限制1~32个');
     }
-    else if (cover.length < 1) {
+    else if (musicTags.length == 0 && cover.length < 1) {
         showError('上传封面：封面未上传');
     }
     else if (intro.length < 1 || intro.length > 200) {

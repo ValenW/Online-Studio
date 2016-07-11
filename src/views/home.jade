@@ -39,7 +39,7 @@ block content
 								li
 									div.ui.card.small-item
 										div.blurring.dimmable.image.small-item
-											img(src='#{music.cover}')
+											img(src='uploads/covers/'+'#{music.cover}')
 											a.ui.dimmer(href='/effect')
 												p.title #{music.name}
 												p.info 作者: #{music.author.username}
@@ -48,7 +48,7 @@ block content
 								li
 									div.ui.card.small-item
 										div.blurring.dimmable.image.small-item
-											img(src='/resources/images/default_cover.png')
+											img(src='uploads/covers/default_cover.png')
 
 		each tag in tags
 			div.category
@@ -69,13 +69,13 @@ block content
 										a(href='/effect' style="color:rgba(0,0,0,.87);")
 											div.ui.card.small-item
 												div.image.small-item
-													img(src='#{music.cover}')
+													img(src='uploads/covers/'+'#{music.cover}')
 											p #{music.name}
 								- for (var i = 0; i < blank; ++i)
 									li
 										div.ui.card.small-item
 											div.image.small-item
-												img(src='/resources/images/default_cover.png')
+												img(src='uploads/covers/default_cover.png')
 										
 					div.r-list
 						div.rank
