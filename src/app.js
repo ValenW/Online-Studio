@@ -48,11 +48,19 @@ app.use(function(req, res, next) {
 // will print stacktrace
 if (app.get('env') === 'development') {
   app.use(function(err, req, res, next) {
-    res.status(err.status || 500);
-    res.render('error/404', {
-      message: err.message,
-      error: err
-    });
+    if (err.status === 404) {
+      res.status(err.status);
+      res.render('error/404', {
+        message: err.message,
+        error: err
+      });
+    } else {
+      res.status(500);
+      res.render('error/500', {
+        message: err.message,
+        error: err
+      });
+    }
   });
 }
 
