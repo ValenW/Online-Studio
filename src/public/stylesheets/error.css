@@ -1,0 +1,41 @@
+body {
+    margin: 0;
+    color: #222;
+    font: 16px/1.7 'Helvetica Neue', Helvetica, Arial, Sans-serif;
+    background: #eff2f5;
+}
+a {
+    text-decoration: none;
+    color: #105cb6;
+}
+.error {
+    margin: 169px auto;
+    width: 404px;
+}
+.error .header {
+    overflow: hidden;
+    font-size: 1.8em;
+    line-height: 1.2;
+    margin: 0 0 .33em .33em;
+}
+.error .content {
+    padding: 2em 1.25em;
+    border: 1px solid #babbbc;
+    border-radius: 5px;
+    background: #f7f7f7;
+    text-align: center;
+}
+.error p {
+    margin: 0 0 1.7em;
+    color: #999;
+}
+.error p:last-child {
+    margin-bottom: 0;
+}
+.error strong {
+    font-size: 1.1em;
+    color: #000;
+}
+.error hr {
+    margin: 1.3em 0;
+}
