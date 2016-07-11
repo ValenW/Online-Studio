@@ -2,8 +2,8 @@
     width: 40%;
     height: 100%;
     text-align: center;
-    padding-top: 102.5px;
-    padding-left: 82px;
+    padding-top: 72.5px;
+    padding-left: 165.5px;
     display: inline-block;
 }
 .message{
@@ -14,8 +14,8 @@
     vertical-align: top;
 }
 .myimage{
-    height: 150px !important;
-    width: 300px;
+    height: 250px !important;
+    width: 250px !important;
 }
 
 .name{
@@ -24,7 +24,13 @@
     height: 40px;
 }
 .detail_message{
+    padding-top: 6px;
     display: block;
     font-size: 1rem;
-    height:160px;
+    height:75px;
+}
+.detail_music{
+    display: block;
+    font-size: 1rem;
+    height:30px;    
 }

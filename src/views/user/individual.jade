@@ -3,6 +3,7 @@ extends ../layout
 block content
     - var categories = []
     - var num = [userInfo.original_musics.length,userInfo.derivative_musics.length,userInfo.collected_musics.length]
+    - var message_categories = ['自制音乐','改编音乐','收藏音乐']
     - var e_cate = []
     if num[0] > 0
         -e_cate.push('original_musics')
@@ -32,13 +33,17 @@ block content
                 div.container
                     div.content-wrapper
                         div.left_head
-                            img.ui.medium.circular.image.myimage(src="/resources/images/default_head.jpg")
+                            img.ui.medium.circular.image.myimage(src='uploads/heads/#{userInfo.profile}')
                         div.message
                             div.name #{userInfo.username}
                             div.detail_message #{userInfo.introduction}
+                            div.ui.dividing.header
+                            div.detail_music 
+                                -for(var i = 0; i < 3; i++) 
+                                    span(style="font-weight:bold;") #{message_categories[i]} ( #{num[i]} ) 
                             if user
                                 if user._id == userInfo._id
-                                    a(href="/user/update/#{user._id}").ui.green.button 修改个人信息
+                                    a(href="/user/update/#{user._id}").ui.green.button(style="margin-top:10px;") 修改个人信息
 
 
         div.music_repository
