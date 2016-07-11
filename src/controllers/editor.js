@@ -88,7 +88,7 @@ exports.saveSpectrum = function(req, res, next) {
 			collectN: 0,
 			commentN: 0,
 			shareN: 0,
-			is_music_public: true,
+			is_music_public: false,
 			is_spectrum_public: false,
 			introduction: 'I am a music.'
 		});
@@ -162,7 +162,7 @@ exports.saveSpectrum = function(req, res, next) {
 									collectN: 0,
 									commentN: 0,
 									shareN: 0,
-									is_music_public: true,
+									is_music_public: false,
 									is_spectrum_public: false,
 									introduction: 'I am a music.'
 								}, function(err, music) {
