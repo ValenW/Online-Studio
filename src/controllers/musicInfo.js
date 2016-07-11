@@ -2,11 +2,6 @@ var Music       = require('../models/Music');
 var Tag         = require('../models/Tag');
 var uploadImg   = require('../middlewares/uploadImg');
 
-// define music cover uploader
-var musicCoverUploader = uploadImg('covers/', function(req, file) {
-    return req.body.music_id + '_cover';
-});
-
 
 // /music_info?music_id=***
 exports.showMusicInfo = function(req, res, next) {
@@ -91,7 +86,7 @@ exports.updateMusicInfo = function(req, res, next) {
             }
         });
     } else {    // change music information with cover uploaded
-        var upload = musicCoverUploader.single('cover');
+        var upload = uploadImg.musicCoverUploader.single('cover');
         upload(req, res, function(err) {
             if (err) {
                 console.log ('Error in uploading Music Cover.\n', err);

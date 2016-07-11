@@ -17,4 +17,14 @@ var uploadImg = function(path, renameFuntion) {
     return uploader;
 }
 
-module.exports = uploadImg;
+var musicCoverUploader = uploadImg('covers/', function(req, file) {
+    return req.body.music_id + '_cover';
+});
+
+var headUploader = uploadImg('heads/', function(req, file) {
+    return req.session.user._id + '_head';
+});
+
+exports.uploadImg = uploadImg;
+exports.musicCoverUploader = musicCoverUploader;
+exports.headUploader = headUploader;

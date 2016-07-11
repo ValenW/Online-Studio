@@ -4,12 +4,6 @@ var fs      = require('fs');
 
 var uploadImg   = require('../middlewares/uploadImg');
 
-// define music cover uploader
-var headUploader = uploadImg('heads/', function(req, file) {
-    console.log(file, '\n', req.session.user);
-    return req.session.user._id + '_head';
-});
-
 // request: /user
 exports.showIndividual = function(req, res, next) {
     var user_id = req.query.user_id;    
@@ -54,7 +48,7 @@ exports.showIndividual = function(req, res, next) {
 
 exports.updateIndividual = function(req, res, next) {
     var user = req.session.user;
-    var upload = headUploader.single('head');
+    var upload = uploadImg.headUploader.single('head');
     upload(req, res, function(err) {
         if (err) {
             console.log ('Error in upload individual:\n', err);
