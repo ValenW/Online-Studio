@@ -22,7 +22,6 @@ exports.showIndividual = function(req, res, next) {
     }
     // find user with provided user_id and filter out the password
     User.findOne({_id: user_id}, '-password')
-        .populate({path: 'musics', match: isUser, select: '_id name cover'})
         .populate({path: 'original_musics', match: isUser, select: '_id name cover'})
         .populate({path: 'collected_musics', match: isUser, select: '_id name cover'})
         .populate({path: 'derivative_musics', match: isUser, select: '_id name cover'})
@@ -34,14 +33,14 @@ exports.showIndividual = function(req, res, next) {
                 console.log("no such user with ID: ", user_id);
             }
             console.log (user);
-            headPath = './bin/public/uploads/heads/' + user_id + '_head';
+            headPath = "" + user_id + '_head';
             try {
               fs.accessSync(headPath, fs.R_OK);
               console.log("ok: " + headPath);
             } catch (e) {
-              headPath = './bin/public/uploads/heads/guest';
+              headPath = 'default_head.jpg';
             }
-            user.headPath = headPath;
+            user.profile = headPath;
             res.render('user/individual', {
                 userInfo: user,
                 user:  req.session.user == undefined ? null : {
@@ -49,9 +48,9 @@ exports.showIndividual = function(req, res, next) {
                         username: req.session.user.username,
                         profile: req.session.user.profile
                     }
-			});
-		}
-	});
+            });
+        }
+    });
 };
 
 exports.updateIndividual = function(req, res, next) {
@@ -134,10 +133,10 @@ exports.updatePassword = function(req, res, next) {
 }
 
 exports.updateProfile = function(req, res, next) {
-    var userId = req.body.id;
-    var newProfile = userId+'_head';
     var upload = uploadImg.headUploader.single('profile');
     upload(req, res, function(err) {
+        var userId = req.body.id;
+        var newProfile = userId+'_head';
         if (err) {
             console.log('Error in updateProfile.');
         } else {

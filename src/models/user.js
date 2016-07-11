@@ -7,7 +7,6 @@ UserSchema = new mongoose.Schema({
     confed: Boolean,
     profile: String,
     introduction: String,
-    musics: [{type: mongoose.Schema.Types.ObjectId, ref: 'Music'}],
     original_musics  : [{type: mongoose.Schema.Types.ObjectId, ref: 'Music'}],
     collected_musics : [{type: mongoose.Schema.Types.ObjectId, ref: 'Music'}],
     derivative_musics: [{type: mongoose.Schema.Types.ObjectId, ref: 'Music'}],

@@ -60,96 +60,73 @@ exports.updateMusicInfo = function(req, res, next) {
         return;
     }
 
-    var music_id            = req.body.music_id;
-    var name                = req.body.name;
-    var introduction        = req.body.introduction;
-    var tags                = req.body.tag;
-    var is_spectrum_public  = req.body.is_spectrum_public;
-    var is_music_public     = req.body.is_music_public;
+    var upload = uploadImg.musicCoverUploader.single('cover');
+    upload(req, res, function(err) {
+        if (err) {
+            console.log ('Error in uploading Music Cover.\n', err);
+        } else {
+            var music_id            = req.body.music_id;
+            var name                = req.body.name;
+            var introduction        = req.body.introduction;
+            var tags                = req.body.tag;
+            var is_spectrum_public  = req.body.is_spectrum_public;
+            var is_music_public     = req.body.is_music_public;
 
-    // remove the old relation between tag and music.
-    Music.findOne({_id: music_id}, function(err, music) {
-        Tag.find({
-            _id: {
-                $in: music.tags
-            }
-        }, function(err, n_tags) {
-            if (err) {
-                console.log('Error in /update_music_info.');
-            } else {
-                for (var t_i = 0; t_i < n_tags.length; t_i += 1) {
-                    var tag = n_tags[t_i];
-                    tag.removeMusicById(music._id);
-                    tag.save();
-                }
-
-                // add new relation between tag and music.
+            // remove the old relation between tag and music.
+            Music.findOne({_id: music_id}, function(err, music) {
                 Tag.find({
                     _id: {
-                        $in: tags
+                        $in: music.tags
                     }
                 }, function(err, n_tags) {
                     if (err) {
-                        console.log ('Error in /update_music_info.');
+                        console.log('Error in /update_music_info.');
                     } else {
                         for (var t_i = 0; t_i < n_tags.length; t_i += 1) {
                             var tag = n_tags[t_i];
-                            tag.addMusicById(music_id);
+                            tag.removeMusicById(music._id);
                             tag.save();
                         }
+
+                        // add new relation between tag and music.
+                        Tag.find({
+                            _id: {
+                                $in: tags
+                            }
+                        }, function(err, n_tags) {
+                            if (err) {
+                                console.log ('Error in /update_music_info.');
+                            } else {
+                                for (var t_i = 0; t_i < n_tags.length; t_i += 1) {
+                                    var tag = n_tags[t_i];
+                                    tag.addMusicById(music_id);
+                                    tag.save();
+                                }
+                            }
+                        });
+                        // add end.
                     }
-                });
-                // add end.
-            }
-        })
+                })
+            });
+
+            Music.update({
+                _id: music_id
+            }, {
+                name: name,
+                introduction: introduction,
+                tags: tags, // Format of music.tags is [tag0_id, tag1_id, tag2_id]
+                is_spectrum_public: is_spectrum_public,
+                is_music_public: is_music_public,
+                cover: music_id + '_cover'
+            }, {}, function(err, info) {
+                if (err) {
+                    console.log('Error in /update_music_info request.\n', err);
+                } else {
+                    console.log ('Update music(', music_id ,') info successfully.');
+
+                    res.redirect('/music?music_id=' + music_id);
+                }
+            });
+        }
     });
-
-    if (req.body.cover == null) {   // secondary change music information without cover uploaded
-        Music.update({
-            _id: music_id
-        }, {
-            name: name,
-            introduction: introduction,
-            tags: tags, // Format of music.tags is [tag0_id, tag1_id, tag2_id]
-            is_spectrum_public: is_spectrum_public,
-            is_music_public: is_music_public
-        }, {}, function(err, info) {
-            if (err) {
-                console.log('Error in /update_music_info request.\n', err);
-            } else {
-                console.log ('Update music(', music_id ,') info successfully.');
-
-                res.redirect('/user?user_id='+req.session.user._id);
-            }
-        });
-    } else {    // change music information with cover uploaded
-        var upload = uploadImg.musicCoverUploader.single('cover');
-        upload(req, res, function(err) {
-            if (err) {
-                console.log ('Error in uploading Music Cover.\n', err);
-            } else {
-
-                console.log ('Uploading Muisc Cover ', music_id + '_cover',' for Music ', music_id, 'successfully.');
-                Music.update({
-                    _id: music_id
-                }, {
-                    name: name,
-                    introduction: introduction,
-                    tags: tags, // Format of music.tags is [tag0_id, tag1_id, tag2_id]
-                    is_spectrum_public: is_spectrum_public,
-                    is_music_public: is_music_public,
-                    cover: music_id + '_cover'
-                }, {}, function(err, info) {
-                    if (err) {
-                        console.log('Error in /update_music_info request.\n', err);
-                    } else {
-                        console.log ('Update music(', music_id ,') info successfully.');
-                        
-
-                        res.redirect('/user?user_id='+req.session.user._id);
-                    }
-                });
-            }
-        });
-    }
 };
