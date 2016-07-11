@@ -57,6 +57,7 @@ exports.showHome = function(req, res, next) {
 									};
 								}
 
+								console.log('user in home:', req.session.user);
 								res.render('home', {
 									bg_image_url: bg_image_url,
 									tot_hotest_music: tot_hotest_music_pu,

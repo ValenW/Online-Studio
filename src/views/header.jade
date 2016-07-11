@@ -9,7 +9,7 @@ header
                 if user
                     //登陆成功
                     div.item
-                        img.ui.avatar.image(height="35px",width="70px",src='uploads/heads/#{user._id}_head')
+                        img.ui.avatar.image(height="35px",width="70px",src='uploads/heads/#{user.profile}')
                         span(style="color:#fff") #{user.username}
                     a.item(href="/user?user_id=#{user._id}",style="color:white") 个人空间
                     a.item(href="/logout",style="color:#fff") 退出登陆
