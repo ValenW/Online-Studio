@@ -3,7 +3,7 @@ window.addEventListener("load", init, false);
 //绘制音乐能量条需要用到的变量
 var canvas;//绘制频谱的画布
 var draw_width = 4;//柱状频谱的宽度
-var gap = 1;//柱状频谱的间距
+var gap = 2;//柱状频谱的间距
 var draw_num;//绘制的柱状频谱数量
 var step;//绘制频谱的采样步长
 window.analyser;//绘制频谱需要经过的分析器
@@ -15,6 +15,16 @@ var ctx;//画布的2D绘图环境对象
 var gradient;//定义一个渐变样式用于绘制频谱条
 //var chunks=[];//存放每次绘制频谱的能量分布
 var animation_id;
+var max_tail = 0;
+//歌曲时长int,ms
+var time;
+//进度条定时器
+var timer;
+//进度条值
+var data_total;
+//计时器运行次数
+var timer_count = 0;
+var begin;
 
 var context;
 var bufferList;
@@ -28,24 +38,47 @@ function init() {
     initNavigator();
     initAnimationFrame();
     initPrint();
+    initMusicLength();
     initProgress();
 }
 
-function test(){
-    progress_increment();
-    //animation_id = window.requestAnimationFrame(test);
+function initMusicLength(){
+    for (var x in window.music.spectrum.channels){
+        for(var y in window.music.spectrum.channels[x]){
+            if(window.music.spectrum.channels[x][y]!=null){
+                if(max_tail < (window.music.spectrum.channels[x][y]).tail){
+                    max_tail = (window.music.spectrum.channels[x][y]).tail;
+                }
+            }
+        }
+    }
+    console.log(max_tail);
+    time = Math.ceil(max_tail * unitTime * 1000);
+    console.log(time);
+    data_total = Math.ceil(time/100);
+    //initProgress(data_total);
+    var pro = createProgressElement(data_total-1);
+    $('#middle').append(pro);
 }
 
 function progress_increment(){
     $('#myProgress').progress('increment');
 }
 
-function initProgress(){
+function initProgress(time){
+    begin = (new Date()).getTime();
     //$('#myProgress').progress({total: 1000});
     $('#myProgress').progress('reset');
+    // $('#myProgress').attr('data-total',time-1);
+    // console.log(time);
+    // // $('#myProgress').progress({
+    // //     total    : time
+    // // });
     $('#myProgress').progress({
-        duration : 200,
-        total    : 1000
+    label: 'ratio',
+    text: {
+      ratio: '{value} de {total}'
+    }
     });
 }
 
@@ -100,18 +133,16 @@ function initButtons() {
         //$("#pause").disabled = 'disabled';
         //$("#stop").disabled = 'disabled';
     });
-    //按下之后不能再按
+    //按下之后不能再按,初始不可用
+    $("#pause").attr('disabled',true);
     $("#pause").click(function() {
-        test();
-        $("#play").removeClass("active");
-        $("#pause").addClass("active");
-        $("#stop").removeClass("active");
-        //$("#pause").attr('disabled',true);
-        //$("#play").removeAttr('disabled');
-        //$("#stop").removeAttr('disabled');
+        progress_increment();
+        //test();
+        
     });
     //重头播放，可以不停的按
     $("#stop").click(function() {
+        $('#myProgress').progress('reset');
         window.stopMusic();
         $("#play").removeClass("active");
         $("#pause").removeClass("active");
@@ -245,11 +276,21 @@ window.playMusic = function(){
     for (var x in window.music.spectrum.channels){
         //console.log(window.music.spectrum.channels[x]);
         for(var y in window.music.spectrum.channels[x]){
-            //console.log(window.music.spectrum.channels[x][y]);
-            window.playNote(window.music.spectrum.channels[x][y]);
+            if(window.music.spectrum.channels[x][y]!=null){
+                //console.log(window.music.spectrum.channels[x][y]);
+                window.playNote(window.music.spectrum.channels[x][y]);
+                if(max_tail < (window.music.spectrum.channels[x][y]).tail){
+                    max_tail = (window.music.spectrum.channels[x][y]).tail;
+                }
+            }
         }
     }
-    initProgress();
+    console.log(max_tail);
+    time = Math.ceil(max_tail * unitTime * 1000);
+    console.log(time);
+    data_total = Math.ceil(time/100);
+    initProgress(data_total);
+    progress_run();
     // animation_id = window.requestAnimationFrame(draw);
     // console.log("play music");
     // console.log(animation_id);
@@ -314,4 +355,36 @@ function draw(){
     ctx.fillRect(i*(draw_width+gap),canvas.height-value,draw_width,canvas.height);
   }
   window.requestAnimationFrame(draw);
+}
+
+//每秒调用10次，1000ms/10=100ms
+function progress_run(){
+    timer_count++;
+    //console.log(timer_count);
+    if(timer_count >= data_total){
+        timer_count = 0;
+        var now = (new Date()).getTime();
+        console.log(((now - begin)/1000).toFixed(3));
+        return;
+    }
+    progress_increment();
+    timer = setTimeout('progress_run()',100);
+}
+// div.ui.indicating.small.progress.myProgress
+//(id="myProgress",data-value="0",data-total="0")
+//             div.bar
+//                 div.progress
+function createProgressElement(time){
+    var progress = document.createElement('div');
+    progress.className = "ui indicating small progress myProgress";
+    progress.id = "myProgress";
+    progress.setAttribute("data-value", 0);
+    progress.setAttribute("data-total",time);
+    var div = document.createElement('div');
+    div.className  = "bar";
+    var div2 = document.createElement('div');
+    div2.className = "progress";
+    progress.appendChild(div);
+    div.appendChild(div2);
+    return progress;
 }
