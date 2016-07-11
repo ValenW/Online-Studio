@@ -5,6 +5,21 @@ var TagSchema = new mongoose.Schema({
     music_list: [{type: mongoose.Schema.Types.ObjectId, ref: 'Music'}]
 });
 
+TagSchema.method('removeMusicById', function(music_id) {
+	for (var m_i = 0; m_i < this.music_list.length; m_i += 1) {
+		if (this.music_list[m_i].toString() == music_id) {
+			this.music_list.splice(m_i, 1);
+			console.log ('Remove music_id ', music_id, ' in tag ', this._id);
+			break;
+		}
+	}
+});
+
+TagSchema.method('addMusicById', function(music_id) {
+	this.music_list.push(music_id);
+	console.log ('Add music_id ', music_id, ' in tag ', this._id);
+});
+
 TagSchema.static('findByTagName', function(tag_name, callback) {
   return this.find({tag_name: tag_name}, callback);
 });

@@ -28,7 +28,7 @@ exports.showHome = function(req, res, next) {
 					var newest_music = [];
 					var hotest_music = [];
 
-					for (t_i in tags_pm) {
+					for (var t_i = 0; t_i < tags_pm.length; t_i += 1) {
 						var tag = tags_pm[t_i];
 						music_list.push( filter.filterPublicMusic(tag.music_list) );
 						newest_music.push( music_list[t_i].sort(cmp.newest_cmp).slice(0, newest_count) );
@@ -49,7 +49,7 @@ exports.showHome = function(req, res, next) {
 							User.populate(newest_music, {path: 'author'}, function(err, newest_music_pu) {
 							User.populate(hotest_music, {path: 'author'}, function(err, hotest_music_pu) {
 								ret_tags = {};
-								for (var t_i in tags) {
+								for (var t_i = 0; t_i < tags.length; t_i += 1) {
 									ret_tags[t_i] = {
 										tag: tags[t_i],
 										newest_music: newest_music_pu[t_i],

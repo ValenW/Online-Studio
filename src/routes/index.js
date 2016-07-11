@@ -69,8 +69,8 @@ router.get('/music/isCollect',  musicDetail.is_collect);
 router.post('/music/insertComment',   musicDetail.insertComment);
 
 // music_info
-router.get('/music_info', auth.isTempAuthenticated, musicInfo.showMusicInfo);
-router.post('/update_music_info', auth.isTempAuthenticated, musicInfo.updateMusicInfo);
+router.get('/music_info', auth.isAuthenticated, musicInfo.showMusicInfo);
+router.post('/update_music_info', auth.isAuthenticated, musicInfo.updateMusicInfo);
 
 // debug
 router.get('/create_tags', debug.createTags);
