@@ -64,7 +64,7 @@ exports.showHome = function(req, res, next) {
 									user: req.session.user === undefined ? null : {
 										_id: req.session.user._id,
 										username: req.session.user.username,
-										profile: req.session.user.profiles
+										profile: req.session.user.profile
 									}
 								});
 							}); }); });
