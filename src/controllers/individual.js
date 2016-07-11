@@ -124,3 +124,21 @@ exports.updatePassword = function(req, res, next) {
         }
     });
 }
+
+exports.updateProfile = function(req, res, next) {
+    var userId = req.body.id;
+    var newProfile = userId+'_head';
+    var upload = uploadImg.headUploader.single('profile');
+    upload(req, res, function(err) {
+        if (err) {
+            console.log('Error in updateProfile.');
+        } else {
+            console.log('Update Porfile successfullt');
+            Uesr.findOne({_id: userId}, function(err, user) {
+                user.update({ $set: {profile: newProfile} }, function(err) {
+                    return res.json({"message": "success"});
+                });
+            });
+        }
+    });
+}

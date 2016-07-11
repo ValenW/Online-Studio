@@ -90,7 +90,7 @@ exports.saveSpectrum = function(req, res, next) {
 			shareN: 0,
 			is_music_public: false,
 			is_spectrum_public: false,
-			introduction: 'I am a music.'
+			introduction: 'I am a piece of music.'
 		});
 		music.save();
 		console.log ('Create Music ', music._id);
@@ -164,7 +164,7 @@ exports.saveSpectrum = function(req, res, next) {
 									shareN: 0,
 									is_music_public: false,
 									is_spectrum_public: false,
-									introduction: 'I am a music.'
+									introduction: 'I am a piece of music.'
 								}, function(err, music) {
 									if (err) {
 										console.log ('Error in /save request, Music.create method.');
