@@ -115,3 +115,18 @@ exports.updateIntroduction = function(req, res, next) {
         });
     });
 }
+
+exports.updatePassword = function(req, res, next) {
+    var userId = req.body.id;
+    var password = req.body.password;
+    var newPassword = req.body.newPassword;
+    User.findOne({_id: userId}, function(err, user) {
+        if (user.password !== password) {
+            return res.json({"message": "password error"});
+        } else {
+            user.update({ $set: {password: newPassword} }, function(err) {
+                return res.json({"message": "success"});
+            });
+        }
+    });
+}
