@@ -13,6 +13,10 @@ var c_length;
 var c_page = 1;
 var c_data;
 
+/**
+ * initialize the user indivial page(/user?user_id=)
+ * initialize the data, data.length and onclick function in the page
+ */
 function init(){
     console.log(user);
     initData();
@@ -20,12 +24,20 @@ function init(){
     initButton();
 }
 
+/**
+ * initialize the data for the user object, saving in the global variances
+ * initialize the original musics array, derivative musics array, collect musics array
+ */
 function initData(){
     o_data = user.original_musics;
     d_data = user.derivative_musics;
     c_data = user.collected_musics;
 }
 
+/**
+ * initialize the length of the global variances
+ * based on the passed in tag name(函数的详细描述,例如描述函数的算法等等)
+ */
 function initMessage(){
     //自制音乐数目
     o_length = user.original_musics.length;
@@ -35,7 +47,14 @@ function initMessage(){
     c_length = user.collected_musics.length;
 }
 
-//data.length-((page_num-1)*10+i)-1
+/**
+ * initialize the onclick function
+ * dynamic display the value in the page
+ *
+ * @require global variances o_length,o_data,o_page,
+ *                           d_length,d_data,d_page,
+ *                           c_length,c_data,c_page,
+ */
 function initButton(){
     console.log('initButton');
     //修改个人信息
@@ -125,7 +144,16 @@ function initButton(){
 
 //展示的卡片
 var l;
-//创建卡片
+/**
+ * create the card element,save the element in the global variance l
+ * use the javascript to create the html dom to dynamic update
+ *          the element in the browser page.What's more,the card element
+ *          can response to the onclick event,which leads to jump to the
+ *          music detail page.
+ *
+ * @param <Element> data the element is a json that contain 
+ *          the music cover,music name,music i
+ */
 function createItem(data){
     l = document.createElement('li');
     var card = document.createElement('div');
@@ -144,9 +172,4 @@ function createItem(data){
     l.onclick = function(){
         return window.location.href="/music?music_id="+data._id;
     };
-}
-
-function updateContent(data,page_num,_id){
-    
-    $(_id).append();
 }
