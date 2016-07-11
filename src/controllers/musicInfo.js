@@ -3,7 +3,7 @@ var Tag         = require('../models/Tag');
 var uploadImg   = require('../middlewares/uploadImg');
 
 // define music cover uploader
-var musicCoverUploader = uploadImg('musicCovers/', function(req, file) {
+var musicCoverUploader = uploadImg('covers/', function(req, file) {
     return req.body.music_id + '_cover';
 });
 
@@ -58,6 +58,13 @@ exports.showMusicInfo = function(req, res, next) {
 // param: cover
 exports.updateMusicInfo = function(req, res, next) {
     console.log('in updateMusicInfo');
+
+    // if user is not login, redirect to /login 
+    if (req.session.user == undefined) {
+        res.redirect('/login');
+        return;
+    }
+
     var music_id            = req.body.music_id;
     var name                = req.body.name;
     var introduction        = req.body.introduction;
@@ -80,7 +87,7 @@ exports.updateMusicInfo = function(req, res, next) {
             } else {
                 console.log ('Update music(', music_id ,') info successfully.');
                 console.log(info);
-                res.redirect('/individual');
+                res.redirect('/user?user_id='+req.session.user._id);
             }
         });
     } else {    // change music information with cover uploaded
@@ -99,14 +106,14 @@ exports.updateMusicInfo = function(req, res, next) {
                     tags: tags, // Format of music.tags is [tag0_id, tag1_id, tag2_id]
                     is_spectrum_public: is_spectrum_public,
                     is_music_public: is_music_public,
-                    cover: 'musicCovers/' + music_id + '_cover'
+                    cover: music_id + '_cover'
                 }, {}, function(err, info) {
                     if (err) {
                         console.log('Error in /update_music_info request.\n', err);
                     } else {
                         console.log ('Update music(', music_id ,') info successfully.');
-                        console.log(info);
-                        res.redirect('/individual');
+                        // console.log(info);
+                        res.redirect('/user?user_id='+req.session.user._id);
                     }
                 });
             }
