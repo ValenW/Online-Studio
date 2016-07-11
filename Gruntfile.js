@@ -42,8 +42,8 @@ module.exports = function (grunt) {
     },
     clean: {
       build: {
-        src: ["bin/bin/**", "bin/controllers/**", "bin/data/**",
-        "bin/middlewares/**", "bin/models/**", "bin/public/**",
+        src: ["bin/bin/**", "bin/controllers/**", "bin/data/**", "bin/middlewares/**", "bin/models/**",
+        "bin/public/javascripts/**", "bin/public/libs/**", "bin/public/resources/**", "bin/public/stylesheets/**",
         "bin/routes/**", "bin/views/**", "bin/app.js"]
       }
     },

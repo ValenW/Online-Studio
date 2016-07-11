@@ -43,7 +43,22 @@ $(document).ready(function(){
         var user_id = window.location.pathname.split('/')[3];
         
         $.ajax({
-            url: ""
+            url: "/user/update/introduction/"+user_id,
+            method: "POST",
+            data: {
+                id: user_id,
+                introduction: introduction
+            },
+            dataType: "json",
+            success: function(data) {
+                console.log(data);
+                $("#introduction-edit-content").hide();
+                $("#introduction-item-content").text(introduction);
+                $("#introduction-static-content").show();
+            },
+            fail: function() {
+                console.log("fail");
+            }
         })
     });
 });
