@@ -1,10 +1,11 @@
 window.addEventListener("load", init, false);
 
 function init() {
-	initButtons();
-	initFormConfirm();
+	initButtons();	// 初始化菜单按钮
+	initFormConfirm();	// 初始化表单验证规则
 }
 
+// 初始化菜单按钮
 function initButtons() {
 	// 开始
 	$("#play").click(function() {
@@ -41,29 +42,20 @@ function initButtons() {
 		window.save();
 	});
 
-	// 跳转提示
+	// 个人主页跳转按钮
 	$('#jump-modal').modal({blurring:true});
 	if ($('#user').length > 0) {
-		$('#user').click(function() {
-			$('.msg').text('是否跳转至个人主页？');
-			$('#jump-modal .ok').click(function() {
-				var userid = $('#user').attr('userid');
-				if (userid.length > 0) {
-					window.location.href = '/individual?user_id=' + userid;
-				}
-			});
-			$('#jump-modal').modal('show');
-		});
+		$('#user').click(userOnclickHandler);
 	};
-	if ($('#home').length > 0) {
-		$('#home').click(function() {
-			$('.msg').text('是否跳转至首页？');
-			$('#jump-modal .ok').click(function() {
-				window.location.href = '/';
-			});
-			$('#jump-modal').modal('show');
+
+	// 首页跳转按钮
+	$('#home').click(function() {
+		$('.msg').text('是否跳转至首页？');
+		$('#jump-modal .ok').click(function() {
+			window.location.href = '/';
 		});
-	}
+		$('#jump-modal').modal('show');
+	});
 
 	// 登陆弹出框
 	$('#signin-modal')
@@ -102,6 +94,7 @@ function initButtons() {
 	}).css('cursor', 'pointer');
 }
 
+// 提交登陆表单
 function validSigninFormHandler() {
 	var username = $('.login-form .username-input').val();
 	var password = $('.login-form .password-input').val();
@@ -111,7 +104,7 @@ function validSigninFormHandler() {
 		type: "POST",
 		success: function (data) {
 			if (data.login_rst == 'success') {
-				onSignInSuccess(data.user);
+				onSignInSuccess(data.user);		// 登陆成功回调函数
 				$('#signin-modal').modal('hide');
 			}
 			else if (data.message) {
@@ -122,6 +115,7 @@ function validSigninFormHandler() {
 	});
 }
 
+// 提交注册表单
 function validSignupFormHandler() {
 	var username = $('.signup-form .username-input').val();
 	var password = $('.signup-form .password-input').val();
@@ -132,7 +126,7 @@ function validSignupFormHandler() {
 		type: "POST",
 		success: function (data) {
 			if (data.signup_rst == 'success') {
-				onSignInSuccess(data.user);
+				onSignInSuccess(data.user);		// 登陆成功回调函数
 				$('#signup-modal').modal('hide');
 			}
 			else if (data.message) {
@@ -143,6 +137,7 @@ function validSignupFormHandler() {
 	});
 }
 
+// 验证登陆表单
 function signin() {
 	$('.login-form').form('validate form');
 	var isValid = $('.login-form').form('is valid');
@@ -150,6 +145,7 @@ function signin() {
 		validSigninFormHandler();
 }
 
+// 验证注册表单
 function signup() {
 	var password = $('.signup-form .password-input').val();
 	var confirm = $('.signup-form .confirm-input').val();
@@ -159,6 +155,7 @@ function signup() {
 		validSignupFormHandler();
 }
 
+// 登陆成功
 function onSignInSuccess(user) {
 	var userDom = $('#user');
 	if (userDom.length > 0) {
@@ -173,20 +170,24 @@ function onSignInSuccess(user) {
 			.attr('userid', user._id)
 			.attr('id', 'user')
 			.text(user.username)
-			.click(function() {
-				$('.msg').text('是否跳转至个人主页？');
-				$('#jump-modal .ok').click(function() {
-					var userid = $('#user').attr('userid');
-					if (userid.length > 0) {
-						window.location.href = '/individual?user_id=' + userid;
-					}
-				});
-				$('#jump-modal').modal('show');
-			});
+			.click(userOnclickHandler);
 		$('#home').before(userDom);
 	}
 }
 
+// 用户按钮事件
+function userOnclickHandler() {
+	$('.msg').text('是否跳转至个人主页？');
+	$('#jump-modal .ok').click(function() {
+		var userid = $('#user').attr('userid');
+		if (userid.length > 0) {
+			window.location.href = '/user?user_id=' + userid;
+		}
+	});
+	$('#jump-modal').modal('show');
+}
+
+// 初始化表单验证规则
 function initFormConfirm() {
 	$('.signup-form').form({
 	    fields: {

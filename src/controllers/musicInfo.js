@@ -67,6 +67,13 @@ exports.updateMusicInfo = function(req, res, next) {
     var is_spectrum_public  = req.body.is_spectrum_public;
     var is_music_public     = req.body.is_music_public;
 
+    console.log(music_id);
+    console.log(name);
+    console.log(introduction);
+    console.log(tags);
+    console.log(is_spectrum_public);
+    console.log(is_music_public);
+
     if (req.body.cover == null) {   // secondary change music information without cover uploaded
         Music.update({
             _id: music_id
