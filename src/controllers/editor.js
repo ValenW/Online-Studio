@@ -15,7 +15,7 @@ exports.showEditor = function(req, res, next) {
 			user: req.session.user === undefined ? null : {
 				_id: req.session.user._id,
 				username: req.session.user.username,
-				profile: req.session.user.profiles
+				profile: req.session.user.profile
 			}
 		});
 
@@ -32,7 +32,7 @@ exports.showEditor = function(req, res, next) {
 					user: req.session.user === undefined ? null : {
 						_id: req.session.user._id,
 						username: req.session.user.username,
-						profile: req.session.user.profiles
+						profile: req.session.user.profile
 					}
 				});
 			}
@@ -231,7 +231,7 @@ exports.login = function(req, res, next) {
                 	user: {
 						_id: req.session.user._id,
 						username: req.session.user.username,
-						profile: req.session.user.profiles
+						profile: req.session.user.profile
                 	}
                 })
             }
@@ -289,7 +289,7 @@ exports.signup = function(req, res, next) {
                     	user: {
 							_id: req.session.user._id,
 							username: req.session.user.username,
-							profile: req.session.user.profiles
+							profile: req.session.user.profile
 						}
                     });
                 }
