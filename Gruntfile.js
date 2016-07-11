@@ -11,10 +11,6 @@ module.exports = function (grunt) {
       deploy: {
         options: {
           process: function(content, srcpath) {
-            var viewsPathReg = /src\/views\//;
-            if (!viewsPathReg.test(srcpath)) {
-              return content;
-            }
             var jsReg = /javascripts\/(?:(?:\w+)\/)*(\w+)\.js/g
             var cssReg = /stylesheets\/(?:(?:\w+)\/)*(\w+)\.css/g
             var jsMatchResult = content.match(jsReg);
@@ -35,9 +31,9 @@ module.exports = function (grunt) {
           }
         },
         expand: true,
-        cwd: 'src',
+        cwd: 'bin/views/',
         src: '**',
-        dest: 'bin'
+        dest: 'bin/views/'
       }
     },
     clean: {
@@ -86,7 +82,7 @@ module.exports = function (grunt) {
           expand: true,
           cwd: "./bin/public/stylesheets",
           src: "*.css",
-          dest: "./bin/public/stylesheets/min",
+          dest: "./bin/public/stylesheets",
           ext: ".min.css"
         }]
       }
@@ -124,6 +120,6 @@ module.exports = function (grunt) {
   grunt.loadNpmTasks('grunt-express-server');
 
   grunt.registerTask('build', ['clean', 'copy:main', 'concat:lib']);
-  grunt.registerTask('deploy', ['clean', 'copy:deploy', 'concat:lib', 'uglify', 'cssmin']);
+  grunt.registerTask('deploy', ['clean', 'copy:main', 'copy:deploy', 'concat:lib', 'uglify', 'cssmin', 'express', 'watch']);
   grunt.registerTask('default', ['clean','copy:main','concat:lib','express', 'watch']);
 }
