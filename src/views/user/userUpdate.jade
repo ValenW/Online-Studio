@@ -13,37 +13,54 @@ block content
                 img.ui.circular.image.avator-image(src="/heads/linytsysu.png")
             .clear
         .information-block
-            span.item-label 用户名
-            .item-content
-                .static-content
-                    p.item-content linytsysu
-                    i.edit.icon.edit-icon#username-edit-icon
-                        span 修改
-                .edit-content
-                    .ui.input
-                        input(name="username" value="linytsysu")
-                    .button-container
-                        button.ui.primary.button 保存
-                        button.ui.button.cancel-btn 取消
-            .clear
-        .information-block
             span.item-label 邮箱
             .item-content
                 .static-content
                     p.item-content linytsysu@163.com
             .clear
         .information-block
-            span.item-label 自我介绍
+            span.item-label 用户名
             .item-content
-                .static-content
-                    p.item-content 一个有趣的人
-                    i.edit.icon.edit-icon#introduction-edit-icon
+                .static-content#username-static-content
+                    span#username-item-content.item-content #{username}
+                    i.edit.icon.edit-icon
                         span 修改
-                .edit-content
+                .edit-content#username-edit-content
                     .ui.input
-                        input(name="introduction" value="一个有趣的人")
+                        input(name="username" value="#{username}")
+                    .button-container
+                        button#username-save-btn.ui.primary.button 保存
+                        button.ui.button.cancel-btn 取消
+            .clear
+        .information-block
+            span.item-label 密码
+            .item-content
+                .static-content#password-static-content
+                    i.edit.icon.edit-icon.edit-password-icon
+                        span 修改密码
+                .edit-content#password-edit-content
+                    .ui.input
+                        input(name="password" type="password" placeholder="原密码")
+                    .ui.input
+                        input(name="password" type="password" placeholder="新密码")
+                    .ui.input
+                        input(name="password" type="password" placeholder="确认新密码")
                     .button-container
                         button.ui.primary.button 保存
+                        button.ui.button.cancel-btn 取消
+            .clear
+        .information-block
+            span.item-label 自我介绍
+            .item-content
+                .static-content#introduction-static-content
+                    span#introduction-item-content.item-content #{introduction}
+                    i.edit.icon.edit-icon
+                        span 修改
+                .edit-content#introduction-edit-content
+                    .ui.input
+                        input(name="introduction" value="#{introduction}")
+                    .button-container
+                        button#introduction-save-btn.ui.primary.button 保存
                         button.ui.button.cancel-btn 取消
             .clear
     include ../footer

@@ -86,6 +86,32 @@ exports.showUserUpdate = function(req, res, next) {
     var user_id = req.params.user_id;
     User.findOne({_id: user_id}, function(err, user) {
         console.log(user);
-        res.render('user/userUpdate');
+        res.render('user/userUpdate', {
+            user_id: user._id,
+            username: user.username,
+            email: user.email,
+            introduction: user.introduction,
+            profile: user.profile
+        });
+    });
+}
+
+exports.updateUsername = function(req, res, next) {
+    var userId = req.body.id;
+    var username = req.body.username;
+    User.findOne({_id: userId}, function(err, user) {
+        user.update({$set: {username: username} }, function(err) {
+            res.json({"message": "success"});
+        });
+    });
+}
+
+exports.updateIntroduction = function(req, res, next) {
+    var userId = req.body.id;
+    var introduction = req.body.introduction;
+    User.findOne({_id: userId}, function(err, user) {
+        user.update({$set: {introduction: introduction}}, function(err) {
+            res.json({"message": "success"});
+        });
     });
 }
