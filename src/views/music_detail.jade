@@ -39,7 +39,7 @@ block content
                         a(href="/user?user_id=#{music.author._id}") #{music.author.username}
                     p 歌曲标签: 
                         each tag in music.tags
-                            span #{tag.tag_name}
+                            a(href="/category?tag_id=#{tag._id}&sorted=lastest") #{tag.tag_name}
                     p 发行时间: #{prettyDate(music.date)}
                 div.right_message(style="padding-top:10px;")
                     //- button.circular.ui.icon.button.right_button
