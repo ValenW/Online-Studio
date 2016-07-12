@@ -170,3 +170,7 @@
     margin-left: 5px;
     /*color:gray;*/
 }
+
+.bottom_view .description{
+    overflow-wrap: break-word;
+}
