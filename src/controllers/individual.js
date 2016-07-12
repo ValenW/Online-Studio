@@ -92,7 +92,12 @@ exports.showUserUpdate = function(req, res, next) {
             username: user.username,
             email: user.email,
             introduction: user.introduction,
-            profile: user.profile
+            profile: user.profile,
+            user:  req.session.user == undefined ? null : {
+                _id: req.session.user._id,
+                username: req.session.user.username,
+                profile: req.session.user.profile
+            }
         });
     });
 }
@@ -101,8 +106,14 @@ exports.updateUsername = function(req, res, next) {
     var userId = req.body.id;
     var username = req.body.username;
     User.findOne({_id: userId}, function(err, user) {
-        user.update({$set: {username: username} }, function(err) {
-            res.json({"message": "success"});
+        User.findOne({username: username}, function(err, user) {
+            if (user) {
+                res.json({"message": "username used"});
+            } else {
+                user.update({$set: {username: username} }, function(err) {
+                    res.json({"message": "success"});
+                });
+            }
         });
     });
 }
