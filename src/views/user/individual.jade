@@ -33,7 +33,10 @@ block content
                 div.container
                     div.content-wrapper
                         div.left_head
-                            img.ui.medium.circular.image.myimage(src='uploads/heads/#{userInfo.profile}')
+                            if userInfo.profile
+                                img.ui.medium.circular.image.myimage(src='uploads/heads/#{userInfo.profile}')
+                            else
+                                img.ui.medium.circular.image.myimage(src="/resources/images/default_head.jpg")
                         div.message
                             div.name #{userInfo.username}
                             if userInfo.introduction == "" || userInfo.introduction == undefined
@@ -78,7 +81,10 @@ block content
                                         li(onclick="window.location.href=\"/music?music_id=#{userInfo[(e_cate[i])][userInfo[(e_cate[i])].length-j]['_id']}\"")
                                             div.ui.card.small-item
                                                 div.image.small-item
-                                                    img(src="/uploads/covers/#{userInfo[(e_cate[i])][userInfo[(e_cate[i])].length-j]['cover']}")
+                                                    if userInfo[(e_cate[i])][userInfo[(e_cate[i])].length-j]['cover']
+                                                        img(src="/uploads/covers/#{userInfo[(e_cate[i])][userInfo[(e_cate[i])].length-j]['cover']}")
+                                                    else
+                                                        img(src='/resources/images/default_cover.png')
                                             p(align="center") #{userInfo[(e_cate[i])][userInfo[(e_cate[i])].length-j]['name']}
 
 

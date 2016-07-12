@@ -113,7 +113,10 @@ block content
             div.send_comment
                 div.comment_head
                     if user
-                        img.ui.circular.image.pos(src='/uploads/heads/#{user.profile}')
+                        if user.profile
+                            img.ui.circular.image.pos(src='/uploads/heads/#{user.profile}')
+                        else
+                            img.ui.circular.image.pos(src='/resources/images/default_head.jpg')
                     else
                         img.ui.circular.image.pos(src='/resources/images/default_head.jpg')
                 textarea.submit-textarea(id="content",rows="3" cols="20" maxlength="111")
@@ -123,7 +126,10 @@ block content
                 - for(var x = 1; x <= commentnum; x++)
                     div.comment
                         div.comment_head
-                            img.ui.circular.image.pos(src='/uploads/heads/#{music.comments[len-x].comment_userId.profile}')
+                            if music.comments[len-x].comment_userId.profile
+                                img.ui.circular.image.pos(src='/uploads/heads/#{music.comments[len-x].comment_userId.profile}')
+                            else
+                                img.ui.circular.image.pos(src='/resources/images/default_head.jpg')
                         div.all_content
                             div.name
                                 p.description #{music.comments[len-x].comment_userId.username}
