@@ -30,7 +30,7 @@ block content
 					div.topic-preview-wrapper
 						a.ui.card(href='/editor')
 							div.image
-								img(src='#')
+								img(src='resources/images/topic.png' style='height:100%')
 				div.r-preview
 					div.list-preview-wrapper
 						ul
@@ -40,7 +40,7 @@ block content
 									div.ui.card.small-item
 										div.blurring.dimmable.image.small-item
 											img(src='uploads/covers/'+'#{music.cover}')
-											a.ui.dimmer(href='/effect')
+											a.ui.dimmer(href='/music?music_id='+'#{music._id}')
 												p.title #{music.name}
 												p.info 作者: #{music.author.username}
 												p.info 播放: #{music.listenN}
@@ -66,7 +66,7 @@ block content
 								- var blank = 10 - tag.newest_music.length
 								each music in tag.newest_music
 									li
-										a(href='/effect' style="color:rgba(0,0,0,.87);")
+										a(href='/music?music_id='+'#{music._id}' style="color:rgba(0,0,0,.87);")
 											div.ui.card.small-item
 												div.image.small-item
 													img(src='uploads/covers/'+'#{music.cover}')
@@ -88,7 +88,7 @@ block content
 								div.ui.selection.list
 									- var index = 1
 									each music in tag.hotest_music
-										a.item(href='/effect')
+										a.item(href='/music?music_id='+'#{music._id}')
 											if index < 4
 												div.ui.red.horizontal.label #{index}
 											else
