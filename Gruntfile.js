@@ -120,6 +120,6 @@ module.exports = function (grunt) {
   grunt.loadNpmTasks('grunt-express-server');
 
   grunt.registerTask('build', ['clean', 'copy:main', 'concat:lib']);
-  grunt.registerTask('deploy', ['clean', 'copy:main', 'copy:deploy', 'concat:lib', 'uglify', 'cssmin', 'express', 'watch']);
+  grunt.registerTask('deploy', ['clean', 'copy:main', 'copy:deploy', 'concat:lib', 'uglify', 'cssmin']);
   grunt.registerTask('default', ['clean','copy:main','concat:lib','express', 'watch']);
 }
