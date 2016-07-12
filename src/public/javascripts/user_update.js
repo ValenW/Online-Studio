@@ -18,7 +18,9 @@ $(document).ready(function(){
     $("#username-save-btn").click(function() {
         var username = $("input[name=username]").val();
         var user_id = window.location.pathname.split('/')[3];
-        
+        if (username === '') {
+            return alert("用户名不能为空");
+        }
         $.ajax({
             url: "/user/update/name/"+user_id,
             method: "POST",
@@ -29,9 +31,13 @@ $(document).ready(function(){
             dataType: "json",
             success: function(data) {
                 console.log(data);
-                $("#username-edit-content").hide();
-                $("#username-item-content").text(username);
-                $("#username-static-content").show();
+                if (data.message === "username used") {
+                    alert("该用户名已被使用");
+                } else {
+                    $("#username-edit-content").hide();
+                    $("#username-item-content").text(username);
+                    $("#username-static-content").show();
+                }
             },
             fail: function() {
                 console.log("fail");
@@ -68,8 +74,8 @@ $(document).ready(function(){
         if (password.length === 0) {
             return alert("请输入原密码");
         }
-        if (newPassword.length === 0) {
-            return alert("请输入新密码");
+        if (newPassword.length < 0) {
+            return alert("密码长度至少需要为6位");
         }
         if (comfirmPassword.length === 0) {
             return alert("请确认新密码");
