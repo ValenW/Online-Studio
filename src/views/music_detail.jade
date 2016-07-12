@@ -26,7 +26,10 @@ block content
     div.page-content
         div.top_view
             div.music_poster
-                img.ui.fluid.image.myimage(src='/uploads/covers/#{music.cover}')
+                if music.cover
+                    img.ui.fluid.image.myimage(src='/uploads/covers/#{music.cover}')
+                else
+                    img.ui.fluid.image.myimage(src='/resources/images/default_cover.png')
             div.music_detail
                 div.evaluate
                     div.ui.star.rating(data-rating="4")
@@ -87,7 +90,24 @@ block content
                                 i.heart.icon
                                 //a(href="/editor?spectrum_id=#{music.spectrum._id}",style="color:white;") 编辑
                                 span 编辑
+
+
         div.bottom_view
+            div.introduction
+                if music.introduction
+                    div.ui.dividing.header.divideline
+                    p.description #{music.introduction}
+                    //div.ui.dividing.header.divideline
+                else
+                    if user
+                        if music.author._id.toString() == user._id.toString()
+                            div.ui.dividing.header.divideline
+                            p.description 给你的音乐添加介绍吧~
+                            //div.ui.dividing.header.divideline
+                        else
+                            div.ui.dividing.header.divideline
+                            p.description 这首音乐没有填介绍呢......
+                            //div.ui.dividing.header.divideline
             div.ui.comments
                 h3.ui.dividing.header(id="commentN2") #{music.commentN}评论
             div.send_comment

@@ -36,7 +36,16 @@ block content
                             img.ui.medium.circular.image.myimage(src='uploads/heads/#{userInfo.profile}')
                         div.message
                             div.name #{userInfo.username}
-                            div.detail_message #{userInfo.introduction}
+                            if userInfo.introduction == "" || userInfo.introduction == undefined
+                                if user
+                                    if user._id == userInfo._id
+                                        div.detail_message 你还没有填写个人简介，介绍一下自己可以增加存在感哦~
+                                    else
+                                        这个人没有填简介呢......
+                                else
+                                    这个人没有填简介呢......
+                            else
+                                div.detail_message #{userInfo.introduction}
                             div.ui.dividing.header
                             div.detail_music 
                                 -for(var i = 0; i < 3; i++) 

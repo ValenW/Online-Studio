@@ -116,6 +116,10 @@
     vertical-align:top;
 }
 
+.bottom_view .introduction{
+    height: 80px;
+}
+
 .bottom_view .send_comment{
     height: 80px;
 }
