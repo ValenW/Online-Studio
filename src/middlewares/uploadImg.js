@@ -1,5 +1,18 @@
+/**
+ * 
+ * @Author  : ValenW
+ * @Link    : https://github.com/ValenW
+ * @Email   : ValenW@qq.com
+ * @Date    : 2016-07-13 08:07:15
+ * @Last Modified by:   ValenW
+ * @Last Modified time: 2016-07-13 08:08:45
+ */
+
 var multer  = require('multer');
 
+// 该函数返回一个可自定义命名函数和保存路径的upload中间件
+// 具体用法可以参考
+// https://github.com/ValenW/Online-Studio/issues/98
 var uploadImg = function(path, renameFuntion) {
     var uploadStorage = multer.diskStorage({
         destination: function(req, file, cb) {
