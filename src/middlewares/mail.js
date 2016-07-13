@@ -24,7 +24,7 @@ transporter.verify(function(error, success) {
 var sendSinupConf = transporter.templateSender({
     subject: 'Online-Studio cont confire for {{username}}!',
     text: 'Hello, {{username}}, Please go here to confer your account: {{ link }}',
-    html: '<b>Hello, <strong>{{username}}</strong>, Please <a href="{{ link }}">go here to confer your account</a></p>'
+    html: '<b>Hello, <strong>{{username}}</strong>, Please <a href="{{ link }}">go here to confer your account in 24h.</a></p>'
 }, {
     from: config.auth.user,
 });
