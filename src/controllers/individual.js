@@ -87,7 +87,7 @@ exports.showUserUpdate = function(req, res, next) {
     var user_id = req.params.user_id;
     User.findOne({_id: user_id}, function(err, user) {
         console.log(user);
-        res.render('user/userUpdate', {
+        res.render('user/user_update', {
             user_id: user._id,
             username: user.username,
             email: user.email,
@@ -151,10 +151,10 @@ exports.updateProfile = function(req, res, next) {
         if (err) {
             console.log('Error in updateProfile.');
         } else {
-            console.log('Update Porfile successfullt');
-            Uesr.findOne({_id: userId}, function(err, user) {
+            console.log('Update Porfile successfully');
+            User.findOne({_id: userId}, function(err, user) {
                 user.update({ $set: {profile: newProfile} }, function(err) {
-                    return res.json({"message": "success"});
+                    return res.redirect('/user/update/'+userId);
                 });
             });
         }

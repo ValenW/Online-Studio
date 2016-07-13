@@ -33,10 +33,22 @@ block content
                 div.container
                     div.content-wrapper
                         div.left_head
-                            img.ui.medium.circular.image.myimage(src='uploads/heads/#{userInfo.profile}')
+                            if user.profile
+                                img.ui.medium.circular.image.myimage(src='uploads/heads/#{user.profile}')
+                            else
+                                img.ui.medium.circular.image.myimage(src="/resources/images/default_head.jpg")
                         div.message
                             div.name #{userInfo.username}
-                            div.detail_message #{userInfo.introduction}
+                            if userInfo.introduction == "" || userInfo.introduction == undefined
+                                if user
+                                    if user._id == userInfo._id
+                                        div.detail_message 你还没有填写个人简介，介绍一下自己可以增加存在感哦~
+                                    else
+                                        这个人没有填简介呢......
+                                else
+                                    这个人没有填简介呢......
+                            else
+                                div.detail_message #{userInfo.introduction}
                             div.ui.dividing.header
                             div.detail_music 
                                 -for(var i = 0; i < 3; i++) 
@@ -69,7 +81,10 @@ block content
                                         li(onclick="window.location.href=\"/music?music_id=#{userInfo[(e_cate[i])][userInfo[(e_cate[i])].length-j]['_id']}\"")
                                             div.ui.card.small-item
                                                 div.image.small-item
-                                                    img(src="/uploads/covers/#{userInfo[(e_cate[i])][userInfo[(e_cate[i])].length-j]['cover']}")
+                                                    if userInfo[(e_cate[i])][userInfo[(e_cate[i])].length-j]['cover']
+                                                        img(src="/uploads/covers/#{userInfo[(e_cate[i])][userInfo[(e_cate[i])].length-j]['cover']}")
+                                                    else
+                                                        img(src='/resources/images/default_cover.png')
                                             p(align="center") #{userInfo[(e_cate[i])][userInfo[(e_cate[i])].length-j]['name']}
 
 

@@ -20,9 +20,6 @@ var data = require('../data/data');
 router.get('/', home.showHome);
 
 //debug
-router.get('/effect', function(req, res, next) {
-  res.render('effect');
-});
 router.get('/music_detail', function(req, res, next) {
   res.render('music_detail');
 });
@@ -59,14 +56,15 @@ router.get('/user/update/:user_id', auth.isAuthenticated, individual.showUserUpd
 router.post('/user/update/name/:user_id', auth.isAuthenticated, individual.updateUsername);
 router.post('/user/update/introduction/:user_id', auth.isAuthenticated, individual.updateIntroduction);
 router.post('/user/update/password/:user_id', auth.isAuthenticated, individual.updatePassword);
+router.post('/user/update/profile', auth.isAuthenticated, individual.updateProfile);
 
 // musicDetail
 router.get('/music', musicDetail.showMusicDetail);
-router.get('/music/saveMusicToRepo',  musicDetail.saveMusicToRepo);
+router.get('/music/saveMusicToRepo', auth.isAuthenticated, musicDetail.saveMusicToRepo);
 router.get('/music/share', musicDetail.share);
 router.get('/music/listen', musicDetail.listen);
-router.get('/music/isCollect',  musicDetail.is_collect);
-router.post('/music/insertComment',   musicDetail.insertComment);
+router.get('/music/isCollect', auth.isAuthenticated, musicDetail.is_collect);
+router.post('/music/insertComment', auth.isAuthenticated,  musicDetail.insertComment);
 
 // music_info
 router.get('/music_info', auth.isAuthenticated, musicInfo.showMusicInfo);

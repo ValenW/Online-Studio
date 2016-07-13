@@ -145,7 +145,11 @@ window.createComment = function(data,num){
     comment_head.className = "comment_head";
     var img = document.createElement('img');
     img.className = "ui circular image pos";
-    img.src = "/uploads/heads/"+data.comment_userId.profile;
+    if(data.comment_userId.profile == undefined || data.comment_userId.profile == null){
+        img.src = "/resources/images/default_head.jpg";
+    }else{
+        img.src = "/uploads/heads/"+data.comment_userId.profile;
+    }
     comment_head.appendChild(img);
     comment.appendChild(comment_head);
     var all_content = document.createElement('div');
@@ -193,10 +197,14 @@ window.createDivideLine = function(){
 var pagenum;
 window.createPageNum = function(page_num){
     pagenum = document.createElement('a');
+    pagenum.className = "page_a";
     pagenum.innerHTML = page_num;
     pagenum.href = "javascript:;";
     pagenum.onclick = function(){
-        return window.updateComment(comment_data,page_num);
+        return function(){
+            window.updateComment(comment_data,page_num);
+            $("#page_mark").html("第 "+ page_num +" 页");
+        }();
     };
 }
 
@@ -207,7 +215,9 @@ window.updatePage = function(page_num){
     $("#next_page").html("");
     //总共多少页
     var span1 = document.createElement('span');
-    span1.innerHTML = "共"+ page_num +"页";
+    span1.id = "page_mark";
+    //span1.innerHTML = "共"+ page_num +"页";
+    span1.innerHTML = "第 1 页";
     $("#next_page").append(span1);
     //上一页
     //var span2 = document.createElement('span');

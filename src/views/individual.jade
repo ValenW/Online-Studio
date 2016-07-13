@@ -25,7 +25,10 @@ block content
                             img.ui.medium.circular.image.myimage(src="/resources/images/default_head.jpg")
                         div.message
                             div.name #{userInfo.username}
-                            div.detail_message #{userInfo.introduction}
+                            if userInfo.introduction.toString() == "" || userInfo.introduction == undefined
+                                div.detail_message 你还没有填写个人简介，介绍一下自己可以增加存在感哦~
+                            else
+                                div.detail_message #{userInfo.introduction}
 
         div.music_repository
             - for (var i = 0; i < 3; i++)

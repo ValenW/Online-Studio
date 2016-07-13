@@ -21,14 +21,15 @@ block content
 				each music in music_list
 					li
 						div.item
-							div.ui.card.small-item
-								div.blurring.dimmable.image.small-item
-									img(src='#{music.cover}')
-									div.ui.dimmer
-										div.content
-											i.large.play.icon
+							a(href='/music?music_id='+'#{music._id}')
+								div.ui.card.small-item
+									div.blurring.dimmable.image.small-item
+										img(src='/uploads/covers/'+'#{music.cover}')
+										div.ui.dimmer
+											div.content
+												i.large.play.icon
 							div.l-r
-								div.title #{music.name}
+								a.title(href='/music?music_id='+'#{music._id}') #{music.name}
 								div.v-desc #{music.introduction}
 								div.v-info
 									span.bf
@@ -37,7 +38,7 @@ block content
 									span.pl
 										i.comment.outline.icon
 										span #{music.commentN}
-								a.author(href='/individual') #{music.author.username}
+								a.author(href='/user?user_id='+'#{music.author._id}') #{music.author.username}
 				- for (var i = 0; i < blank; ++i)
 					li(style='display:none')
 						div.item
@@ -58,6 +59,9 @@ block content
 										i.comment.outline.icon
 										span
 								a.author(href='/')
+			if music_list.length == 0
+				div.ui.container(style='text-align:center; padding-top:100px')
+					h1.ui.header Oops！什么都没有！
 
 		- var tot_page = Math.floor((tot_count-1)/20) + 1;
 		
@@ -66,7 +70,7 @@ block content
 			div.page-jump
 				p 第
 				div.ui.input
-					input(type="text" value="1" style="padding: .6em .8em .6em .8em;")
+					input(type="text" value="1" style="width:100%; padding:.6em .8em .6em .8em;")
 				p.total /#{tot_page}
 				p 页
 

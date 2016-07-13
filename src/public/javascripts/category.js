@@ -96,11 +96,11 @@ function refreshData(data) {
 	for (var i = 0; i < lis.length; ++i) {
 		if (i < data.length) {
 			$(lis[i]).children('img').attr('src', data[i].cover);
-			$(lis[i]).children('.title').attr('href', '/effect').text(data[i].name);
+			$(lis[i]).children('.title').attr('href', '/music?music_id='+data[i]._id).text(data[i].name);
 			$(lis[i]).children('.v-desc').text(data[i].name);
 			$(lis[i]).children('.bf span').text(data[i].listenN);
 			$(lis[i]).children('.pl span').text(data[i].commentN);
-			$(lis[i]).children('.author').attr('href', '/individual').text(data[i].author.username);
+			$(lis[i]).children('.author').attr('href', '/user?user_id='+data[i].author._id).text(data[i].author.username);
 			$(lis[i]).show();
 		} else {
 			$(lis[i]).hide();

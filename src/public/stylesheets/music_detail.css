@@ -1,12 +1,12 @@
 .top_view{
     width: 800px;
-    height: 220px;
-    margin: 20px auto 30px auto;
+    height: 300px;
+    margin: 30px auto 30px auto;
 }
 .top_view .music_poster{
     width: 60%;
     height: 100%;
-    background-color: green;
+    /*background-color: green;*/
     display: inline-block;
     vertical-align:top;
     max-height: 100%;
@@ -20,7 +20,7 @@
     width: 30%;
     height: 60%;
     display: inline-block;
-    margin: 10px 20px;
+    margin: 35px 0px 0px 40px;
     vertical-align:top;
 }
 .top_view .music_detail .evaluate{
@@ -56,7 +56,7 @@
     width: 100%;
     height: 50%;
     display: inline-block;
-    margin-top: 50px;
+    margin-top: 55px;
 }
 .middle_view .right_message .right_button{
     width: 50%;
@@ -116,6 +116,10 @@
     vertical-align:top;
 }
 
+.bottom_view .introduction{
+    height: 80px;
+}
+
 .bottom_view .send_comment{
     height: 80px;
 }
@@ -160,4 +164,13 @@
     align-content: center;
     text-align: center;
     vertical-align:top;
+}
+
+.page_a{
+    margin-left: 5px;
+    /*color:gray;*/
+}
+
+.bottom_view .description{
+    overflow-wrap: break-word;
 }

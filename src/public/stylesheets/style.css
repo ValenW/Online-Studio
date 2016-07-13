@@ -1,9 +1,9 @@
-html, body, a, h1, h2, h3, h4, .item .button {
-	font-family: "Microsoft YaHei", Arial, Helvetica, sans-serif;
+html, body, a, h1, h2, h3, h4, .item, button, .button {
+	font-family: "Microsoft YaHei", Arial, Helvetica, sans-serif !important;
 }
 
 ul, li {
 	margin: 0;
 	padding: 0;
-	list-style-type: none;
+	list-style-type: none !important;
 }

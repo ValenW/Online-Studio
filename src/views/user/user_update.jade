@@ -10,7 +10,21 @@ block content
         .information-block
             span.item-label 头像
             .item-content
-                img.ui.circular.image.avator-image(src="/uploads/heads/linytsysu.png")
+                .static-content#profile-static-content
+                    img.ui.circular.image.avator-image(width='120' height='120' src='/uploads/heads/' + '#{profile}')
+                    i.edit.icon.edit-icon
+                        span 修改
+                .edit-content#profile-edit-content
+                    img.ui.circular.image.avator-image(id='cover' width='120' height='120' src='/uploads/heads/' + '#{profile}')
+                    form(method='post' action='/user/update/profile' enctype='multipart/form-data')
+                        input(id='up' type='file' accept='image/*' name='profile')
+                        p(style='margin-top:20px') 图片格式: gif, jpeg, jpg, bmp, png
+                        div(style='display:none')
+                            input(type='text' name='id' value='#{user_id}')
+                            input.submit(type='submit')
+                    .button-container
+                        button#profile-save-btn.ui.primary.button(type='submit') 保存
+                        button.ui.button.cancel-btn 取消
             .clear
         .information-block
             span.item-label 邮箱

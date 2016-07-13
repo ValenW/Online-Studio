@@ -26,7 +26,10 @@ block content
     div.page-content
         div.top_view
             div.music_poster
-                img.ui.fluid.image.myimage(src='/uploads/covers/#{music.cover}')
+                if music.cover
+                    img.ui.fluid.image.rounded.myimage(src='/uploads/covers/#{music.cover}')
+                else
+                    img.ui.fluid.image.rounded.myimage(src='/resources/images/default_cover.png')
             div.music_detail
                 div.evaluate
                     div.ui.star.rating(data-rating="4")
@@ -36,7 +39,7 @@ block content
                         a(href="/user?user_id=#{music.author._id}") #{music.author.username}
                     p 歌曲标签: 
                         each tag in music.tags
-                            span #{tag.tag_name}
+                            a(href="/category?tag_id=#{tag._id}&sorted=lastest") #{tag.tag_name}
                     p 发行时间: #{prettyDate(music.date)}
                 div.right_message(style="padding-top:10px;")
                     //- button.circular.ui.icon.button.right_button
@@ -87,13 +90,33 @@ block content
                                 i.heart.icon
                                 //a(href="/editor?spectrum_id=#{music.spectrum._id}",style="color:white;") 编辑
                                 span 编辑
+
+
         div.bottom_view
+            div.introduction
+                if music.introduction
+                    div.ui.dividing.header.divideline
+                    p.description(style="width:650px;") #{music.introduction}
+                    //div.ui.dividing.header.divideline
+                else
+                    if user
+                        if music.author._id.toString() == user._id.toString()
+                            div.ui.dividing.header.divideline
+                            p.description 给你的音乐添加介绍吧~
+                            //div.ui.dividing.header.divideline
+                        else
+                            div.ui.dividing.header.divideline
+                            p.description 这首音乐没有填介绍呢......
+                            //div.ui.dividing.header.divideline
             div.ui.comments
                 h3.ui.dividing.header(id="commentN2") #{music.commentN}评论
             div.send_comment
                 div.comment_head
                     if user
-                        img.ui.circular.image.pos(src='/uploads/heads/#{user.profile}')
+                        if user.profile
+                            img.ui.circular.image.pos(src='/uploads/heads/#{user.profile}')
+                        else
+                            img.ui.circular.image.pos(src='/resources/images/default_head.jpg')
                     else
                         img.ui.circular.image.pos(src='/resources/images/default_head.jpg')
                 textarea.submit-textarea(id="content",rows="3" cols="20" maxlength="111")
@@ -103,7 +126,10 @@ block content
                 - for(var x = 1; x <= commentnum; x++)
                     div.comment
                         div.comment_head
-                            img.ui.circular.image.pos(src='/uploads/heads/#{music.comments[len-x].comment_userId.profile}')
+                            if music.comments[len-x].comment_userId.profile
+                                img.ui.circular.image.pos(src='/uploads/heads/#{music.comments[len-x].comment_userId.profile}')
+                            else
+                                img.ui.circular.image.pos(src='/resources/images/default_head.jpg')
                         div.all_content
                             div.name
                                 p.description #{music.comments[len-x].comment_userId.username}
