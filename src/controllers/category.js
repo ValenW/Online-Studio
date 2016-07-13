@@ -3,8 +3,16 @@ var Tag = require('../models/Tag');
 var cmp = require('../middlewares/cmp');
 var filter = require('../middlewares/filter');
 
-// interface : category?tag_id=***&sorted=lastest&page=#
-// interface : category?tag_id=***&sorted=lastest
+/**
+ * showCategory() show a category view to user
+ * based on reqest parameters, set response.
+ * deal with request URL : category?tag_id=***&sorted=lastest&page=#
+ *						 : category?tag_id=***&sorted=lastest
+ * @param <Object> req store parameters of the user request, such as req.query.tag_id,req.query.sorted and req.query.page.
+ * @param <Object> res encapsulate content and methods of response to user request, such as res.render, res.json and res.send methods.
+ * @param <Function> next encapsulate the next function needed to be execute if necessary
+ * @return nothing
+ */
 exports.showCategory = function(req, res, next) {
 	var newest_count = 20;
 	var hotest_count = 20;
