@@ -66,10 +66,6 @@
 	height: 220px;
 }
 
-.topic-preview-wrapper .card:hover {
-	cursor: pointer;
-}
-
 .list-preview-wrapper {
 	height: 240px;
 	position: relative;
@@ -88,16 +84,14 @@
 	margin-bottom: 20px;
 }
 
-.list-preview-wrapper .card:hover {
-	cursor: pointer;
-}
-
-.list-preview-wrapper .dimmer {
+.list-preview-wrapper .dimmer,
+.category .dimmer {
 	border-radius: 2px;
 	text-align: left;
 }
 
-.list-preview-wrapper .dimmer .title {
+.list-preview-wrapper .dimmer .title,
+.category .dimmer .title {
 	height: 40px;
 	color: white;
 	margin: 5px 5px 10px 5px;
@@ -106,7 +100,8 @@
 	text-overflow: ellipsis;
 }
 
-.list-preview-wrapper .dimmer .info {
+.list-preview-wrapper .dimmer .info,
+.category .dimmer .info {
 	color: gray;
 	margin: 0 5px 0px 5px;
 	overflow: hidden;
@@ -162,18 +157,15 @@
 	text-overflow: ellipsis;
 }
 
-.category li:hover {
-	cursor: pointer;
-}
-
-.category li p {
+.category li a {
+	color: #111;
 	transition: color .2s;
 	-moz-transition: color .2s;
 	-webkit-transition: color .2s;
 	-o-transition: color .2s;
 }
 
-.category li:hover p {
+.category li:hover > a {
 	color: #37A0E8;
 }
 

@@ -1,3 +1,4 @@
+/* global objects */
 var stage, w, h;
 var keyContainer, noteContainer, barContainer, staticContainer;
 
@@ -7,7 +8,7 @@ var keyW = 80, keyH = unitH;
 var keyNum = 88, cacheLength = 256;
 var scrollbarH = 20, barH = 30;
 
-/* color */
+/* colors */
 var GRID_COLOR = "#75726A";
 var NOTE_COLOR = "#6FFF6E";
 var KEY_WHITE_COLOR = "#FFFFFF";
