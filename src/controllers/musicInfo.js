@@ -3,7 +3,16 @@ var Tag         = require('../models/Tag');
 var uploadImg   = require('../middlewares/uploadImg');
 
 
-// /music_info?music_id=***
+/**
+ * showMusicInfo() show music information update view to user.
+ * Based on reqest parameters, set response.
+ * display music information and allow user to modify it.
+ * Deal with request URL : /music_info?music_id=***
+ * @param <Object> req store parameters of the user request, such as req.session.user and req.query.music_id.
+ * @param <Object> res encapsulate content and methods of response to user request, such as res.render, res.json and res.send methods.
+ * @param <Function> next encapsulate the next function needed to be execute if necessary
+ * @return nothing
+ */
 exports.showMusicInfo = function(req, res, next) {
     var user = req.session.user;
     var music_id = req.query.music_id;
@@ -42,15 +51,16 @@ exports.showMusicInfo = function(req, res, next) {
 };
 
 
-// /update_music_info POST music
-// Request: /update_music_info
-// param: music_id
-// param: name
-// param: introduction
-// param: tags
-// param: is_specturm_public
-// param: is_music_public
-// param: cover
+/**
+ * updateMusicInfo() update music information.
+ * Based on reqest parameters, set response.
+ * update music information modified by user.
+ * Deal with request URL : /update_music_info POST music_id&name&introduction&tag&is_spectrum_public&is_music_public
+ * @param <Object> req store parameters of the user request, such as req.body.music_id,req.body.name....
+ * @param <Object> res encapsulate content and methods of response to user request, such as res.render, res.json and res.send methods.
+ * @param <Function> next encapsulate the next function needed to be execute if necessary
+ * @return nothing
+ */
 exports.updateMusicInfo = function(req, res, next) {
     console.log('in updateMusicInfo');
 

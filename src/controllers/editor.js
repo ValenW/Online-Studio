@@ -5,7 +5,16 @@ var Tag = require('../models/Tag');
 var Comment = require('../models/Comment');
 var MailSender = require('../middlewares/mail.js');
 
-// interface : /editor?spectrum_id=***  or  /editor
+/**
+ * showEditor() show a editor view to user
+ * based on reqest parameters, set response.
+ * deal with request URL : editor?spectrum_id=***
+ *						 : /editor
+ * @param <Object> req store parameters of the user request, such as req.query.spectrum_id.
+ * @param <Object> res encapsulate content and methods of response to user request, such as res.render, res.json and res.send methods.
+ * @param <Function> next encapsulate the next function needed to be execute if necessary
+ * @return nothing
+ */
 exports.showEditor = function(req, res, next) {
 
 	if (req.query.spectrum_id === undefined) {
@@ -42,8 +51,17 @@ exports.showEditor = function(req, res, next) {
 };
 
 
-// if spectrum_param has no _id, the new method create one.
-// elif spectrum_param has _id, just update the exist spectrum.
+/**
+ * saveSpectrum() save the information of the spectrum of the user
+ * Based on reqest parameters, set response.
+ * If spectrum_param has no _id, the new method create one.
+ * elif spectrum_param has _id, just update the exist spectrum.
+ * Deal with request URL : /save POST spectrum&user
+ * @param <Object> req store parameters of the user request, such as req.body.spectrum and req.session.user.
+ * @param <Object> res encapsulate content and methods of response to user request, such as res.render, res.json and res.send methods.
+ * @param <Function> next encapsulate the next function needed to be execute if necessary
+ * @return nothing
+ */
 exports.saveSpectrum = function(req, res, next) {
 
 	// user not login, need to notice it
@@ -210,7 +228,16 @@ exports.saveSpectrum = function(req, res, next) {
 
 };
 
-// Request: /editor/login POST username&password
+/**
+ * login() help login in editor page
+ * Based on reqest parameters, set response.
+ * login with username and password, return the result.
+ * Deal with request URL : /editor/login POST username&password
+ * @param <Object> req store parameters of the user request, such as req.body.username and req.body.password.
+ * @param <Object> res encapsulate content and methods of response to user request, such as res.render, res.json and res.send methods.
+ * @param <Function> next encapsulate the next function needed to be execute if necessary
+ * @return nothing
+ */
 exports.login = function(req, res, next) {
     User.findOne({
         'username': req.body.username,
@@ -239,7 +266,16 @@ exports.login = function(req, res, next) {
     });
 };
 
-// Request: /editor/signup POST username&password&email
+/**
+ * signup() help signup in editor page
+ * Based on reqest parameters, set response.
+ * signup with username,email and password, return the result.
+ * Deal with request URL : /editor/signup POST username&password&email
+ * @param <Object> req store parameters of the user request, such as req.body.username,req.body.password and req.body.email.
+ * @param <Object> res encapsulate content and methods of response to user request, such as res.render, res.json and res.send methods.
+ * @param <Function> next encapsulate the next function needed to be execute if necessary
+ * @return nothing
+ */
 exports.signup = function(req, res, next) {
     var username = req.body.username;
     var password = req.body.password;
@@ -298,7 +334,16 @@ exports.signup = function(req, res, next) {
     });
 }
 
-// Request: /editor/logout GET
+/**
+ * logout() help logout in editor page
+ * Based on reqest parameters, set response.
+ * logout with current user information, return the result.
+ * Deal with request URL : /editor/logout GET
+ * @param <Object> req store parameters of the user request, such as req.session.user.
+ * @param <Object> res encapsulate content and methods of response to user request, such as res.render, res.json and res.send methods.
+ * @param <Function> next encapsulate the next function needed to be execute if necessary
+ * @return nothing
+ */
 exports.logout = function(req, res, next) {
     req.session.destroy();
     res.json({
