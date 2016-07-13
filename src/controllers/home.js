@@ -4,7 +4,17 @@ var User = require('../models/User');
 var cmp = require('../middlewares/cmp');
 var filter = require('../middlewares/filter');
 
-// interface /home or /
+/**
+ * showHome() show home view to user.
+ * Based on reqest parameters, set response.
+ * display hotest and lastest musics of different tags in view
+ * Deal with request URL : /home
+ *						 : /
+ * @param <Object> req store parameters of the user request.
+ * @param <Object> res encapsulate content and methods of response to user request, such as res.render, res.json and res.send methods.
+ * @param <Function> next encapsulate the next function needed to be execute if necessary
+ * @return nothing
+ */
 exports.showHome = function(req, res, next) {
 	var bg_image_url = '***';
 	var tot_hotest_count = 8;
