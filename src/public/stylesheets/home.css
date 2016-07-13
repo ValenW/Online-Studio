@@ -2,8 +2,8 @@
 .card.small-item, 
 .image.small-item,
 .image.small-item > img {
-	width: 160px;
-	height: 100px;
+	width: 160px !important;
+	height: 100px !important;
 	overflow: hidden;
 }
 

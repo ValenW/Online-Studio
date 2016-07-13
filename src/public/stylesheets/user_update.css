@@ -34,7 +34,7 @@
     cursor: pointer;
     width: 60px;
     color: #698ebf;
-    margin-left: 20px;
+    margin-left: 20px !important;
 }
 .item-content .static-content .edit-password-icon {
     width: 80px;
@@ -70,4 +70,7 @@ input[type='password'] {
 .button-container button {
     height: 32px !important;
     margin-right: 20px !important;
+}
+.avator-image {
+    margin-bottom: 20px;
 }
