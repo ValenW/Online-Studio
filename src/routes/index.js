@@ -20,9 +20,6 @@ var data = require('../data/data');
 router.get('/', home.showHome);
 
 //debug
-router.get('/effect', function(req, res, next) {
-  res.render('effect');
-});
 router.get('/music_detail', function(req, res, next) {
   res.render('music_detail');
 });
@@ -59,6 +56,7 @@ router.get('/user/update/:user_id', auth.isAuthenticated, individual.showUserUpd
 router.post('/user/update/name/:user_id', auth.isAuthenticated, individual.updateUsername);
 router.post('/user/update/introduction/:user_id', auth.isAuthenticated, individual.updateIntroduction);
 router.post('/user/update/password/:user_id', auth.isAuthenticated, individual.updatePassword);
+router.post('/user/update/profile', auth.isAuthenticated, individual.updateProfile);
 
 // musicDetail
 router.get('/music', musicDetail.showMusicDetail);
