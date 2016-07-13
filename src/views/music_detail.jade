@@ -39,7 +39,7 @@ block content
                         a(href="/user?user_id=#{music.author._id}") #{music.author.username}
                     p 歌曲标签: 
                         each tag in music.tags
-                            a(href="/category?tag_id=#{tag._id}&sorted=lastest") #{tag.tag_name}
+                            a(href="/category?tag_id=#{tag._id}&sorted=lastest",style="margin-right:5px;") #{tag.tag_name}
                     p 发行时间: #{prettyDate(music.date)}
                 div.right_message(style="padding-top:10px;")
                     //- button.circular.ui.icon.button.right_button
@@ -48,11 +48,11 @@ block content
                     if user
                         if music.author._id.toString() == user._id.toString()    
                             button.circular.ui.icon.button.right_button(style="margin-left:10px;",id="editMusicInfo")
-                                i.paint.brush.icon
+                                i.paint.brush.icon(style="margin-right:5px;")   
                                 编辑音乐信息
                                 //href="/music_info?music_id=#{music.spectrum._id}"
         div.middle_view
-            div.ui.labeled.button(tabindex="0")
+            div.ui.labeled.button(tabindex="0",style="margin-right:20px;")
                 div.ui.red.button
                     i.heart.icon
                     span 试听
@@ -60,36 +60,36 @@ block content
             if user
                 if music.author._id.toString() != user._id.toString()
                     if user.is_collect
-                        div.ui.labeled.button(tabindex="0",id="collect")
+                        div.ui.labeled.button(tabindex="0",id="collect",style="margin-right:20px;")
                             div.ui.red.button
                                 i.save.icon
                                 span(id="collect_message") 已收藏
                             a.ui.basic.left.pointing.label(id="collectN") #{music.collectN}
                     else
-                        div.ui.labeled.button(tabindex="0",id="collect")
+                        div.ui.labeled.button(tabindex="0",id="collect",style="margin-right:20px;")
                             div.ui.red.button
                                 i.save.icon
                                 span(id="collect_message") 收藏
                             a.ui.basic.left.pointing.label(id="collectN") #{music.collectN}
-            div.ui.labeled.button(tabindex="0")
+            div.ui.labeled.button(tabindex="0",style="margin-right:20px;")
                 div.ui.red.button
                     i.comments.icon
                     span 评论
                 a.ui.basic.left.pointing.label(id="commentN") #{music.commentN}
             if music.is_spectrum_public == true
-                div.ui.labeled.button(tabindex="0",id="edit")
+                div.ui.labeled.button(tabindex="0",id="edit",style="margin-right:20px;")
                     div.ui.red.button
-                        i.heart.icon
+                        i.paint.brush.icon
                         //a(href="/editor?spectrum_id=#{music.spectrum._id}",style="color:white;") 编辑
-                        span 编辑
+                        span 编辑音谱
             else
                 if user
                     if music.author._id.toString() == user._id.toString()
-                        div.ui.labeled.button(tabindex="0",id="edit")
-                            div.ui.red.button
-                                i.heart.icon
-                                //a(href="/editor?spectrum_id=#{music.spectrum._id}",style="color:white;") 编辑
-                                span 编辑
+                        //div.ui.labeled.button(tabindex="0",id="edit")
+                        div.ui.red.button(tabindex="0",id="edit",style="margin-right:20px;")
+                            i.paint.brush.icon
+                            //a(href="/editor?spectrum_id=#{music.spectrum._id}",style="color:white;") 编辑
+                            span 编辑音谱
 
 
         div.bottom_view
@@ -119,8 +119,10 @@ block content
                             img.ui.circular.image.pos(src='/resources/images/default_head.jpg')
                     else
                         img.ui.circular.image.pos(src='/resources/images/default_head.jpg')
-                textarea.submit-textarea(id="content",rows="3" cols="20" maxlength="111")
-                button.submit-button(id = "submit_button",style="background-color:#00b5e5") 发表评论
+                div.ui.form(style="display:inline-block;vertical-align:top;")
+                    div.field
+                        textarea.submit-textarea(id="content",rows="3" cols="50" maxlength="111")
+                button.ui.primary.button.submit-button(id = "submit_button",style="margin-left:10px;") 发表评论
             div.ui.dividing.header.divideline
             div.my_comment(id = "comment_all")
                 - for(var x = 1; x <= commentnum; x++)
@@ -149,6 +151,12 @@ block content
                 //        a #{x}
                 //span 下一页
 
+    //- 音源读取进度条
+    div.ui.basic.modal(id="progress-modal")
+        div.ui.inverted.orange.progress(id="loading" data-value="1" data-total="88")
+            div.bar
+                div.progress
+            div.label Loading Sources
 
     script.
         window.music = !{JSON.stringify(music)};
