@@ -39,14 +39,45 @@ exports.signup = function(req, res, next) {
     User.find({$or: [ {'username': username}, {'email': email} ]}, function(err, users) {
         if (users.length > 0) {
             if (users[0].confed) {
-                console.log(users[0].confed);
                 req.flash('error', 'The username or email has been used');
-            } else {
+            } else if (Date.now() - users[0].createDate.getTime() < 24 * 60 * 60 * 1000) {
                 req.flash('error', 'The username hasn\'t been confired');
+            } else {
+                User.findOneAndUpdate({_id: users[0]._id}, {
+                    username: username,
+                    email: email,
+                    password: password,
+                    confed: false,
+                    createDate: Date.now()
+                }, function (err, user) {
+                    if (err) {
+                        console.log('sign up Error: ', err);
+                    } else {
+                        MailSender.singup({
+                            to: email
+                        }, {
+                            username: username,
+                            link: 'http://localhost:3000/conf?id=' + id // TODO
+                        }, function(err, info){
+                            if(err){
+                                console.log('Error');
+                            } else {
+                                console.log('Account Confer email sent');
+                            }
+                        });
+                        req.flash('error', 'The account confiring email has been send.');
+                        req.session.user = {
+                            username: username,
+                            email: email
+                        }
+                        console.log("new user: ", req.session.user);
+                        res.redirect('/wait');
+                    }
+                });
             }
             res.redirect('/signup');
         } else {
-            var date = new Date();
+            var date = Date.now();
             User.create({
                 'username': username,
                 'password': password,
@@ -105,6 +136,15 @@ exports.getSendAgain = function(req, res, next) {
                     console.log('Error');
                 } else {
                     console.log('Account Confer email sent');
+                    User.findOneAndUpdate({_id: id2conf}, {
+                        createDate: Date.now()
+                    }, function(err, user) {
+                        if (err) {
+                            console.log("err when send again: ", err);
+                        } else {
+                            console.log("update userinfo succeed");
+                        }
+                    })
                 }
             });
             res.redirect('/wait');

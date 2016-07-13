@@ -1,4 +1,16 @@
+/**
+ * 
+ * @Author  : ValenW
+ * @Link    : https://github.com/ValenW
+ * @Email   : ValenW@qq.com
+ * @Date    : 2016-07-13 08:07:15
+ * @Last Modified by:   ValenW
+ * @Last Modified time: 2016-07-13 08:09:32
+ */
+
 var nodemailer = require('nodemailer');
+
+// 配置发信邮箱服务器
 var config = {
     // service: 'QQ',
     host: "smtp.sina.cn",
@@ -11,8 +23,10 @@ var config = {
     debug: true // include SMTP traffic in the logs
 }
 
+// 使用上述配置获得对应的transporter
 var transporter = nodemailer.createTransport(config);
 
+// 验证该transporter可使用
 transporter.verify(function(error, success) {
    if (error) {
         console.log(error);
@@ -21,13 +35,18 @@ transporter.verify(function(error, success) {
    }
 });
 
+// 验证邮件模板
 var sendSinupConf = transporter.templateSender({
     subject: 'Online-Studio cont confire for {{username}}!',
     text: 'Hello, {{username}}, Please go here to confer your account: {{ link }}',
-    html: '<b>Hello, <strong>{{username}}</strong>, Please <a href="{{ link }}">go here to confer your account</a></p>'
+    html: '<b>Hello, <strong>{{username}}</strong>, Please <a href="{{ link }}">go here to confer your account in 24h.</a></p>'
 }, {
     from: config.auth.user,
 });
+
+module.exports = {
+    singup: sendSinupConf
+}
 
 // use template based sender to send a message
 // sendSinupConf({
@@ -42,7 +61,3 @@ var sendSinupConf = transporter.templateSender({
 //         console.log('Password reset sent');
 //     }
 // });
-
-module.exports = {
-    singup: sendSinupConf
-}
