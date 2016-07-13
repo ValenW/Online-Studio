@@ -7,9 +7,45 @@ var tempo = 110;
 var unitTime  = 15 / tempo;
 
 function init() {
-	// loadSource();
+	loadSource();
 }
 
+/**
+ * loadSource() uses WebAudio API to load sound resouces
+ */
+function loadSource() {
+	// fix up prefixing
+	window.AudioContext = window.AudioContext || window.webkitAudioContext;
+	context = new AudioContext();
+
+	// show progress modal
+	$('#progress-modal')
+		.modal({closable: false, blurring: true})
+		.modal('show');
+
+	// store audio urls
+	urlList = new Array();
+	for (var i = 108; i >= 21; --i) {  // 88 keys
+		// urlList.push("sounds/piano1/"+getKeyName(i)+".mp3");
+		index = i < 100 ? "0" + i.toString() : i.toString();
+		audioPath = "resources/sounds/piano2/GermanConcertD_"+index+"_083.wav";
+		urlList.push(audioPath);
+	}
+
+	// create BufferLoader object
+	bufferLoader = new BufferLoader(context, urlList, finishedLoading);
+
+	// start loading
+	bufferLoader.load();
+}
+
+/**
+ * BufferLoader() assgined basic information for loading
+ *
+ * @param <AudioContext> context [window.AudioContext]
+ * @param <List<string>> urlList [list that store url strings]
+ * @param <Function> callback [callback function]
+ */
 function BufferLoader(context, urlList, callback) {
 	this.context = context;
 	this.urlList = urlList;
@@ -18,6 +54,12 @@ function BufferLoader(context, urlList, callback) {
 	this.loadCount = 0;
 }
 
+/**
+ * loadBuffer() loads and decode audio resources
+ *
+ * @param <string> url
+ * @param <int> index
+ */
 BufferLoader.prototype.loadBuffer = function(url, index) {
 	// Load buffer asynchronously
 	var request = new XMLHttpRequest();
@@ -60,38 +102,19 @@ BufferLoader.prototype.load = function() {
 	this.loadBuffer(this.urlList[i], i);
 }
 
-function loadSource() {
-	// Fix up prefixing
-	window.AudioContext = window.AudioContext || window.webkitAudioContext;
-	context = new AudioContext();
-
-	$('#progress-modal')
-		.modal({closable: false, blurring: true})
-		.modal('show');
-
-	urlList = new Array();
-	for (var i = 108; i >= 21; --i) {
-		// urlList.push("sounds/piano1/"+getKeyName(i)+".mp3");
-		index = "";
-		if (i < 100) {
-			index = "0" + i.toString();
-		} else {
-			index = i.toString();
-		}
-		audioPath = "resources/sounds/piano2/GermanConcertD_"+index+"_083.wav";
-		urlList.push(audioPath);
-	}
-
-	bufferLoader = new BufferLoader(context, urlList, finishedLoading);
-
-	bufferLoader.load();
-}
-
+// receive buffer result 
 function finishedLoading(buffer) {
 	bufferList = buffer;
 	$('#progress-modal').modal('hide');
 }
 
+/**
+ * playSound() plays buffer
+ *
+ * @param <object> buffer [bufferList item]
+ * @param <int> head [grid index that note starts]
+ * @param <int> tail [grid index that note ends]
+ */
 function playSound(buffer, head, tail) {
 	var startTime = context.currentTime + head * unitTime;
 	var endTime = context.currentTime + tail * unitTime;
@@ -111,16 +134,22 @@ function playSound(buffer, head, tail) {
 	source.stop(endTime);
 }
 
+/**
+ * playNote() plays a note
+ * 
+ * @param <object> note [a note contains key, head, tail]
+ */
 window.playNote = function(note) {
 	if (note)
 		playSound(bufferList[note.key], 0, note.tail - note.head + 1);
 }
 
+// reset tempo
 window.setTempo = function(_tempo) {
 	if (_tempo > 0) {
 		tempo = _tempo;
 		unitTime  = 15 / tempo;
-		window.spectrum.tempo = _tempo;
+		window.spectrum.tempo = tempo;
 	}
 }
 

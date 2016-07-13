@@ -36,7 +36,7 @@ function init() {
 /**
  * showError() displays error messages at form's bottom
  *
- * @param <String> message
+ * @param <string> message
  */
 function showError(message) {
     $('.error-message').text(message);

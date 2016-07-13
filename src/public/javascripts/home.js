@@ -2,14 +2,15 @@ window.addEventListener("load", init, false);
 
 function init() {
 	// init dimmer effect
-	$('.r-preview .card .image').dimmer({
-		on: 'hover'
-	});
+	$('.r-preview .card .image').dimmer({ on: 'hover' });
+	$('.category .card .image').dimmer({ on: 'hover' });
+
 	// init sticky side menu
 	$('.ui.sticky').sticky({
 		context: '.page-content',
 		offset: 100
 	});
+
 	// init side menu click event
 	$('.sticky .button').on('click', scrollTo);
 }

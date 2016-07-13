@@ -66,15 +66,18 @@ block content
 								- var blank = 10 - tag.newest_music.length
 								each music in tag.newest_music
 									li
-										a(href='/music?music_id='+'#{music._id}' style="color:rgba(0,0,0,.87);")
-											div.ui.card.small-item
-												div.image.small-item
-													img(src='uploads/covers/'+'#{music.cover}')
-											p #{music.name}
+										div.ui.card.small-item
+											div.blurring.dimmable.image.small-item
+												img(src='uploads/covers/'+'#{music.cover}')
+												a.ui.dimmer(href='/music?music_id='+'#{music._id}')
+													p.title #{music.name}
+													p.info 作者: #{music.author.username}
+													p.info 播放: #{music.listenN}
+										a(href='/music?music_id='+'#{music._id}') #{music.name}
 								- for (var i = 0; i < blank; ++i)
 									li
 										div.ui.card.small-item
-											div.image.small-item
+											div.blurring.dimmable.image.small-item
 												img(src='uploads/covers/default_cover.png')
 										
 					div.r-list
