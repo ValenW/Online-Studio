@@ -32,6 +32,8 @@ var bufferList;
 var tempo = 110;
 var unitTime  = 15 / tempo;
 
+var a = 0;
+
 function init() {
     loadSource();
     initButtons();
@@ -63,6 +65,8 @@ function initMusicLength(){
 
 function progress_increment(){
     $('#myProgress').progress('increment');
+    a = $('#myProgress').progress('get value');
+    console.log(a);
 }
 
 function initProgress(time){
@@ -77,7 +81,7 @@ function initProgress(time){
     $('#myProgress').progress({
     label: 'ratio',
     text: {
-      ratio: '{value} de {total}'
+      ratio: a.toString()+'{value} : '+data_total
     }
     });
 }
