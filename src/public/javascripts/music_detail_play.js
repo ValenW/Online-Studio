@@ -141,11 +141,12 @@ function initButtons() {
             isLoad = true;
             return;
         }
-        window.playMusic();
+        if(timer_count >= data_total){
+            window.restartMusic();
+        }else{
+            window.playMusic();
+        }
         window.listenIncrement();
-        $("#play").addClass("active");
-        $("#pause").removeClass("active");
-        $("#stop").removeClass("active");
         $("#play").attr('disabled',true);
         $("#pause").removeAttr('disabled');
         $("#stop").removeAttr('disabled');
@@ -157,6 +158,7 @@ function initButtons() {
     $("#pause").click(function() {
         window.stopMusic();
         $("#pause").attr('disabled',true);
+        $("#stop").attr('disabled',true);
         $("#play").removeAttr('disabled');
     });
     //重头播放，可以不停的按
@@ -164,8 +166,6 @@ function initButtons() {
         //$('#myProgress').progress('reset');
         window.restartMusic();
         //console.log(context.state);
-        $("#play").removeClass("active");
-        $("#pause").removeClass("active");
         //$("#stop").addClass("active");
         //$("#stop").attr('disabled',true);
         $("#pause").removeAttr('disabled');
@@ -181,6 +181,28 @@ function initButtons() {
     // $('#save').click(function() {
     //     window.save();
     // });
+    $("#music-button-down").click(function(){
+        setTimeout(function(){
+            $('#music-button-down').css('display',"none");
+            $('#music-button-up').css('display',"block");
+        },600);
+        $("#music-button-down").attr('disabled',true);
+        $('#music-button-up').removeAttr('disabled');
+        $('.music-player').css('bottom',"-150px");
+        $('#music-button-down').css('bottom',"0px");
+        $('#music-button-up').css('bottom',"0px");
+    });
+    $("#music-button-up").click(function(){
+        setTimeout(function(){
+            $('#music-button-up').css('display',"none");
+            $('#music-button-down').css('display',"block");
+        },600);
+        $("#music-button-up").attr('disabled',true);
+        $('#music-button-down').removeAttr('disabled');
+        $('.music-player').css('bottom',"0px");
+        $('#music-button-down').css('bottom',"150px");
+        $('#music-button-up').css('bottom',"150px");
+    });
 }
 
 function BufferLoader(context, urlList, callback) {
@@ -338,7 +360,12 @@ window.restartMusic = function(){
     for (var i = 0; i < source_array.length; i++){
         source_array[i].stop();
     }
-    isStop = false;
+    if(isStop){
+        context.resume();
+        isStop = false;
+    }
+    //isStop = false;
+    timer_count = 0;
     clearArray();
     window.playMusic();
 }
@@ -409,10 +436,12 @@ function progress_run(){
     timer_count++;
     //console.log(timer_count);
     if(timer_count >= data_total){
-        timer_count = 0;
+        //timer_count = 0;
         var now = (new Date()).getTime();
         clearArray();
-        console.log(((now - begin)/1000).toFixed(3));
+        //console.log(((now - begin)/1000).toFixed(3));
+        $("#pause").attr('disabled',true);
+        $("#play").removeAttr('disabled');
         return;
     }
     progress_increment();
