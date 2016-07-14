@@ -35,7 +35,9 @@ var unitTime  = 15 / tempo;
 //var a = 1;
 var isStop = false;
 var source_array;
+var gNode;
 var isLoad = false;
+var isMute = false;
 
 function init() {
     initButtons();
@@ -134,18 +136,21 @@ function initNavigator(){
 function initButtons() {
     $("#pause").attr('disabled',true);
     $("#stop").attr('disabled',true);
+    $("#volume_button").attr('disabled',true);
     //播放按钮，按下之后不能再次按
     $("#play").click(function() {
         if(!isLoad){
             initMusicComponent();
             isLoad = true;
+            $("#volume_button").removeAttr('disabled');
             return;
         }
-        window.playMusic();
+        if(timer_count >= data_total){
+            window.restartMusic();
+        }else{
+            window.playMusic();
+        }
         window.listenIncrement();
-        $("#play").addClass("active");
-        $("#pause").removeClass("active");
-        $("#stop").removeClass("active");
         $("#play").attr('disabled',true);
         $("#pause").removeAttr('disabled');
         $("#stop").removeAttr('disabled');
@@ -157,6 +162,7 @@ function initButtons() {
     $("#pause").click(function() {
         window.stopMusic();
         $("#pause").attr('disabled',true);
+        $("#stop").attr('disabled',true);
         $("#play").removeAttr('disabled');
     });
     //重头播放，可以不停的按
@@ -164,8 +170,6 @@ function initButtons() {
         //$('#myProgress').progress('reset');
         window.restartMusic();
         //console.log(context.state);
-        $("#play").removeClass("active");
-        $("#pause").removeClass("active");
         //$("#stop").addClass("active");
         //$("#stop").attr('disabled',true);
         $("#pause").removeAttr('disabled');
@@ -181,6 +185,38 @@ function initButtons() {
     // $('#save').click(function() {
     //     window.save();
     // });
+    $("#music-button-down").click(function(){
+        setTimeout(function(){
+            $('#music-button-down').css('display',"none");
+            $('#music-button-up').css('display',"block");
+        },600);
+        $("#music-button-down").attr('disabled',true);
+        $('#music-button-up').removeAttr('disabled');
+        $('.music-player').css('bottom',"-150px");
+        $('#music-button-down').css('bottom',"0px");
+        $('#music-button-up').css('bottom',"0px");
+    });
+    $("#music-button-up").click(function(){
+        setTimeout(function(){
+            $('#music-button-up').css('display',"none");
+            $('#music-button-down').css('display',"block");
+        },600);
+        $("#music-button-up").attr('disabled',true);
+        $('#music-button-down').removeAttr('disabled');
+        $('.music-player').css('bottom',"0px");
+        $('#music-button-down').css('bottom',"150px");
+        $('#music-button-up').css('bottom',"150px");
+    });
+    $("#volume_button").click(function(){
+        if(isMute){
+            gNode[0].gain.value = 1;
+            isMute = false;
+        }else{
+            gNode[0].gain.value = 0;
+            isMute = true;
+        }
+        console.log(gNode[0]);
+    });
 }
 
 function BufferLoader(context, urlList, callback) {
@@ -276,11 +312,12 @@ function playSound(buffer, head, tail) {
     source.connect(gainNode);
     gainNode.connect(analyser);
     analyser.connect(context.destination)
-    //analyser.fftSize = 2048;
+    analyser.fftSize = 2048;
     source_array.push(source);
     source.buffer = buffer;
     gainNode.gain.linearRampToValueAtTime(1, endTime - 1);
     gainNode.gain.linearRampToValueAtTime(0, endTime);
+    gNode.push(gainNode);
 
     if (!source.start)
         source.start = source.noteOn;
@@ -302,6 +339,7 @@ window.playMusic = function(){
     }
     //console.log(window.music);
     source_array = [];
+    gNode = [];
     for (var x in window.music.spectrum.channels){
         //console.log(window.music.spectrum.channels[x]);
         for(var y in window.music.spectrum.channels[x]){
@@ -338,8 +376,14 @@ window.restartMusic = function(){
     for (var i = 0; i < source_array.length; i++){
         source_array[i].stop();
     }
-    isStop = false;
-    clearArray();
+    if(isStop){
+        context.resume();
+        isStop = false;
+    }
+    //isStop = false;
+    timer_count = 0;
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    //clearArray();
     window.playMusic();
 }
 
@@ -409,10 +453,13 @@ function progress_run(){
     timer_count++;
     //console.log(timer_count);
     if(timer_count >= data_total){
-        timer_count = 0;
+        //timer_count = 0;
         var now = (new Date()).getTime();
-        clearArray();
-        console.log(((now - begin)/1000).toFixed(3));
+        //clearArray();
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        //console.log(((now - begin)/1000).toFixed(3));
+        $("#pause").attr('disabled',true);
+        $("#play").removeAttr('disabled');
         return;
     }
     progress_increment();
