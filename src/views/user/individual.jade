@@ -85,11 +85,19 @@ block content
                                         - for (var j = 1; j <= i_num; ++j)
                                             li(onclick="window.location.href=\"/music?music_id=#{userInfo[(e_cate[i])][userInfo[(e_cate[i])].length-j]['_id']}\"")
                                                 div.ui.card.small-item
-                                                    div.image.small-item
+                                                    div.blurring.dimmable.image.small-item
                                                         if userInfo[(e_cate[i])][userInfo[(e_cate[i])].length-j]['cover']
                                                             img(src="/uploads/covers/#{userInfo[(e_cate[i])][userInfo[(e_cate[i])].length-j]['cover']}")
+                                                            a.ui.dimmer(href='/music?music_id='+'123')
+                                                                p.title 123
+                                                                p.info 123
+                                                                p.info 123
                                                         else
                                                             img(src='/resources/images/default_cover.png')
+                                                            a.ui.dimmer(href='/music?music_id='+'123')
+                                                                p.title 123
+                                                                p.info 123
+                                                                p.info 123
                                                 p(align="center") #{userInfo[(e_cate[i])][userInfo[(e_cate[i])].length-j]['name']}
                     else
                         div.container
@@ -118,7 +126,7 @@ block content
     
     script.
         window.user = !{JSON.stringify(userInfo)};
-        //console.log(user);
+        console.log(user);
         //console.log(user['collected_musics'][0])
         //console.log(user['collected_musics'][0]['cover'])
         //console.log(user['collected_musics'][0]['name'])
