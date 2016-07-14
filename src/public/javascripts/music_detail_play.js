@@ -32,11 +32,17 @@ var bufferList;
 var tempo = 110;
 var unitTime  = 15 / tempo;
 
-var a = 0;
+//var a = 1;
+var isStop = false;
+var source_array;
+var isLoad = false;
 
 function init() {
-    loadSource();
     initButtons();
+}
+
+function initMusicComponent(){
+    loadSource();
     initNavigator();
     initAnimationFrame();
     initPrint();
@@ -65,23 +71,25 @@ function initMusicLength(){
 
 function progress_increment(){
     $('#myProgress').progress('increment');
-    a = $('#myProgress').progress('get value');
-    console.log(a);
+    //a = $('#myProgress').progress('get value');
+    //console.log(a.toString());
+    //$('#myProgress').progress('set bar label',a.toString());
+    // $('#myProgress').progress({
+    //     label: 'ratio',
+    //     text: {
+    //     ratio: a.toString()+' : '+data_total
+    //     }
+    // });
 }
 
 function initProgress(time){
     begin = (new Date()).getTime();
-    //$('#myProgress').progress({total: 1000});
+    timer_count = 0;
     $('#myProgress').progress('reset');
-    // $('#myProgress').attr('data-total',time-1);
-    // console.log(time);
-    // // $('#myProgress').progress({
-    // //     total    : time
-    // // });
     $('#myProgress').progress({
     label: 'ratio',
     text: {
-      ratio: a.toString()+'{value} : '+data_total
+      ratio: '{value} : {total}'
     }
     });
 }
@@ -124,8 +132,15 @@ function initNavigator(){
 }
 
 function initButtons() {
+    $("#pause").attr('disabled',true);
+    $("#stop").attr('disabled',true);
     //播放按钮，按下之后不能再次按
     $("#play").click(function() {
+        if(!isLoad){
+            initMusicComponent();
+            isLoad = true;
+            return;
+        }
         window.playMusic();
         window.listenIncrement();
         $("#play").addClass("active");
@@ -133,37 +148,39 @@ function initButtons() {
         $("#stop").removeClass("active");
         $("#play").attr('disabled',true);
         $("#pause").removeAttr('disabled');
-        //$("#stop").removeAttr('disabled');
+        $("#stop").removeAttr('disabled');
         //$("#pause").disabled = 'disabled';
         //$("#stop").disabled = 'disabled';
     });
     //按下之后不能再按,初始不可用
     $("#pause").attr('disabled',true);
     $("#pause").click(function() {
-        progress_increment();
-        //test();
-        
+        window.stopMusic();
+        $("#pause").attr('disabled',true);
+        $("#play").removeAttr('disabled');
     });
     //重头播放，可以不停的按
     $("#stop").click(function() {
-        $('#myProgress').progress('reset');
-        window.stopMusic();
+        //$('#myProgress').progress('reset');
+        window.restartMusic();
+        //console.log(context.state);
         $("#play").removeClass("active");
         $("#pause").removeClass("active");
         //$("#stop").addClass("active");
         //$("#stop").attr('disabled',true);
         $("#pause").removeAttr('disabled');
-        $("#play").removeAttr('disabled');
+        $("#play").attr('disabled',true);
+        //$("#play").removeAttr('disabled');
     });
-    $('#channel').dropdown({
-        onChange: function(val) {
-            $('.channel-indicate').text(val);
-            window.switchChannel(val);
-        }
-    });
-    $('#save').click(function() {
-        window.save();
-    });
+    // $('#channel').dropdown({
+    //     onChange: function(val) {
+    //         $('.channel-indicate').text(val);
+    //         window.switchChannel(val);
+    //     }
+    // });
+    // $('#save').click(function() {
+    //     window.save();
+    // });
 }
 
 function BufferLoader(context, urlList, callback) {
@@ -251,14 +268,16 @@ function finishedLoading(buffer) {
 function playSound(buffer, head, tail) {
     var startTime = context.currentTime + head * unitTime;
     var endTime = context.currentTime + tail * unitTime;
-
+    //context = 
+    //console.log(context.state);
+    //analyser = context.createAnalyser();
     var source = context.createBufferSource();
     var gainNode = context.createGain ? context.createGain() : context.createGainNode();
     source.connect(gainNode);
     gainNode.connect(analyser);
     analyser.connect(context.destination)
     //analyser.fftSize = 2048;
-
+    source_array.push(source);
     source.buffer = buffer;
     gainNode.gain.linearRampToValueAtTime(1, endTime - 1);
     gainNode.gain.linearRampToValueAtTime(0, endTime);
@@ -276,7 +295,13 @@ window.playNote = function(note) {
 }
 
 window.playMusic = function(){
+    if(isStop){
+        context.resume();
+        isStop = false;
+        return;
+    }
     //console.log(window.music);
+    source_array = [];
     for (var x in window.music.spectrum.channels){
         //console.log(window.music.spectrum.channels[x]);
         for(var y in window.music.spectrum.channels[x]){
@@ -301,15 +326,21 @@ window.playMusic = function(){
 }
 
 window.stopMusic = function(){
-    // console.log("stop music");
-    // console.log(animation_id);
-    // if(animation_id == null){
-    //     return;
-    // }else{
-    //     window.cancelAnimationFrame(animation_id);
-    //     animation_id = null;
-    // }
-    window.cancelAnimationFrame(animation_id);
+    if(!isStop){
+        context.suspend();
+        isStop = true;
+        return;
+    }
+}
+
+window.restartMusic = function(){
+    clearTimeout(timer);
+    for (var i = 0; i < source_array.length; i++){
+        source_array[i].stop();
+    }
+    isStop = false;
+    clearArray();
+    window.playMusic();
 }
 
 window.setTempo = function(_tempo) {
@@ -327,6 +358,13 @@ window.getKeyName = function(i) {
     var key = labels[(i+11)%12];
     key += (Math.floor((88+8-i)/12)+1).toString();
     return key;
+}
+
+
+function clearArray(){
+    for(var i = 0; i < draw_num; i++){
+        array[i*step] = 255;
+    }
 }
 
 //绘制函数
@@ -363,11 +401,17 @@ function draw(){
 
 //每秒调用10次，1000ms/10=100ms
 function progress_run(){
+    //console.log(isStop);
+    if(isStop){
+        timer = setTimeout('progress_run()',100);
+        return;
+    }
     timer_count++;
     //console.log(timer_count);
     if(timer_count >= data_total){
         timer_count = 0;
         var now = (new Date()).getTime();
+        clearArray();
         console.log(((now - begin)/1000).toFixed(3));
         return;
     }

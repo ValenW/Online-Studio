@@ -86,12 +86,16 @@ block content
                                             li
                                                 a(href="/music?music_id=#{userInfo[(e_cate[i])][userInfo[(e_cate[i])].length-j]['_id']}")
                                                     div.ui.card.small-item
-                                                        div.image.small-item
+                                                        div.blurring.dimmable.image.small-item
                                                             if userInfo[(e_cate[i])][userInfo[(e_cate[i])].length-j]['cover']
                                                                 img(src="/uploads/covers/#{userInfo[(e_cate[i])][userInfo[(e_cate[i])].length-j]['cover']}")
                                                             else
                                                                 img(src='/resources/images/default_cover.png')
+                                                            div.ui.dimmer
+                                                                div.content
+                                                                    i.large.play.icon
                                                 a(align="center" href="/music?music_id=#{userInfo[(e_cate[i])][userInfo[(e_cate[i])].length-j]['_id']}") #{userInfo[(e_cate[i])][userInfo[(e_cate[i])].length-j]['name']}
+
                     else
                         div.container
                             div.l-list(style="float:none;")
@@ -108,19 +112,21 @@ block content
                                             li
                                                 a(href="/music?music_id=#{userInfo[(e_cate[i])][userInfo[(e_cate[i])].length-j]['_id']}")
                                                     div.ui.card.small-item
-                                                        div.image.small-item
+                                                        div.blurring.dimmable.image.small-item
                                                             if userInfo[(e_cate[i])][userInfo[(e_cate[i])].length-j]['cover']
                                                                 img(src="/uploads/covers/#{userInfo[(e_cate[i])][userInfo[(e_cate[i])].length-j]['cover']}")
                                                             else
                                                                 img(src='/resources/images/default_cover.png')
+                                                            div.ui.dimmer
+                                                                div.content
+                                                                    i.large.play.icon
                                                 a(align="center" href="/music?music_id=#{userInfo[(e_cate[i])][userInfo[(e_cate[i])].length-j]['_id']}") #{userInfo[(e_cate[i])][userInfo[(e_cate[i])].length-j]['name']}
 
-
-
-    
     script.
         window.user = !{JSON.stringify(userInfo)};
-        //console.log(user);
+        window.user2 = !{JSON.stringify(user)};
+        console.log(user2);
+        console.log(user);
         //console.log(user['collected_musics'][0])
         //console.log(user['collected_musics'][0]['cover'])
         //console.log(user['collected_musics'][0]['name'])

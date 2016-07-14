@@ -22,7 +22,14 @@ function init(){
     initData();
     initMessage();
     initButton();
+    initHover();
 }
+
+function initHover(){
+    //$('.r-preview .card .image').dimmer({ on: 'hover' });
+    $('.category .card .image').dimmer({ on: 'hover' });
+}
+
 
 /**
  * initialize the data for the user object, saving in the global variances
@@ -72,6 +79,7 @@ function initButton(){
                 createItem(o_data[o_data.length-((o_page-1)*10+i)-1]);
                 $('#original_musics').append(l);
             }
+            initHover();
         });
         //下一页
         $('#original_musics_right_button').click(function(){
@@ -84,6 +92,7 @@ function initButton(){
                 createItem(o_data[o_data.length-((o_page-1)*10+i)-1]);
                 $('#original_musics').append(l);
             }
+            initHover();
         });
     }
     if(d_length > 0){
@@ -99,6 +108,7 @@ function initButton(){
                 createItem(d_data[d_data.length-((d_page-1)*10+i)-1]);
                 $('derivative_musics').append(l);
             }
+            initHover();
         });
         //下一页
         $('#derivative_musics_right_button').click(function(){
@@ -111,6 +121,7 @@ function initButton(){
                 createItem(d_data[d_data.length-((d_page-1)*10+i)-1]);
                 $('#derivative_musics').append(l);
             }
+            initHover();
         });
     }
     if(c_length > 0){
@@ -126,6 +137,7 @@ function initButton(){
                 createItem(c_data[c_data.length-((c_page-1)*10+i)-1]);
                 $('collected_musics').append(l);
             }
+            initHover();
         });
         //下一页
         $('#collected_musics_right_button').click(function(){
@@ -138,6 +150,7 @@ function initButton(){
                 createItem(c_data[c_data.length-((c_page-1)*10+i)-1]);
                 $('#collected_musics').append(l);
             }
+            initHover();
         });
     }
 }
@@ -160,11 +173,23 @@ function createItem(data){
     card.className = "ui card small-item";
     l.appendChild(card);
     var d_img = document.createElement('div');
-    d_img.className = "image small-item";
+    d_img.className = "blurring dimmable image small-item";
     card.appendChild(d_img);
     var img = document.createElement('img');
-    img.src = "/uploads/musicCovers/" + data.cover;
+    img.src = "/uploads/covers/" + data.cover;
     d_img.appendChild(img);
+    // a.ui.dimmer(href='/music?music_id='+'123')
+    //     p.title 123
+    //     p.info 123
+    //     p.info 123
+    var tag_a = document.createElement('a');
+    tag_a.className = "ui dimmer";
+    tag_a.href = '/music?music_id='+data._id;
+    d_img.appendChild(tag_a);
+    var tag_p1 = document.createElement('p');
+    tag_p1.className = "title";
+    tag_p1.innerHTML = data.name;
+    tag_a.appendChild(tag_p1);
     var p = document.createElement('p');
     p.align = "center";
     p.innerHTML = data.name;
