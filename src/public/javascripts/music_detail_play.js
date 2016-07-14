@@ -24,25 +24,37 @@ var timer;
 var data_total;
 //计时器运行次数
 var timer_count = 0;
-var begin;
+//var begin;
 
+//audioContext
 var context;
 var bufferList;
 
 var tempo = 110;
 var unitTime  = 15 / tempo;
 
-//var a = 1;
+//判断是否停止播放
 var isStop = false;
+//存放sourceNode用于暂停播放
 var source_array;
-var gNode;
+//var gNode;
+//是否已经加载音源
 var isLoad = false;
-var isMute = false;
+//var isMute = false;
 
+
+
+/**
+ * init the button of the music player
+ */
 function init() {
     initButtons();
 }
 
+/**
+ * init the the external music resources
+ * 
+ */
 function initMusicComponent(){
     loadSource();
     initNavigator();
@@ -52,6 +64,11 @@ function initMusicComponent(){
     initProgress();
 }
 
+/**
+ * find out the max tail of the music node and compute the length of the music
+ * use tail*unitTime * 1000 to compute the second of the music
+ *
+ */
 function initMusicLength(){
     for (var x in window.music.spectrum.channels){
         for(var y in window.music.spectrum.channels[x]){
@@ -62,30 +79,28 @@ function initMusicLength(){
             }
         }
     }
-    console.log(max_tail);
+    //console.log(max_tail);
     time = Math.ceil(max_tail * unitTime * 1000);
-    console.log(time);
+    //console.log(time);
     data_total = Math.ceil(time/100);
-    //initProgress(data_total);
     var pro = createProgressElement(data_total-1);
     $('#middle').append(pro);
 }
 
+/**
+ * the progress increment 1
+ */
 function progress_increment(){
     $('#myProgress').progress('increment');
-    //a = $('#myProgress').progress('get value');
-    //console.log(a.toString());
-    //$('#myProgress').progress('set bar label',a.toString());
-    // $('#myProgress').progress({
-    //     label: 'ratio',
-    //     text: {
-    //     ratio: a.toString()+' : '+data_total
-    //     }
-    // });
 }
 
+/**
+ * init the progress
+ * reset the value and show the text
+ *
+ * @param <int> time record the length of the music（time/10）seconds
+ */
 function initProgress(time){
-    begin = (new Date()).getTime();
     timer_count = 0;
     $('#myProgress').progress('reset');
     $('#myProgress').progress({
@@ -96,6 +111,11 @@ function initProgress(time){
     });
 }
 
+/**
+ * init the visualizition of the music
+ * init the canvas, init the gradient color, init the target analyser which is used to
+ *                  get the target data
+ */
 function initPrint(){
     //初始化canvas
     canvas = document.getElementById('canvas');
@@ -116,6 +136,9 @@ function initPrint(){
     window.requestAnimationFrame(draw);
 }
 
+/**
+ * get the correct animationframe component
+ */
 function initAnimationFrame(){
     window.requestAnimationFrame = window.requestAnimationFrame || window.mozRequestAnimationFrame 
 || window.webkitRequestAnimationFrame || window.msRequestAnimationFrame;
@@ -123,6 +146,9 @@ function initAnimationFrame(){
 || window.webkitCancelAnimationFrame || window.msCancelAnimationFrame;
 }
 
+/**
+ * get the navigator
+ */
 function initNavigator(){
     navigator.getUserMedia = (navigator.getUserMedia ||
                           navigator.mozGetUserMedia ||
@@ -133,16 +159,22 @@ function initNavigator(){
     }
 }
 
+/**
+ * init the music player button
+ * according to the logic of playing music, set the disabled attr to help user
+ *              do the correct conduction
+ */
 function initButtons() {
     $("#pause").attr('disabled',true);
     $("#stop").attr('disabled',true);
     $("#volume_button").attr('disabled',true);
+    $("#volume_bar").attr('disabled',true);
     //播放按钮，按下之后不能再次按
     $("#play").click(function() {
         if(!isLoad){
             initMusicComponent();
             isLoad = true;
-            $("#volume_button").removeAttr('disabled');
+            //$("#volume_button").removeAttr('disabled');
             return;
         }
         if(timer_count >= data_total){
@@ -176,15 +208,7 @@ function initButtons() {
         $("#play").attr('disabled',true);
         //$("#play").removeAttr('disabled');
     });
-    // $('#channel').dropdown({
-    //     onChange: function(val) {
-    //         $('.channel-indicate').text(val);
-    //         window.switchChannel(val);
-    //     }
-    // });
-    // $('#save').click(function() {
-    //     window.save();
-    // });
+    //隐藏按钮
     $("#music-button-down").click(function(){
         setTimeout(function(){
             $('#music-button-down').css('display',"none");
@@ -196,6 +220,7 @@ function initButtons() {
         $('#music-button-down').css('bottom',"0px");
         $('#music-button-up').css('bottom',"0px");
     });
+    //显示按钮
     $("#music-button-up").click(function(){
         setTimeout(function(){
             $('#music-button-up').css('display',"none");
@@ -207,18 +232,21 @@ function initButtons() {
         $('#music-button-down').css('bottom',"150px");
         $('#music-button-up').css('bottom',"150px");
     });
-    $("#volume_button").click(function(){
-        if(isMute){
-            gNode[0].gain.value = 1;
-            isMute = false;
-        }else{
-            gNode[0].gain.value = 0;
-            isMute = true;
-        }
-        console.log(gNode[0]);
-    });
+    // $("#volume_button").click(function(){
+    //     if(isMute){
+    //         gNode[0].gain.value = 1;
+    //         isMute = false;
+    //     }else{
+    //         gNode[0].gain.value = 0;
+    //         isMute = true;
+    //     }
+    //     console.log(gNode[0]);
+    // });
 }
 
+/**
+ * audiocontext bufferLoader
+ */
 function BufferLoader(context, urlList, callback) {
     this.context = context;
     this.urlList = urlList;
@@ -269,6 +297,9 @@ BufferLoader.prototype.load = function() {
     this.loadBuffer(this.urlList[i], i);
 }
 
+/**
+ * load the music source
+ */
 function loadSource() {
     // Fix up prefixing
     window.AudioContext = window.AudioContext || window.webkitAudioContext;
@@ -296,11 +327,22 @@ function loadSource() {
     bufferLoader.load();
 }
 
+/**
+ * the callback function of loadsource
+ */
 function finishedLoading(buffer) {
     bufferList = buffer;
     $('#progress-modal').modal('hide');
 }
 
+/**
+ * playSound
+ * use the web audio to create the list
+ *
+ * @param <List> buffer music source
+ * @param <int> head the node head
+ * @param <int> tail the node tail
+ */
 function playSound(buffer, head, tail) {
     var startTime = context.currentTime + head * unitTime;
     var endTime = context.currentTime + tail * unitTime;
@@ -325,12 +367,22 @@ function playSound(buffer, head, tail) {
     source.stop(endTime);
 }
 
+/**
+ * playNote
+ * use the playSound interface
+ *
+ * @param <Element> note the music struct
+ */
 window.playNote = function(note) {
     //console.log(bufferList);
     if (note)
         playSound(bufferList[note.key], note.head, note.tail);
 }
 
+/**
+ * playMusic
+ * play every node
+ */
 window.playMusic = function(){
     if(isStop){
         context.resume();
@@ -352,17 +404,17 @@ window.playMusic = function(){
             }
         }
     }
-    console.log(max_tail);
+    //console.log(max_tail);
     time = Math.ceil(max_tail * unitTime * 1000);
-    console.log(time);
+    //console.log(time);
     data_total = Math.ceil(time/100);
     initProgress(data_total);
     progress_run();
-    // animation_id = window.requestAnimationFrame(draw);
-    // console.log("play music");
-    // console.log(animation_id);
 }
 
+/**
+ * stopMusic
+ */
 window.stopMusic = function(){
     if(!isStop){
         context.suspend();
@@ -371,6 +423,9 @@ window.stopMusic = function(){
     }
 }
 
+/**
+ * restartMusic
+ */
 window.restartMusic = function(){
     clearTimeout(timer);
     for (var i = 0; i < source_array.length; i++){
@@ -411,7 +466,11 @@ function clearArray(){
     }
 }
 
-//绘制函数
+/**
+ * visualization
+ * draw the music power bar into the canvas
+ *
+ */
 function draw(){
   analyser.getByteFrequencyData(array);
   //console.log(array);
@@ -443,7 +502,10 @@ function draw(){
   window.requestAnimationFrame(draw);
 }
 
-//每秒调用10次，1000ms/10=100ms
+/**
+ * setTimeout to run the progress
+ * every second use 10 times,1000ms/10=100ms
+ */
 function progress_run(){
     //console.log(isStop);
     if(isStop){
@@ -454,8 +516,9 @@ function progress_run(){
     //console.log(timer_count);
     if(timer_count >= data_total){
         //timer_count = 0;
-        var now = (new Date()).getTime();
+        //var now = (new Date()).getTime();
         //clearArray();
+        //console.log("clear");
         ctx.clearRect(0, 0, canvas.width, canvas.height);
         //console.log(((now - begin)/1000).toFixed(3));
         $("#pause").attr('disabled',true);
@@ -465,10 +528,13 @@ function progress_run(){
     progress_increment();
     timer = setTimeout('progress_run()',100);
 }
-// div.ui.indicating.small.progress.myProgress
-//(id="myProgress",data-value="0",data-total="0")
-//             div.bar
-//                 div.progress
+
+/**
+ * create the progress dom
+ * create the progress bar with specify time
+ *
+ * @param <int> time the length of the music(time/10 second)
+ */
 function createProgressElement(time){
     var progress = document.createElement('div');
     progress.className = "ui indicating small progress myProgress";

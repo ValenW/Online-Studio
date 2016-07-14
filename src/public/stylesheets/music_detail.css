@@ -101,7 +101,13 @@
     color: #aaa;
 }
 
-.ui .circular .image .pos{
+.ui .circular .avatar .image .pos{
+    margin-left: 10px;
+    width:80px !important;
+    height: 80px !important;
+}
+
+.pos{
     margin-left: 10px;
     width:80px !important;
     height: 80px !important;
