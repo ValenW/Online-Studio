@@ -4,6 +4,16 @@ var Tag = require('../models/Tag');
 var Spectrum = require('../models/Spectrum');
 var Music = require('../models/Music');
 
+exports.updateData = function(req, res, next) {
+    Spectrum.find({}, function(err, spes) {
+        spes.forEach(function(spe) {
+            spe.update({$set: {volume: 10}}, function(err) {
+            });
+        });
+        res.redirect('/');
+    });
+}
+
 exports.createData = function(req, res, next) {
     // console.log("Remove all data");
     User.remove({}, function(err) {});
