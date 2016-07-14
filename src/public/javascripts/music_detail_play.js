@@ -35,10 +35,14 @@ var unitTime  = 15 / tempo;
 //var a = 1;
 var isStop = false;
 var source_array;
+var isLoad = false;
 
 function init() {
-    loadSource();
     initButtons();
+}
+
+function initMusicComponent(){
+    loadSource();
     initNavigator();
     initAnimationFrame();
     initPrint();
@@ -128,8 +132,15 @@ function initNavigator(){
 }
 
 function initButtons() {
+    $("#pause").attr('disabled',true);
+    $("#stop").attr('disabled',true);
     //播放按钮，按下之后不能再次按
     $("#play").click(function() {
+        if(!isLoad){
+            initMusicComponent();
+            isLoad = true;
+            return;
+        }
         window.playMusic();
         window.listenIncrement();
         $("#play").addClass("active");
@@ -137,7 +148,7 @@ function initButtons() {
         $("#stop").removeClass("active");
         $("#play").attr('disabled',true);
         $("#pause").removeAttr('disabled');
-        //$("#stop").removeAttr('disabled');
+        $("#stop").removeAttr('disabled');
         //$("#pause").disabled = 'disabled';
         //$("#stop").disabled = 'disabled';
     });
@@ -158,7 +169,8 @@ function initButtons() {
         //$("#stop").addClass("active");
         //$("#stop").attr('disabled',true);
         $("#pause").removeAttr('disabled');
-        $("#play").removeAttr('disabled');
+        $("#play").attr('disabled',true);
+        //$("#play").removeAttr('disabled');
     });
     // $('#channel').dropdown({
     //     onChange: function(val) {

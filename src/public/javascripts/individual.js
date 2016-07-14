@@ -178,6 +178,18 @@ function createItem(data){
     var img = document.createElement('img');
     img.src = "/uploads/covers/" + data.cover;
     d_img.appendChild(img);
+    // a.ui.dimmer(href='/music?music_id='+'123')
+    //     p.title 123
+    //     p.info 123
+    //     p.info 123
+    var tag_a = document.createElement('a');
+    tag_a.className = "ui dimmer";
+    tag_a.href = '/music?music_id='+data._id;
+    d_img.appendChild(tag_a);
+    var tag_p1 = document.createElement('p');
+    tag_p1.className = "title";
+    tag_p1.innerHTML = data.name;
+    tag_a.appendChild(tag_p1);
     var p = document.createElement('p');
     p.align = "center";
     p.innerHTML = data.name;

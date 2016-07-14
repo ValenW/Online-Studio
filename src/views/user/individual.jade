@@ -88,16 +88,14 @@ block content
                                                     div.blurring.dimmable.image.small-item
                                                         if userInfo[(e_cate[i])][userInfo[(e_cate[i])].length-j]['cover']
                                                             img(src="/uploads/covers/#{userInfo[(e_cate[i])][userInfo[(e_cate[i])].length-j]['cover']}")
-                                                            a.ui.dimmer(href='/music?music_id='+'123')
-                                                                p.title 123
-                                                                p.info 123
-                                                                p.info 123
+                                                            a.ui.dimmer(href="/music?music_id=#{userInfo[(e_cate[i])][userInfo[(e_cate[i])].length-j]['_id']}")
+                                                                p.title #{userInfo[(e_cate[i])][userInfo[(e_cate[i])].length-j]['name']}
+                                                                //p.info 播放数
+                                                                //p.info 评论数
                                                         else
                                                             img(src='/resources/images/default_cover.png')
-                                                            a.ui.dimmer(href='/music?music_id='+'123')
-                                                                p.title 123
-                                                                p.info 123
-                                                                p.info 123
+                                                            a.ui.dimmer(href="/music?music_id=#{userInfo[(e_cate[i])][userInfo[(e_cate[i])].length-j]['_id']}")
+                                                                p.title #{userInfo[(e_cate[i])][userInfo[(e_cate[i])].length-j]['name']}
                                                 p(align="center") #{userInfo[(e_cate[i])][userInfo[(e_cate[i])].length-j]['name']}
                     else
                         div.container
@@ -114,11 +112,15 @@ block content
                                         - for (var j = 1; j <= i_num; ++j)
                                             li(onclick="window.location.href=\"/music?music_id=#{userInfo[(e_cate[i])][userInfo[(e_cate[i])].length-j]['_id']}\"")
                                                 div.ui.card.small-item
-                                                    div.image.small-item
+                                                    div.blurring.dimmable.image.small-item
                                                         if userInfo[(e_cate[i])][userInfo[(e_cate[i])].length-j]['cover']
                                                             img(src="/uploads/covers/#{userInfo[(e_cate[i])][userInfo[(e_cate[i])].length-j]['cover']}")
+                                                            a.ui.dimmer(href="/music?music_id=#{userInfo[(e_cate[i])][userInfo[(e_cate[i])].length-j]['_id']}")
+                                                                p.title #{userInfo[(e_cate[i])][userInfo[(e_cate[i])].length-j]['name']}
                                                         else
                                                             img(src='/resources/images/default_cover.png')
+                                                            a.ui.dimmer(href="/music?music_id=#{userInfo[(e_cate[i])][userInfo[(e_cate[i])].length-j]['_id']}")
+                                                                p.title #{userInfo[(e_cate[i])][userInfo[(e_cate[i])].length-j]['name']}
                                                 p(align="center") #{userInfo[(e_cate[i])][userInfo[(e_cate[i])].length-j]['name']}
 
 
