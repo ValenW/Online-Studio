@@ -137,18 +137,23 @@ exports.saveSpectrum = function(req, res, next) {
 			if (err) {
 				console.log ('Error in /save request while finding user.');
 			} else {
-				Music.populate(user, {path: 'collected_musics', select: 'spectrum'}, function(err, user) {
+				Music.populate(user, {path: 'original_musics derivative_musics', select: 'spectrum'}, function(err, user) {
 					// judege whether spectrum is in user's collected_musics list
-					var based_on = null;
-					for (var cm_i = 0; cm_i < user.collected_musics.length; cm_i += 1) {
+					var meditor_music = null;
+					for (var cm_i = 0; meditor_music === null && cm_i < user.original_musics.length; cm_i += 1) {
 						var c_music = user.collected_musics[cm_i];
-						if (c_music.spectrum === spectrum_param._id) {
-							based_on = c_music._id;
-							break;
+						if (c_music.spectrum.toString() == spectrum_param._id.toString()) {
+							meditor_music = c_music._id;
+						}
+					}
+					for (var cm_i = 0; base_on === nulll && cm_i < user.derivative_musics.length; cm_i += 1) {
+						var c_music = user.collected_musics[cm_i];
+						if (c_music.spectrum.toString() == spectrum_param._id.toString()) {
+							meditor_music = c_music._id;
 						}
 					}
 
-					if (based_on !== null) {	// act when in
+					if (meditor_music === null) {	// act when in
 						// create a new Spectrum the same as the spectrum_param
 						// create Spectrum begin.
 						var date = new Date();
@@ -167,7 +172,7 @@ exports.saveSpectrum = function(req, res, next) {
 
 								// create Music begin.
 								Music.create({
-									based_on: based_on,
+									based_on: spectrum_param._id,
 									spectrum: spectrum,
 									name: date.toString().substring(4, 24),
 									author: user,
