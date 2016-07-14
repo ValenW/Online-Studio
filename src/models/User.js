@@ -38,7 +38,7 @@ UserSchema.static('addOriginalMusicForUser', function(info, callback) {
     });
 });
 
-UserSchema.static('addOriginalMusicForUser', function(info, callback) {
+UserSchema.static('addDerivativeMusicForUser', function(info, callback) {
     // console.log(info);
     this.findOne({
         _id: info.user_id

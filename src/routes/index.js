@@ -83,5 +83,6 @@ router.post('/look_uploadImage', debug.uploadImg);
 
 // create data
 router.get('/create_data', data.createData);
+router.get('/update_data', data.updateData);
 
 module.exports = router;

@@ -33,8 +33,8 @@ block content
                 div.container
                     div.content-wrapper
                         div.left_head
-                            if user.profile
-                                img.ui.medium.circular.image.myimage(src='uploads/heads/#{user.profile}')
+                            if userInfo.profile
+                                img.ui.medium.circular.image.myimage(src='uploads/heads/#{userInfo.profile}')
                             else
                                 img.ui.medium.circular.image.myimage(src="/resources/images/default_head.jpg")
                         div.message
@@ -62,36 +62,71 @@ block content
             - for (var i = 0; i < categories.length; i++)
                 div.category
                     a.anchor(id='#{categories[i]}')
-                    div.container
-                        div.l-list
-                            div.ui.secondary.menu
-                                div.item
-                                    h2 #{categories[i]} ( #{userInfo[(e_cate[i])].length} )
-                                div.right.menu
+                    if userInfo[(e_cate[i])].length < 10
+                        -var i_num = userInfo[(e_cate[i])].length
+                    if userInfo[(e_cate[i])].length >= 10
+                        -var i_num = 10
+                    if i_num <= 5
+                        -var small_mode = true
+                    else
+                        -var small_mode = false
+                    if small_mode
+                        div.container(style="height:220px;")
+                            div.l-list(style="float:none;")
+                                div.ui.secondary.menu
                                     div.item
-                                        div.ui.basic.button(id="#{e_cate[i]}_left_button",style="margin-right:15px;") 上一页
-                                        div.ui.basic.button(id="#{e_cate[i]}_right_button") 下一页
-                            div.content-wrapper
-                                ul(id = "#{e_cate[i]}")
-                                    if userInfo[(e_cate[i])].length < 10
-                                        -var i_num = userInfo[(e_cate[i])].length
-                                    if userInfo[(e_cate[i])].length >= 10
-                                        -var i_num = 10
-                                    - for (var j = 1; j <= i_num; ++j)
-                                        li(onclick="window.location.href=\"/music?music_id=#{userInfo[(e_cate[i])][userInfo[(e_cate[i])].length-j]['_id']}\"")
-                                            div.ui.card.small-item
-                                                div.image.small-item
-                                                    if userInfo[(e_cate[i])][userInfo[(e_cate[i])].length-j]['cover']
-                                                        img(src="/uploads/covers/#{userInfo[(e_cate[i])][userInfo[(e_cate[i])].length-j]['cover']}")
-                                                    else
-                                                        img(src='/resources/images/default_cover.png')
-                                            p(align="center") #{userInfo[(e_cate[i])][userInfo[(e_cate[i])].length-j]['name']}
+                                        h2 #{categories[i]} ( #{userInfo[(e_cate[i])].length} )
+                                    div.right.menu
+                                        div.item
+                                            div.ui.basic.button(id="#{e_cate[i]}_left_button",style="margin-right:15px;") 上一页
+                                            div.ui.basic.button(id="#{e_cate[i]}_right_button") 下一页
+                                div.content-wrapper
+                                    ul(id = "#{e_cate[i]}")
+                                        - for (var j = 1; j <= i_num; ++j)
+                                            li
+                                                a(href="/music?music_id=#{userInfo[(e_cate[i])][userInfo[(e_cate[i])].length-j]['_id']}")
+                                                    div.ui.card.small-item
+                                                        div.blurring.dimmable.image.small-item
+                                                            if userInfo[(e_cate[i])][userInfo[(e_cate[i])].length-j]['cover']
+                                                                img(src="/uploads/covers/#{userInfo[(e_cate[i])][userInfo[(e_cate[i])].length-j]['cover']}")
+                                                            else
+                                                                img(src='/resources/images/default_cover.png')
+                                                            div.ui.dimmer
+                                                                div.content
+                                                                    i.large.play.icon
+                                                a(align="center" href="/music?music_id=#{userInfo[(e_cate[i])][userInfo[(e_cate[i])].length-j]['_id']}") #{userInfo[(e_cate[i])][userInfo[(e_cate[i])].length-j]['name']}
 
+                    else
+                        div.container
+                            div.l-list(style="float:none;")
+                                div.ui.secondary.menu
+                                    div.item
+                                        h2 #{categories[i]} ( #{userInfo[(e_cate[i])].length} )
+                                    div.right.menu
+                                        div.item
+                                            div.ui.basic.button(id="#{e_cate[i]}_left_button",style="margin-right:15px;") 上一页
+                                            div.ui.basic.button(id="#{e_cate[i]}_right_button") 下一页
+                                div.content-wrapper
+                                    ul(id = "#{e_cate[i]}")
+                                        - for (var j = 1; j <= i_num; ++j)
+                                            li
+                                                a(href="/music?music_id=#{userInfo[(e_cate[i])][userInfo[(e_cate[i])].length-j]['_id']}")
+                                                    div.ui.card.small-item
+                                                        div.blurring.dimmable.image.small-item
+                                                            if userInfo[(e_cate[i])][userInfo[(e_cate[i])].length-j]['cover']
+                                                                img(src="/uploads/covers/#{userInfo[(e_cate[i])][userInfo[(e_cate[i])].length-j]['cover']}")
+                                                            else
+                                                                img(src='/resources/images/default_cover.png')
+                                                            div.ui.dimmer
+                                                                div.content
+                                                                    i.large.play.icon
+                                                a(align="center" href="/music?music_id=#{userInfo[(e_cate[i])][userInfo[(e_cate[i])].length-j]['_id']}") #{userInfo[(e_cate[i])][userInfo[(e_cate[i])].length-j]['name']}
 
-    
     script.
         window.user = !{JSON.stringify(userInfo)};
-        //console.log(user);
+        window.user2 = !{JSON.stringify(user)};
+        console.log(user2);
+        console.log(user);
         //console.log(user['collected_musics'][0])
         //console.log(user['collected_musics'][0]['cover'])
         //console.log(user['collected_musics'][0]['name'])

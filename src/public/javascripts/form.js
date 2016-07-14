@@ -1,3 +1,5 @@
+// use semaitic-ui form validate
+
 $('.signup-form').form({
     fields: {
         username : 'empty',

@@ -11,6 +11,10 @@
 	box-shadow: none;
 }
 
+.ui.card:hover {
+	cursor: pointer;
+}
+
 /* Sticky Menu */
 .sticky-menu {
 	position: fixed;
@@ -84,8 +88,7 @@
 	margin-bottom: 20px;
 }
 
-.list-preview-wrapper .dimmer,
-.category .dimmer {
+.list-preview-wrapper .dimmer {
 	border-radius: 2px;
 	text-align: left;
 }
@@ -157,6 +160,10 @@
 	text-overflow: ellipsis;
 }
 
+.content-wrapper .card {
+	margin-bottom: 5px !important;
+}
+
 .category li a {
 	color: #111;
 	transition: color .2s;
@@ -167,6 +174,30 @@
 
 .category li:hover > a {
 	color: #37A0E8;
+}
+
+.x-avator {
+	width: 60px;
+	height: 60px;
+	margin: 10px auto 2px auto !important;
+	padding: 2px !important;
+	background-color: white !important;
+}
+
+.v-info .bf,
+.v-info .pl {
+	float: left;
+	width: 70px;
+	margin-top: 10px;
+	color: #99a2aa;
+}
+
+.v-info {
+	font-size: 10px;
+}
+
+.v-info .bf {
+	margin-right: 10px;
 }
 
 .rank {
