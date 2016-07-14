@@ -1,3 +1,6 @@
+/**
+ * auth middlerware for users have confirmed the email
+ */
 exports.isAuthenticated = function(req, res, next) {
   if (req.session.user) {
     if (req.session.user.confed == true) {
@@ -9,7 +12,9 @@ exports.isAuthenticated = function(req, res, next) {
     res.redirect('/login');
   }
 }
-
+/**
+ * auth middlerware for users have not confirmed the email
+ */
 exports.isTempAuthenticated = function(req, res, next) {
   if (req.session.user) {
     if (req.session.user.confed == false) {

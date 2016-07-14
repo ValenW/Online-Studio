@@ -3,14 +3,24 @@ var MailSender = require('../middlewares/mail.js');
 var URL     = require('url');
 var assert  = require('assert');
 
+/**
+ * shwoLogin() show the login page
+ * controller of 'GET /login' url
+ */
 exports.showLogin = function(req, res, next) {
     res.render('sign/login', {error: req.flash('error').toString()});
 }
-
+/**
+ * showSignup() show the signup page
+ * controller of 'GET /signup' url
+ */
 exports.showSignup = function(req, res, next) {
     res.render('sign/signup', {error: req.flash('error').toString()});
 }
-
+/**
+ * login() process the login request
+ * controller of 'POST /login' url
+ */
 exports.login = function(req, res, next) {
     User.findOne({
         'username': req.body.username,
@@ -30,7 +40,10 @@ exports.login = function(req, res, next) {
         }
     });
 };
-
+/**
+ * signup() process the signup request
+ * controller of 'POST /singup' url
+ */
 exports.signup = function(req, res, next) {
     var username = req.body.username;
     var password = req.body.password;
@@ -111,16 +124,25 @@ exports.signup = function(req, res, next) {
         }
     });
 }
-
+/**
+ * logout() process the logout request
+ * controller of 'GET /logout' url
+ */
 exports.logout = function(req, res, next) {
     req.session.destroy();
     res.redirect('/');
 }
-
+/**
+ * getWait() show the wait
+ * controller of 'GET /wait' url
+ */
 exports.getWait = function(req, res, next) {
     res.render('wait', {email: req.session.user.email, tlink: "/sendagain?id=" + req.session.user._id});
 }
-
+/**
+ * getSendAgain() send the email again
+ * controller of 'GET /sendagain' url
+ */
 exports.getSendAgain = function(req, res, next) {
     var arg = URL.parse(req.url, true).query;
     var id2conf = arg.id;
@@ -156,7 +178,10 @@ exports.getSendAgain = function(req, res, next) {
         }
     });
 }
-
+/**
+ * getConf() show the conf page
+ * controller of 'GET /conf' url
+ */
 exports.getConf = function(req, res, next) {
     var arg = URL.parse(req.url, true).query;
     var id2conf = arg.id;
