@@ -114,11 +114,11 @@ block content
                 div.comment_head
                     if user
                         if user.profile
-                            img.ui.circular.image.pos(src='/uploads/heads/#{user.profile}')
+                            img.ui.circular.avatar.image.pos(src='/uploads/heads/#{user.profile}')
                         else
-                            img.ui.circular.image.pos(src='/resources/images/default_head.jpg')
+                            img.ui.circular.avatar.image.pos(src='/resources/images/default_head.jpg')
                     else
-                        img.ui.circular.image.pos(src='/resources/images/default_head.jpg')
+                        img.ui.circular.avatar.image.pos(src='/resources/images/default_head.jpg')
                 div.ui.form(style="display:inline-block;vertical-align:top;")
                     div.field
                         textarea.submit-textarea(id="content",rows="3" cols="50" maxlength="111")
@@ -129,9 +129,9 @@ block content
                     div.comment
                         div.comment_head
                             if music.comments[len-x].comment_userId.profile
-                                img.ui.circular.image.pos(src='/uploads/heads/#{music.comments[len-x].comment_userId.profile}')
+                                img.ui.circular.avatar.image.pos(src='/uploads/heads/#{music.comments[len-x].comment_userId.profile}')
                             else
-                                img.ui.circular.image.pos(src='/resources/images/default_head.jpg')
+                                img.ui.circular.avatar.image.pos(src='/resources/images/default_head.jpg')
                         div.all_content
                             div.name
                                 p.description #{music.comments[len-x].comment_userId.username}

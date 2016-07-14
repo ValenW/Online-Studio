@@ -1,16 +1,10 @@
 //记录是否听过
 var isListened = false;
+//是否收藏过
 var isCollected = false;
+//存放评论的数据
 var comment_data;
 
-
-//处理未登录
-window.isLogin = function(){
-    //未登陆
-    if(user == undefined || user == null){
-        return;
-    }
-}
 
 window.onload = function(){
     //console.log("start");
@@ -144,7 +138,7 @@ window.createComment = function(data,num){
     var comment_head = document.createElement('div');
     comment_head.className = "comment_head";
     var img = document.createElement('img');
-    img.className = "ui circular image pos";
+    img.className = "ui circular avatar image pos";
     if(data.comment_userId.profile == undefined || data.comment_userId.profile == null){
         img.src = "/resources/images/default_head.jpg";
     }else{
