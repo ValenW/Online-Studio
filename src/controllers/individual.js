@@ -105,12 +105,13 @@ exports.showUserUpdate = function(req, res, next) {
 exports.updateUsername = function(req, res, next) {
     var userId = req.body.id;
     var username = req.body.username;
-    User.findOne({_id: userId}, function(err, user) {
-        User.findOne({username: username}, function(err, user) {
-            if (user) {
+    User.findOne({_id: userId}, function(err, auser) {
+        User.findOne({username: username}, function(err, buser) {
+            if (buser) {
                 res.json({"message": "username used"});
             } else {
-                user.update({$set: {username: username} }, function(err) {
+                auser.update({$set: {username: username} }, function(err) {
+                    req.session.user.username = username;
                     res.json({"message": "success"});
                 });
             }
@@ -123,6 +124,7 @@ exports.updateIntroduction = function(req, res, next) {
     var introduction = req.body.introduction;
     User.findOne({_id: userId}, function(err, user) {
         user.update({$set: {introduction: introduction}}, function(err) {
+            req.session.user.introduction = introduction;
             res.json({"message": "success"});
         });
     });
@@ -154,6 +156,7 @@ exports.updateProfile = function(req, res, next) {
             console.log('Update Porfile successfully');
             User.findOne({_id: userId}, function(err, user) {
                 user.update({ $set: {profile: newProfile} }, function(err) {
+                    
                     return res.redirect('/user/update/'+userId);
                 });
             });
