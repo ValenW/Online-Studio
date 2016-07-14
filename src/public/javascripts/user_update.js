@@ -3,6 +3,7 @@ $(document).ready(function(){
     extendJQ();
     $('#up').uploadPreview({ img: 'cover', width: 120, height: 120 });
 
+    // edit-icon click eventm, show the edit content and hide the static content
     $(".edit-icon").click(function(event) {
         var target = $(event.target);
         while(!target.hasClass("static-content")) {
@@ -11,6 +12,8 @@ $(document).ready(function(){
         target.next().show();
         target.hide();
     });
+    
+    // cancel-btn click event, show the static content and hide the edit content
     $(".cancel-btn").click(function(event) {
         var target = $(event.target);
         while(!target.hasClass("edit-content")) {
@@ -19,6 +22,8 @@ $(document).ready(function(){
         target.prev().show();
         target.hide();
     });
+    
+    // username-save-btn click evnent, send ajax request for update unsername
     $("#username-save-btn").click(function() {
         var username = $("input[name=username]").val();
         var user_id = window.location.pathname.split('/')[3];
@@ -48,6 +53,8 @@ $(document).ready(function(){
             }
         });
     });
+
+    // introduction-save-btn click evnent, send ajax request for update introduction
     $("#introduction-save-btn").click(function() {
         var introduction = $("input[name=introduction]").val();
         var user_id = window.location.pathname.split('/')[3];
@@ -71,6 +78,8 @@ $(document).ready(function(){
             }
         })
     });
+
+    // password-save-btn click evnent, send ajax request for update password
     $("#password-save-btn").click(function() {
         var password = $("input[name=password]").val();
         var newPassword = $("input[name=new-password]").val();
