@@ -114,17 +114,17 @@ exports.saveSpectrum = function(req, res, next) {
 		console.log ('Create Music ', music._id);
 
 		// set relationship
-		user.original_musics.push(music);
-
-		User.update({_id: user._id}, user, {}, function(err, info) {
-			if (err) {
-				console.log ('Error in /editor/save updating User.');
-			}  else {
-				console.log('Update User ', user._id ,' with Music ', music._id,' successfully.');
+		User.addOriginalMusicForUser({
+			user_id: user._id,
+			music_id: music._id
+		}, function(rst) {
+			if (rst == true) {
 				res.json({
 					is_login: true,
 					_id: spectrum._id
 				});
+			} else {
+				console.log('Something wrong in User.addOriginalMusicForUser method.');
 			}
 		});
 
@@ -189,13 +189,20 @@ exports.saveSpectrum = function(req, res, next) {
 									} else {
 										console.log ('Create Music ', music._id);
 										console.log ('Music.create', '\n', music);
-										user.derivative_musics.push(music);
-										user.save();
 
-										res.json({
-											is_login: true,
-											_id		: spectrum._id
-										})
+										User.addDerivativeMusicForUser({
+											user_id: user._id,
+											music_id: music._id
+										}, function(rst) {
+											if (rst == true) {
+												res.json({
+													is_login: true,
+													_id		: spectrum._id
+												});
+											} else {
+												console.log('Something wrong in User.addOriginalMusicForUser method.');
+											}
+										});
 
 									}
 								});
