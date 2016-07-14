@@ -1,31 +1,31 @@
 window.addEventListener("load", init, false);
 
 function init() {
-    // 扩展读片预览功能
+    // preview image before submitting
     extendJQ();
     $('#up').uploadPreview({ img: 'cover', width: 160, height: 100 });
 
-    // 设置保存按钮
+    // click save button to submit the form
     $('.save.button').click(postForm);
 
-    // 预填标签选项
+    // preview tags before submitting
     for (var i = 0; i < musicTags.length; ++i) {
         $('.'+musicTags[i]).checkbox('set checked');
     }
 
-    // 预填公布选项
+    // preview whether music is avaliable for public
     if (isPublic)
         $('.public-yes').checkbox('set checked');
     else
         $('.public-no').checkbox('set checked');
 
-    // 预填分享选项
+    // preview whether spectrum is avaliable for public
     if (isShare)
         $('.share-yes').checkbox('set checked');
     else
         $('.share-no').checkbox('set checked');
 
-    // 取消回车事件
+    // cancel enter press event to avoid page jumping
     document.onkeypress = function(){
         if(event.keyCode == 13) {
             return false;
@@ -33,11 +33,20 @@ function init() {
     }
 }
 
+/**
+ * showError() displays error messages at form's bottom
+ *
+ * @param <string> message
+ */
 function showError(message) {
     $('.error-message').text(message);
     $('.error.message').css('display', 'block');
 }
 
+/**
+ * postFrom() submit the whole form to server
+ * simple style check will be done before submission
+ */
 function postForm() {
     var title = $('.title-input').val();
     var cover = $('.cover-input').val();
@@ -61,6 +70,9 @@ function postForm() {
     }
 }
 
+/**
+ * extendJQ() extends uploadPreview function
+ */
 function extendJQ() {
     jQuery.fn.extend({
         uploadPreview: function (opts) {
