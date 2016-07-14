@@ -71,8 +71,11 @@ block content
                     i.edit.icon.edit-icon
                         span 修改
                 .edit-content#introduction-edit-content
-                    .ui.input
-                        input(name="introduction" value="#{introduction}")
+                    .ui.form
+                        - if (introduction)
+                            textarea(name="introduction" rows="3" value="#{introduction}")
+                        - else
+                            textarea(name="introduction" rows="3" value="")
                     .button-container
                         button#introduction-save-btn.ui.primary.button 保存
                         button.ui.button.cancel-btn 取消

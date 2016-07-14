@@ -1,7 +1,8 @@
 var express = require('express');
 var path = require('path');
 var favicon = require('serve-favicon');
-var logger = require('morgan');
+var morgan = require('morgan');
+var fs = require('fs');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var expressSession = require('express-session');
@@ -9,6 +10,9 @@ var flash = require('connect-flash');
 
 var routes = require('./routes/index');
 var midiRoute = require('./routes/midiRoute');
+
+// create a write stream for access log
+var accessLogStream = fs.createWriteStream(__dirname + '/access.log', {flag: 'a'});
 
 // connect to mongodb://localhost/online-studio
 var mongoose = require('mongoose');
@@ -20,12 +24,12 @@ var app = express();
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'jade');
 
-// uncomment after placing your favicon in /public
-//app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
-
+// set favicon
 app.use(favicon(__dirname+"/public/icons/favicon.ico"));
 
-app.use(logger('dev'));
+// setup the logger
+app.use(morgan('common', {stream: accessLogStream}));
+
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
