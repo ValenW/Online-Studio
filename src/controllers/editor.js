@@ -82,7 +82,7 @@ exports.saveSpectrum = function(req, res, next) {
 		var date = new Date();
 		var spectrum = new Spectrum({
 		    tempo : spectrum_param.tempo,
-		    volume : spectrum_param.volumn,
+		    volume : spectrum_param.volume,
 		    createDate : date,
 		    lastModificationDate : date,
 		    channels : spectrum_param.channels
@@ -158,6 +158,8 @@ exports.saveSpectrum = function(req, res, next) {
 							}, {}, function(err, info) {
 								if (err) {
 									console.log ('Error in /save request, Spectrum.update method.');
+									console.log (err);
+									console.log ('Spectrum ---> \n', spectrum_param);
 								} else {
 									console.log ('Update Spectrum ', spectrum_param._id);
 									res.json({
@@ -172,7 +174,7 @@ exports.saveSpectrum = function(req, res, next) {
 							var date = new Date();
 							Spectrum.create({
 							    tempo : spectrum_param.tempo,
-							    volume : spectrum_param.volumn,
+							    volume : spectrum_param.volume,
 							    createDate : date,
 							    lastModificationDate : date,
 							    channels : spectrum_param.channels
@@ -254,7 +256,7 @@ exports.saveSpectrum = function(req, res, next) {
 				// 		var date = new Date();
 				// 		Spectrum.create({
 				// 		    tempo : spectrum_param.tempo,
-				// 		    volume : spectrum_param.volumn,
+				// 		    volume : spectrum_param.volume,
 				// 		    createDate : date,
 				// 		    lastModificationDate : date,
 				// 		    channels : spectrum_param.channels
