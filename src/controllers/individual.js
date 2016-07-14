@@ -34,12 +34,12 @@ exports.showIndividual = function(req, res, next) {
             }
             console.log (user);
             headPath = "" + user_id + '_head';
-            try {
-              fs.accessSync(headPath, fs.R_OK);
-              console.log("ok: " + headPath);
-            } catch (e) {
-              headPath = 'default_head.jpg';
-            }
+            // try {
+            //   fs.accessSync(headPath, fs.R_OK);
+            //   console.log("ok: " + headPath);
+            // } catch (e) {
+            //   headPath = 'default_head.jpg';
+            // }
             user.profile = headPath;
             res.render('user/individual', {
                 userInfo: user,
