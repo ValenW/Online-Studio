@@ -1,5 +1,11 @@
 link(rel='stylesheet', href='/stylesheets/music_player.css')
 script(src="libs/createjs/createjs-2015.11.26.min.js")
+button.ui.button.music_button(id = "music-button-down",style="border-bottom-right-radius:0;border-bottom-left-radius: 0;")
+    div(style="margin-left:-6.5px;margin-top:-5px;")
+        i.arrow.down.icon
+button.ui.button.music_button(id = "music-button-up",style="border-bottom-right-radius:0;border-bottom-left-radius: 0;display:none;")
+    div(style="margin-left:-6.5px;margin-top:-5px;")
+        i.arrow.up.icon
 div.music-player
     div.left_button(style="padding-top:64px;")
         button.circular.ui.icon.button(id="pause",style="margin-left:20px;")
@@ -12,6 +18,6 @@ div.music-player
         canvas.music-canvas(id="canvas")
         
     div.volume(style="padding-top:64px;")
-        button.circular.ui.icon.button(style="margin-left:10px;vertical-align: top;")
+        button.circular.ui.icon.button(id="volume_button",style="margin-left:10px;vertical-align: top;")
             i.music.icon
         input(style="margin-top:7px;margin-left:10px;",type="range",min="0",max="100",value="50")

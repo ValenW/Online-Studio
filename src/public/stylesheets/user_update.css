@@ -52,8 +52,8 @@
 input[name='username'] {
     width: 200px;
 }
-input[name='introduction'] {
-    width: 350px;
+textarea[name='introduction'] {
+    width: 400px !important;
 }
 input[type='password'] {
     width: 200px;

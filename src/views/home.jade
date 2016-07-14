@@ -69,11 +69,18 @@ block content
 										div.ui.card.small-item
 											div.blurring.dimmable.image.small-item
 												img(src='uploads/covers/'+'#{music.cover}')
-												a.ui.dimmer(href='/music?music_id='+'#{music._id}')
-													p.title #{music.name}
+												a.ui.dimmer.x-dimmer(href='/music?music_id='+'#{music._id}')
+													img.ui.circular.image.x-avator(src='uploads/heads/'+'#{music.author.profile}')
 													p.info 作者: #{music.author.username}
-													p.info 播放: #{music.listenN}
 										a(href='/music?music_id='+'#{music._id}') #{music.name}
+										div.v-info
+											span.bf
+												i.toggle.right.icon
+												span #{music.listenN}
+											span.pl
+												i.comment.outline.icon
+												span #{music.commentN}
+
 								- for (var i = 0; i < blank; ++i)
 									li
 										div.ui.card.small-item

@@ -3,6 +3,20 @@
 2.播放，暂停 ，重播
 3.播放剩余时间
 */
+.music_button{
+    position: fixed;
+    height: 16px;
+    width: 12px;
+    bottom: 150px;
+    right:10px;
+    align-content: center;
+    opacity: 0.8;
+    background-color: gray !important;
+    transition:bottom 0.6s !important;
+    -moz-transition:bottom 0.6s !important; /* Firefox 4 */
+    -webkit-transition:bottom 0.6s !important; /* Safari and Chrome */
+    -o-transition:bottom 0.6s !important; /* Opera */
+}
 .music-player{
     height: 150px;
     background-color: gray;
@@ -10,6 +24,10 @@
     width: 100%;
     position: fixed;
     bottom: 0px;
+    transition:bottom 0.6s !important;
+    -moz-transition:bottom 0.6s !important; /* Firefox 4 */
+    -webkit-transition:bottom 0.6s !important; /* Safari and Chrome */
+    -o-transition:bottom 0.6s !important; /* Opera */
 }
 /*左边按键，播放，重播，暂停*/
 .left_button{
