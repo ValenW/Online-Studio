@@ -5,6 +5,14 @@ function init() {
 	$('.r-preview .card .image').dimmer({ on: 'hover' });
 	$('.category .card .image').dimmer({ on: 'hover' });
 
+	//init dom animation
+	$('.x-dimmer').mouseenter(function() {
+		$(this).find('.x-avator').transition('jiggle');
+	});
+	$('.x-dimmer').mouseleave(function(){
+		$(this).find('.x-avator').transition('stop');
+	});
+
 	// init sticky side menu
 	$('.ui.sticky').sticky({
 		context: '.page-content',
