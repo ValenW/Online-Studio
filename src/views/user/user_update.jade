@@ -72,10 +72,10 @@ block content
                         span 修改
                 .edit-content#introduction-edit-content
                     .ui.form
-                        - if (introduction)
-                            textarea(name="introduction" rows="3" value="#{introduction}")
+                        - if (introduction !== "undefined")
+                            textarea(name="introduction" rows="3") #{introduction}
                         - else
-                            textarea(name="introduction" rows="3" value="")
+                            textarea(name="introduction" rows="3")
                     .button-container
                         button#introduction-save-btn.ui.primary.button 保存
                         button.ui.button.cancel-btn 取消
