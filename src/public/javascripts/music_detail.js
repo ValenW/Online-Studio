@@ -21,6 +21,10 @@ $(function(){
             alert('请进行登录!');
             return;
          }
+         if(!user.confed){
+            alert('请进行邮箱验证!');
+            return;
+         }
          //console.log(window.music.comments);
          //console.log(music._id)
          var t = $("#content").val();
