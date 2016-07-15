@@ -1,7 +1,7 @@
 #sign-form-container {
     position: relative;
     width: 800px;
-    height: 400px;
+    min-height: calc(100% - 219px - 212.453px);
     margin: 0 auto;
 }
 #error-message-block {

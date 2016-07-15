@@ -65,8 +65,24 @@ function postForm() {
         showError('标签：作品应至少包含1个标签');
     }
     else {
-        $('.error.message').css('display', 'none');
-        $('.submit').click();
+        var allSpace = true;
+        for (var i = 0; i < title.length; ++i) {
+            if (title[i] != ' ') allSpace = false;
+        }
+        if (allSpace) {
+            showError('标题：请输入有效标题');
+        } else {
+            allSpace = true;
+            for (var i = 0; i < intro.length; ++i) {
+                if (intro[i] != ' ') allSpace = false;
+            }
+            if (allSpace) {
+                showError('作品说明：请输入有效作品说明');
+            } else {
+                $('.error.message').css('display', 'none');
+                $('.submit').click();
+            }
+        }
     }
 }
 

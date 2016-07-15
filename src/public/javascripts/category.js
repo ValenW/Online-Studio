@@ -151,7 +151,7 @@ function refreshData(data) {
 				$(lis[i]).children('.label').attr('class','ui left corner violet label');
 				$(lis[i]).children('.label-content').text('改');
 			} else {
-				$(lis[i]).children('.label').attr('class','ui left corner red label');
+				$(lis[i]).children('.label').attr('class','ui left corner orange label');
 				$(lis[i]).children('.label-content').text('原');
 			}
 			$(lis[i]).show();

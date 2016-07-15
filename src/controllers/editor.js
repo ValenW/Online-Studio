@@ -136,6 +136,7 @@ exports.saveSpectrum = function(req, res, next) {
 		}, function(err, m_user) {
 			if (err) {
 				console.log ('Error in /save request while finding user.');
+			    res.render('error/500');
 			} else {
 				// find music according to spectrum.
 				Music.findOne({
@@ -143,6 +144,7 @@ exports.saveSpectrum = function(req, res, next) {
 				}, function(err, music) {
 					if (err) {
 						console.log ('Error in /save request while finding music.');
+						res.render('error/500');
 					} else {
 						// if the music is owned by the m_user, then just update it.
 						// elif create a new music, a new spectrum and a new relationship.
@@ -160,6 +162,7 @@ exports.saveSpectrum = function(req, res, next) {
 									console.log ('Error in /save request, Spectrum.update method.');
 									console.log (err);
 									console.log ('Spectrum ---> \n', spectrum_param);
+							        res.render('error/500');
 								} else {
 									console.log ('Update Spectrum ', spectrum_param._id);
 									res.json({
@@ -181,6 +184,7 @@ exports.saveSpectrum = function(req, res, next) {
 							}, function(err, spectrum) {
 								if (err) {
 									console.log ('Error in /save request, Spectrum.create method');
+							        res.render('error/500');
 								} else {
 									console.log ('Create Spectrum ', spectrum._id);
 									console.log ('Spectrum.create', '\n', spectrum);
@@ -206,6 +210,7 @@ exports.saveSpectrum = function(req, res, next) {
 									}, function(err, music) {
 										if (err) {
 											console.log ('Error in /save request, Music.create method.');
+									        res.render('error/500');
 										} else {
 											console.log ('Create Music ', music._id);
 											console.log ('Music.create', '\n', music);
@@ -234,103 +239,6 @@ exports.saveSpectrum = function(req, res, next) {
 					}
 				});
 
-				// Music.populate(user, {path: 'original_musics derivative_musics', select: 'spectrum'}, function(err, user) {
-				// 	// judege whether spectrum is in user's collected_musics list
-				// 	var meditor_music = null;
-				// 	for (var cm_i = 0; meditor_music === null && cm_i < user.original_musics.length; cm_i += 1) {
-				// 		var c_music = user.collected_musics[cm_i];
-				// 		if (c_music.spectrum.toString() == spectrum_param._id.toString()) {
-				// 			meditor_music = c_music._id;
-				// 		}
-				// 	}
-				// 	for (var cm_i = 0; base_on === nulll && cm_i < user.derivative_musics.length; cm_i += 1) {
-				// 		var c_music = user.collected_musics[cm_i];
-				// 		if (c_music.spectrum.toString() == spectrum_param._id.toString()) {
-				// 			meditor_music = c_music._id;
-				// 		}
-				// 	}
-
-				// 	if (meditor_music === null) {	// act when in
-				// 		// create a new Spectrum the same as the spectrum_param
-				// 		// create Spectrum begin.
-				// 		var date = new Date();
-				// 		Spectrum.create({
-				// 		    tempo : spectrum_param.tempo,
-				// 		    volume : spectrum_param.volume,
-				// 		    createDate : date,
-				// 		    lastModificationDate : date,
-				// 		    channels : spectrum_param.channels
-				// 		}, function(err, spectrum) {
-				// 			if (err) {
-				// 				console.log ('Error in /save request, Spectrum.create method');
-				// 			} else {
-				// 				console.log ('Create Spectrum ', spectrum._id);
-				// 				console.log ('Spectrum.create', '\n', spectrum);
-
-				// 				// create Music begin.
-				// 				Music.create({
-				// 					based_on: spectrum_param._id,
-				// 					spectrum: spectrum,
-				// 					name: date.toString().substring(4, 24),
-				// 					author: user._id,
-				// 					cover: 'default_cover.png',
-				// 					date: date,
-				// 					tags: [],	// release version
-				// 					ranks: [],
-				// 					comments: [],
-				// 					listenN: 0,
-				// 					collectN: 0,
-				// 					commentN: 0,
-				// 					shareN: 0,
-				// 					is_music_public: false,
-				// 					is_spectrum_public: false,
-				// 					introduction: 'I am a piece of music.'
-				// 				}, function(err, music) {
-				// 					if (err) {
-				// 						console.log ('Error in /save request, Music.create method.');
-				// 					} else {
-				// 						console.log ('Create Music ', music._id);
-				// 						console.log ('Music.create', '\n', music);
-
-				// 						User.addDerivativeMusicForUser({
-				// 							user_id: user._id,
-				// 							music_id: music._id
-				// 						}, function(rst) {
-				// 							if (rst == true) {
-				// 								res.json({
-				// 									is_login: true,
-				// 									_id		: spectrum._id
-				// 								});
-				// 							} else {
-				// 								console.log('Something wrong in User.addOriginalMusicForUser method.');
-				// 							}
-				// 						});
-
-				// 					}
-				// 				});
-				// 				// create Music end.
-				// 			}
-				// 		});
-				// 		// create Spectrum end.
-				// 	} else {	// act when not
-				// 		spectrum_param.lastModificationDate = new Date();
-				// 		Spectrum.update({
-				// 			_id: spectrum_param._id
-				// 		}, spectrum_param, {}, function(err, info) {
-				// 			if (err) {
-				// 				console.log ('Error in /save request, Spectrum.update method.');
-				// 			} else {
-				// 				console.log ('Update Spectrum ', spectrum_param._id);
-				// 				res.json({
-				// 					is_login: true,
-				// 					_id: spectrum_param._id
-				// 				});
-				// 			}
-				// 		});
-
-				// 	}
-
-				// });
 			}
 		});
 	}

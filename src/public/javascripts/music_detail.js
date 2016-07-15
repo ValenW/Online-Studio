@@ -18,11 +18,20 @@ window.onload = function(){
 $(function(){
     $('#submit_button').click(function(){
          if(user == undefined || user == null){
+            alert('请进行登录!');
+            return;
+         }
+         if(!user.confed){
+            alert('请进行邮箱验证!');
             return;
          }
          //console.log(window.music.comments);
          //console.log(music._id)
          var t = $("#content").val();
+         if($.trim(t) == ""){
+            alert('请输入有效评论!');
+            return;
+         }
          //console.log(t);
          $.ajax({
              type: "post",

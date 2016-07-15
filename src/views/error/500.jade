@@ -1,20 +1,14 @@
-//- doctype html
-//- html
-//-   head
-//-     title 404
-//-     link(rel='stylesheet', href='/stylesheets/error.css')
-//-   body
-//-     .error
-//-       h1.header Online Studio - 500
-//-       .content
-//-             p
-//-               strong 是的，刚刚服务器跑调了...
-//-             hr
-//-             p
-//-               a(href='/') 返回首页
-extends ../layout
-
-block content
-  h1= message
-  h2= error.status
-  pre #{error.stack}
+doctype html
+html
+  head
+    title 404
+    link(rel='stylesheet', href='/stylesheets/error.css')
+  body
+    .error
+      h1.header Online Studio - 500
+      .content
+            p
+              strong 是的，刚刚服务器跑调了...
+            hr
+            p
+              a(href='/') 返回首页

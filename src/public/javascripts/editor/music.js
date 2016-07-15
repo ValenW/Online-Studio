@@ -28,7 +28,7 @@ function loadSource() {
 	for (var i = 108; i >= 21; --i) {  // 88 keys
 		// urlList.push("sounds/piano1/"+getKeyName(i)+".mp3");
 		index = i < 100 ? "0" + i.toString() : i.toString();
-		audioPath = "resources/sounds/piano2/GermanConcertD_"+index+"_083.wav";
+		audioPath = "resources/sounds/piano2/GermanConcertD_"+index+"_083.mp3";
 		urlList.push(audioPath);
 	}
 

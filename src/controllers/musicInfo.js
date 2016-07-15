@@ -21,6 +21,7 @@ exports.showMusicInfo = function(req, res, next) {
     }, function(err, music) {
         if (err) {
             console.log ('Error in /music_info request.');
+            res.render('error/500');
         } else {
             if (music == null) {
                 console.log ('music_id(', music_id, ') can\'t be found.');
@@ -74,6 +75,7 @@ exports.updateMusicInfo = function(req, res, next) {
     upload(req, res, function(err) {
         if (err) {
             console.log ('Error in uploading Music Cover.\n', err);
+            res.render('error/500');
         } else {
             var music_id            = req.body.music_id;
             var name                = req.body.name;
@@ -91,6 +93,7 @@ exports.updateMusicInfo = function(req, res, next) {
                 }, function(err, n_tags) {
                     if (err) {
                         console.log('Error in /update_music_info.');
+                        res.render('error/500');
                     } else {
                         for (var t_i = 0; t_i < n_tags.length; t_i += 1) {
                             var tag = n_tags[t_i];
@@ -106,6 +109,7 @@ exports.updateMusicInfo = function(req, res, next) {
                         }, function(err, n_tags) {
                             if (err) {
                                 console.log ('Error in /update_music_info.');
+                                res.render('error/500');
                             } else {
                                 for (var t_i = 0; t_i < n_tags.length; t_i += 1) {
                                     var tag = n_tags[t_i];
@@ -131,6 +135,7 @@ exports.updateMusicInfo = function(req, res, next) {
             }, {}, function(err, info) {
                 if (err) {
                     console.log('Error in /update_music_info request.\n', err);
+                    res.render('error/500');
                 } else {
                     console.log ('Update music(', music_id ,') info successfully.');
 
