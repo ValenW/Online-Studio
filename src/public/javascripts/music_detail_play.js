@@ -376,7 +376,7 @@ function playSound(buffer, head, tail) {
 window.playNote = function(note) {
     //console.log(bufferList);
     if (note)
-        playSound(bufferList[note.key], note.head, note.tail);
+        playSound(bufferList[note.key], note.head, note.tail + 1);
 }
 
 /**
