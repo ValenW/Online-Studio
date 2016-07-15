@@ -26,6 +26,7 @@ exports.showCategory = function(req, res, next) {
 
 		if (err) {
 			console.log('Error in finding tag.');
+	        res.render('error/500');
 		} else {
 			var tag_music_list = filter.filterPublicMusic(tag == null ? [] : tag.music_list);
 			// sort musics of tag0 , get newest musics and hotest music.
@@ -39,6 +40,7 @@ exports.showCategory = function(req, res, next) {
 					Tag.findByDefaultTagNameList(null, function(err, tags) {
 						if (err) {
 							console.log ('Error in /category of Tag.find action.');
+					        res.render('error/500');
 						} else {
 							// render begin.
 							res.render('category', {
