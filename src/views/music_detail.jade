@@ -40,7 +40,13 @@ block content
                     p 歌曲标签: 
                         each tag in music.tags
                             a(href="/category?tag_id=#{tag._id}&sorted=lastest",style="margin-right:5px;") #{tag.tag_name}
+                    if music.based_on
+                        p 歌曲类型: 
+                            a(href="/music?music_id=#{music.based_on}") 改编音乐
+                    else
+                        p 歌曲类型: 原创音乐
                     p 发行时间: #{prettyDate(music.date)}
+
                 div.right_message(style="padding-top:10px;")
                     //- button.circular.ui.icon.button.right_button
                     //-     i.share.icon
@@ -161,8 +167,8 @@ block content
     script.
         window.music = !{JSON.stringify(music)};
         window.user = !{JSON.stringify(user)};
-        console.log(music);
-        console.log(user);
+        //console.log(music);
+        //console.log(user);
 
     include footer
     include music_player

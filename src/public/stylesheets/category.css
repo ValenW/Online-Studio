@@ -15,10 +15,26 @@
 	cursor: pointer;
 }
 
+.label-content {
+	width: 30px !important;
+	margin-top: 5px !important;
+}
+
 /* Category Menu */
 .category-menu > .container {
 	width: 1160px;
 	margin: 20px auto 20px auto;
+}
+
+.category-menu .item {
+	transition: color .2s !important;
+	-moz-transition: color .2s !important;
+	-webkit-transition: color .2s !important;
+	-o-transition: color .2s !important;
+}
+
+.category-menu .item:hover {
+	color: #37A0E8 !important;
 }
 
 /* Search Result */
@@ -53,6 +69,10 @@ li .item {
 	margin-right: 20px;
 	border-right: 1px solid #e5e9ef;
 	background-color: #fff;
+}
+
+li .dimmer {
+	border-radius: 2px;
 }
 
 li .item .card {
