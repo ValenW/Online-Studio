@@ -24,6 +24,12 @@ block content
 							a(href='/music?music_id='+'#{music._id}')
 								div.ui.card.small-item
 									div.blurring.dimmable.image.small-item
+										if music.based_on
+											div.ui.left.corner.violet.label
+												p.label-content 改
+										else
+											div.ui.left.corner.red.label
+												p.label-content 原
 										img(src='/uploads/covers/'+'#{music.cover}')
 										div.ui.dimmer
 											div.content
@@ -44,6 +50,8 @@ block content
 						div.item
 							div.ui.card.small-item
 								div.blurring.dimmable.image.small-item
+									div.ui.left.corner.red.label
+										p.label-content 原
 									img(src='')
 									div.ui.dimmer
 										div.content

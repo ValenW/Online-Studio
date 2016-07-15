@@ -147,6 +147,13 @@ function refreshData(data) {
 			$(lis[i]).children('.bf span').text(data[i].listenN);
 			$(lis[i]).children('.pl span').text(data[i].commentN);
 			$(lis[i]).children('.author').attr('href', '/user?user_id='+data[i].author._id).text(data[i].author.username);
+			if (data[i].based_on) {	// change label
+				$(lis[i]).children('.label').attr('class','ui left corner violet label');
+				$(lis[i]).children('.label-content').text('改');
+			} else {
+				$(lis[i]).children('.label').attr('class','ui left corner red label');
+				$(lis[i]).children('.label-content').text('原');
+			}
 			$(lis[i]).show();
 		} else {
 			$(lis[i]).hide();

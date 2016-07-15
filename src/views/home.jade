@@ -39,6 +39,12 @@ block content
 								li
 									div.ui.card.small-item
 										div.blurring.dimmable.image.small-item
+											if music.based_on
+												div.ui.left.corner.violet.label
+													p.label-content 改
+											else
+												div.ui.left.corner.red.label
+													p.label-content 原
 											img(src='uploads/covers/'+'#{music.cover}')
 											a.ui.dimmer(href='/music?music_id='+'#{music._id}')
 												p.title #{music.name}
@@ -68,6 +74,12 @@ block content
 									li
 										div.ui.card.small-item
 											div.blurring.dimmable.image.small-item
+												if music.based_on
+													div.ui.left.corner.violet.label
+														p.label-content 改
+												else
+													div.ui.left.corner.red.label
+														p.label-content 原
 												img(src='uploads/covers/'+'#{music.cover}')
 												a.ui.dimmer.x-dimmer(href='/music?music_id='+'#{music._id}')
 													img.ui.circular.image.x-avator(src='uploads/heads/'+'#{music.author.profile}')
