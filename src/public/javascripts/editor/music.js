@@ -141,7 +141,7 @@ function playSound(buffer, head, tail) {
  */
 window.playNote = function(note) {
 	if (note)
-		playSound(bufferList[note.key], 0, note.tail - note.head + 1);
+		playSound(bufferList[note.key], 0, note.tail - note.head + 2);
 }
 
 // reset tempo
