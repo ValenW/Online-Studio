@@ -71,9 +71,9 @@ router.get('/music_info', auth.isAuthenticated, musicInfo.showMusicInfo);
 router.post('/update_music_info', auth.isAuthenticated, musicInfo.updateMusicInfo);
 
 // debug
-router.get('/create_tags', debug.createTags);
+// router.get('/create_tags', debug.createTags);
 router.get('/look_tags', debug.lookTags);
-router.get('/clear_data', debug.clearData);
+// router.get('/clear_data', debug.clearData);
 router.get('/look_musics', debug.lookMusics);
 router.get('/look_users', debug.lookUsers);
 router.get('/look_commments', debug.lookComments);
