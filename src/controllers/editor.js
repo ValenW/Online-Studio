@@ -136,6 +136,7 @@ exports.saveSpectrum = function(req, res, next) {
 		}, function(err, m_user) {
 			if (err) {
 				console.log ('Error in /save request while finding user.');
+			    res.render('error/500');
 			} else {
 				// find music according to spectrum.
 				Music.findOne({
@@ -143,6 +144,7 @@ exports.saveSpectrum = function(req, res, next) {
 				}, function(err, music) {
 					if (err) {
 						console.log ('Error in /save request while finding music.');
+						res.render('error/500');
 					} else {
 						// if the music is owned by the m_user, then just update it.
 						// elif create a new music, a new spectrum and a new relationship.
@@ -160,6 +162,7 @@ exports.saveSpectrum = function(req, res, next) {
 									console.log ('Error in /save request, Spectrum.update method.');
 									console.log (err);
 									console.log ('Spectrum ---> \n', spectrum_param);
+							        res.render('error/500');
 								} else {
 									console.log ('Update Spectrum ', spectrum_param._id);
 									res.json({
@@ -181,6 +184,7 @@ exports.saveSpectrum = function(req, res, next) {
 							}, function(err, spectrum) {
 								if (err) {
 									console.log ('Error in /save request, Spectrum.create method');
+							        res.render('error/500');
 								} else {
 									console.log ('Create Spectrum ', spectrum._id);
 									console.log ('Spectrum.create', '\n', spectrum);
@@ -206,6 +210,7 @@ exports.saveSpectrum = function(req, res, next) {
 									}, function(err, music) {
 										if (err) {
 											console.log ('Error in /save request, Music.create method.');
+									        res.render('error/500');
 										} else {
 											console.log ('Create Music ', music._id);
 											console.log ('Music.create', '\n', music);

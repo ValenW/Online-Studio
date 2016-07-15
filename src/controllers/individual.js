@@ -28,6 +28,7 @@ exports.showIndividual = function(req, res, next) {
         .exec(function(err, user) {
         if (err) {
             console.log ('Error in /user interface...');
+            res.render('error/500');
         } else {
             if (user === null) {
                 console.log("no such user with ID: ", user_id);
@@ -59,6 +60,7 @@ exports.updateIndividual = function(req, res, next) {
     upload(req, res, function(err) {
         if (err) {
             console.log ('Error in upload user:\n', err);
+            res.render('error/500');
         } else {
             var username     = req.body.username;
             var password     = req.body.password;
@@ -74,6 +76,7 @@ exports.updateIndividual = function(req, res, next) {
             }, {}, function(err, info) {
                 if (err) {
                     console.log('Error in update user:\n', err);
+                    res.render('error/500');
                 } else {
                     console.log(info);
                     res.redirect('/user?user_id='+user._id);
