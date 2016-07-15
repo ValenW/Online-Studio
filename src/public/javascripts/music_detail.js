@@ -20,10 +20,10 @@ $(function(){
          if(user == undefined || user == null){
             return;
          }
-         console.log(window.music.comments);
-         console.log(music._id)
+         //console.log(window.music.comments);
+         //console.log(music._id)
          var t = $("#content").val();
-         console.log(t);
+         //console.log(t);
          $.ajax({
              type: "post",
              url: "/music/insertComment",
@@ -31,7 +31,7 @@ $(function(){
              dataType: "json",
              success: function(data){
                          $('#content').val("");
-                         console.log(data.comment_list);
+                         //console.log(data.comment_list);
                          comment_data = data.comment_list;
                          window.updateCommentN(data.comment_list.length);
                          window.updateComment(data.comment_list,1);
@@ -64,7 +64,7 @@ $(function(){
 //收藏按钮事件
 $(function(){
     $('#collect').click(function(){
-         console.log(music._id)
+         //console.log(music._id)
          //var t = $("#content").val();
          //console.log(t);
          $.ajax({
@@ -74,7 +74,7 @@ $(function(){
              dataType: "json",
              success: function(data){
                          //$('#content').html("");
-                         console.log(data);
+                         //console.log(data);
                          window.updateCollectN(data);
                       },
              error: function(XMLHttpRequest, textStatus, errorThrown){

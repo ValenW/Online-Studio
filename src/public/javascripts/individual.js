@@ -63,14 +63,14 @@ function initMessage(){
  *                           c_length,c_data,c_page,
  */
 function initButton(){
-    console.log('initButton');
+    //console.log('initButton');
     //修改个人信息
     $('#edit').click(function(){});
     if(o_length > 0){
         //自制音乐
         //上一页
         $('#original_musics_left_button').click(function(){
-            console.log('original_musics_left_button');
+            //console.log('original_musics_left_button');
             if(o_page == 1){return;}
             o_page--;
             $('#original_musics').html("");
@@ -83,7 +83,7 @@ function initButton(){
         });
         //下一页
         $('#original_musics_right_button').click(function(){
-            console.log('original_musics_right_button');
+            //console.log('original_musics_right_button');
             if(o_page == Math.ceil(o_length/10)){return;}
             o_page++;
             $('#original_musics').html("");
@@ -99,7 +99,7 @@ function initButton(){
         //改编音乐
         //上一页
         $('#derivative_musics_left_button').click(function(){
-            console.log('derivative_musics_left_button');
+            //console.log('derivative_musics_left_button');
             if(d_page == 1){return;}
             d_page--;
             $('#derivative_musics').html("");
@@ -112,7 +112,7 @@ function initButton(){
         });
         //下一页
         $('#derivative_musics_right_button').click(function(){
-            console.log('derivative_musics_right_button');
+            //console.log('derivative_musics_right_button');
             if(d_page == Math.ceil(d_length/10)){return;}
             d_page++;
             $('#derivative_musics').html("");
@@ -128,7 +128,7 @@ function initButton(){
         //收藏音乐
         //上一页
         $('#collected_musics_left_button').click(function(){
-            console.log('derivative_musics_left_button');
+            //console.log('derivative_musics_left_button');
             if(c_page == 1){return;}
             c_page--;
             $('#collected_musics').html("");
@@ -141,7 +141,7 @@ function initButton(){
         });
         //下一页
         $('#collected_musics_right_button').click(function(){
-            console.log('collected_musics_right_button');
+            //console.log('collected_musics_right_button');
             if(c_page == Math.ceil(c_length/10)){return;}
             c_page++;
             $('#collected_musics').html("");
@@ -178,18 +178,15 @@ function createItem(data){
     var img = document.createElement('img');
     img.src = "/uploads/covers/" + data.cover;
     d_img.appendChild(img);
-    // a.ui.dimmer(href='/music?music_id='+'123')
-    //     p.title 123
-    //     p.info 123
-    //     p.info 123
-    var tag_a = document.createElement('a');
-    tag_a.className = "ui dimmer";
-    tag_a.href = '/music?music_id='+data._id;
-    d_img.appendChild(tag_a);
-    var tag_p1 = document.createElement('p');
-    tag_p1.className = "title";
-    tag_p1.innerHTML = data.name;
-    tag_a.appendChild(tag_p1);
+    var d_dimmer = document.createElement('div');
+    d_dimmer.className = "ui dimmer";
+    var d_cotent = document.createElement('div');
+    d_cotent.className = "content";
+    d_dimmer.appendChild(d_cotent);
+    var i_icon = document.createElement('i');
+    i_icon.className = "large play icon";
+    d_cotent.appendChild(i_icon);
+    d_img.appendChild(d_dimmer);
     var p = document.createElement('p');
     p.align = "center";
     p.innerHTML = data.name;
