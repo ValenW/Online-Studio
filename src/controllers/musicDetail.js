@@ -67,6 +67,7 @@ exports.showMusicDetail = function(req, res, next) {
                                                     _id: req.session.user._id,
                                                     username: req.session.user.username,
                                                     profile: req.session.user.profile,
+                                                    confed: req.session.user.confed,
                                                     is_collect: isHaving
                                                 }
                                             });

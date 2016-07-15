@@ -49,6 +49,7 @@ exports.showHome = function(req, res, next) {
 					Music.find({},function(err, musics) {
 						if (err) {
 							console.log('Error in /home interface.');
+							res.render('error/500');
 						} else {
 							var tot_music_list = filter.filterPublicMusic(musics);
 							// get tot_hotest_music
