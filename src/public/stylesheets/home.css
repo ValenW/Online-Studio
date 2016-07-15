@@ -15,10 +15,27 @@
 	cursor: pointer;
 }
 
+.label-content {
+	width: 30px !important;
+	margin-top: 5px !important;
+}
+
+/* Category Menu */
+.category-menu .item {
+	transition: color .2s !important;
+	-moz-transition: color .2s !important;
+	-webkit-transition: color .2s !important;
+	-o-transition: color .2s !important;
+}
+
+.category-menu .item:hover {
+	color: #37A0E8 !important;
+}
+
 /* Sticky Menu */
 .sticky-menu {
 	position: fixed;
-	right: 80px;
+	right: 2%;
 	z-index: 1000;
 }
 
@@ -162,6 +179,14 @@
 
 .content-wrapper .card {
 	margin-bottom: 5px !important;
+}
+
+.content-wrapper .dimmer {
+	border-radius: 2px;
+}
+
+.content-wrapper .label {
+	overflow: hidden !important;
 }
 
 .category li a {
