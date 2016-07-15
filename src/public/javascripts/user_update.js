@@ -58,7 +58,9 @@ $(document).ready(function(){
     $("#introduction-save-btn").click(function() {
         var introduction = $("textarea[name=introduction]").val();
         var user_id = window.location.pathname.split('/')[3];
-        
+        if (introduction.length > 300) {
+            alert("自我介绍过长");
+        }
         $.ajax({
             url: "/user/update/introduction/"+user_id,
             method: "POST",
