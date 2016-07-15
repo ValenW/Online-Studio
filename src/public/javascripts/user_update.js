@@ -56,7 +56,7 @@ $(document).ready(function(){
 
     // introduction-save-btn click evnent, send ajax request for update introduction
     $("#introduction-save-btn").click(function() {
-        var introduction = $("input[name=introduction]").val();
+        var introduction = $("textarea[name=introduction]").val();
         var user_id = window.location.pathname.split('/')[3];
         
         $.ajax({
